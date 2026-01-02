@@ -12,7 +12,7 @@ Refactor Frontend Architecture and UI to Align with SSOT Documentation.
 Set up the foundational Next.js App Router project and integrate basic styling.
 
 *   [x] Task: Move the existing `app/layout.tsx` and `app/page.tsx` into a more structured directory layout. [0da3d29]
-*   [ ] Task: Create a `components/` directory and subdirectories for `layout`, `ui`, `home`.
+*   [x] Task: Create a `components/` directory and subdirectories for `layout`, `ui`, `home`. [0f753b1]
 *   [ ] Task: Migrate global styles and Tailwind CSS configuration from `reference only` file to `styles/globals.css` and `tailwind.config.ts`.
 *   [ ] Task: Conductor - User Manual Verification 'Establish Next.js Project Structure' (Protocol in workflow.md)
 
