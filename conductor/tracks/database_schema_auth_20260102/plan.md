@@ -26,7 +26,7 @@ Implement Magic Link auth and automatic profile creation.
 *   [x] Task: Write tests for user profile auto-creation trigger. [6c13916]
 *   [x] Task: Implement database trigger for profile creation on Auth Sign-up. [bf200d6]
 *   [x] Task: Write tests for Magic Link sign-in logic. [8fc52e7]
-*   [ ] Task: Implement Magic Link sign-in flow on the frontend (Auth components).
+*   [x] Task: Implement Magic Link sign-in flow on the frontend (Auth components). [19d867b]
 *   [ ] Task: Conductor - User Manual Verification 'Authentication & User Provisioning' (Protocol in workflow.md)
 
 ## Phase 3: RLS Policies & Security
