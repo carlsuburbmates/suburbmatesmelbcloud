@@ -34,7 +34,7 @@ Implement Magic Link auth and automatic profile creation.
 ### Objective
 Enforce the "Middleman Truth" and data ownership via Row Level Security.
 
-*   [ ] Task: Write tests to verify public vs. creator vs. operator access levels.
+*   [x] Task: Write tests to verify public vs. creator vs. operator access levels. [b72cb56]
 *   [ ] Task: Implement RLS policies for Listings (hiding delisted/suspended items).
 *   [ ] Task: Implement RLS policies for Products (enforcing tier limits).
 *   [ ] Task: Create seed script for the initial `operator` user.
