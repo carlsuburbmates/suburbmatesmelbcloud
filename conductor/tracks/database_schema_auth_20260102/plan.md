@@ -1,0 +1,51 @@
+# Track Plan: Database Schema & Authentication Setup
+
+## Track Description
+Establish core SQL schema, passwordless authentication, and automated enforcement states in a remote Supabase instance.
+
+---
+
+## Phase 1: Database Schema & Taxonomies
+
+### Objective
+Define the foundational SQL structures and seed the canonical taxonomies.
+
+*   [x] Task: Create SQL migration for enums and categories (Business & Product). [7a6a168]
+*   [ ] Task: Create SQL migration for the `Listings` table with monetization and status fields.
+*   [ ] Task: Create SQL migration for the `Products` table with tier-based constraint triggers.
+*   [ ] Task: Create SQL migration for the `Featured Placement Queue` (FIFO logic).
+*   [ ] Task: Create SQL migration for `Profiles` including the 4-step enforcement ladder.
+*   [ ] Task: Conductor - User Manual Verification 'Database Schema & Taxonomies' (Protocol in workflow.md)
+
+## Phase 2: Authentication & User Provisioning
+
+### Objective
+Implement Magic Link auth and automatic profile creation.
+
+*   [ ] Task: Configure Supabase Client utility in `lib/supabase.ts`.
+*   [ ] Task: Write tests for user profile auto-creation trigger.
+*   [ ] Task: Implement database trigger for profile creation on Auth Sign-up.
+*   [ ] Task: Write tests for Magic Link sign-in logic.
+*   [ ] Task: Implement Magic Link sign-in flow on the frontend (Auth components).
+*   [ ] Task: Conductor - User Manual Verification 'Authentication & User Provisioning' (Protocol in workflow.md)
+
+## Phase 3: RLS Policies & Security
+
+### Objective
+Enforce the "Middleman Truth" and data ownership via Row Level Security.
+
+*   [ ] Task: Write tests to verify public vs. creator vs. operator access levels.
+*   [ ] Task: Implement RLS policies for Listings (hiding delisted/suspended items).
+*   [ ] Task: Implement RLS policies for Products (enforcing tier limits).
+*   [ ] Task: Create seed script for the initial `operator` user.
+*   [ ] Task: Conductor - User Manual Verification 'RLS Policies & Security' (Protocol in workflow.md)
+
+## Phase 4: Type Generation & Final Integration
+
+### Objective
+Ensure end-to-end type safety and project-wide integration.
+
+*   [ ] Task: Generate TypeScript types from remote Supabase schema into `types/supabase.ts`.
+*   [ ] Task: Update existing components to use generated types.
+*   [ ] Task: Perform final audit of enforcement state hooks for future automation.
+*   [ ] Task: Conductor - User Manual Verification 'Type Generation & Final Integration' (Protocol in workflow.md)
