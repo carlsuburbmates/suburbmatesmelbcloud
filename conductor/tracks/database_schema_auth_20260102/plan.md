@@ -5,7 +5,7 @@ Establish core SQL schema, passwordless authentication, and automated enforcemen
 
 ---
 
-## Phase 1: Database Schema & Taxonomies
+## Phase 1: Database Schema & Taxonomies [checkpoint: 5558051]
 
 ### Objective
 Define the foundational SQL structures and seed the canonical taxonomies.
@@ -15,7 +15,7 @@ Define the foundational SQL structures and seed the canonical taxonomies.
 *   [x] Task: Create SQL migration for the `Products` table with tier-based constraint triggers. [571f75d]
 *   [x] Task: Create SQL migration for the `Featured Placement Queue` (FIFO logic). [5031f39]
 *   [x] Task: Create SQL migration for `Profiles` including the 4-step enforcement ladder. [083051f]
-*   [ ] Task: Conductor - User Manual Verification 'Database Schema & Taxonomies' (Protocol in workflow.md)
+*   [x] Task: Conductor - User Manual Verification 'Database Schema & Taxonomies' (Protocol in workflow.md) [5558051]
 
 ## Phase 2: Authentication & User Provisioning
 
