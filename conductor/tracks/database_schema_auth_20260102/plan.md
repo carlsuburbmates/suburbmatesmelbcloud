@@ -22,7 +22,7 @@ Define the foundational SQL structures and seed the canonical taxonomies.
 ### Objective
 Implement Magic Link auth and automatic profile creation.
 
-*   [ ] Task: Configure Supabase Client utility in `lib/supabase.ts`.
+*   [x] Task: Configure Supabase Client utility in `lib/supabase.ts`. [dee78a2]
 *   [ ] Task: Write tests for user profile auto-creation trigger.
 *   [ ] Task: Implement database trigger for profile creation on Auth Sign-up.
 *   [ ] Task: Write tests for Magic Link sign-in logic.
