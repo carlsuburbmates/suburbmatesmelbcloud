@@ -29,7 +29,7 @@ Implement Magic Link auth and automatic profile creation.
 *   [x] Task: Implement Magic Link sign-in flow on the frontend (Auth components). [19d867b]
 *   [x] Task: Conductor - User Manual Verification 'Authentication & User Provisioning' (Protocol in workflow.md) [8ece04c]
 
-## Phase 3: RLS Policies & Security
+## Phase 3: RLS Policies & Security [checkpoint: 7fe0ae9]
 
 ### Objective
 Enforce the "Middleman Truth" and data ownership via Row Level Security.
@@ -38,7 +38,7 @@ Enforce the "Middleman Truth" and data ownership via Row Level Security.
 *   [x] Task: Implement RLS policies for Listings (hiding delisted/suspended items). [840c2e7]
 *   [x] Task: Implement RLS policies for Products (enforcing tier limits). [ca510d6]
 *   [x] Task: Create seed script for the initial `operator` user. [e209cf2]
-*   [ ] Task: Conductor - User Manual Verification 'RLS Policies & Security' (Protocol in workflow.md)
+*   [x] Task: Conductor - User Manual Verification 'RLS Policies & Security' (Protocol in workflow.md) [7fe0ae9]
 
 ## Phase 4: Type Generation & Final Integration
 
