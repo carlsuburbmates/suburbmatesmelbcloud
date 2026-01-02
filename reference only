@@ -1,0 +1,856 @@
+reference only:
+SuburbMates Homepage: Master Specification (v1)
+
+1. Core Philosophy & Constraints
+
+Visual Identity: "Quiet Architecture" / "Editorial Minimalism."
+
+Primary Constraint: Mobile-First Ergonomics (Thumb-friendly navigation).
+
+Tech Strategy: Zero-API dependency for initial render (Client-side Search/Filter).
+
+Truth UI: Strict adherence to explicit disclosures (Paid Placement, Middleman status).
+
+2. Layout Architecture
+
+The page is composed of distinct "Applet Windows" floating on a "Warm Bone" canvas.
+
+Component
+
+Height/Scroll
+
+Visual Style
+
+Notes
+
+Canvas
+
+Full Page
+
+#F9F8F6 (bg-canvas)
+
+Global background.
+
+Directory
+
+70vh (Fixed on Mobile)
+
+White Window, Shadow-Pop (shadow-pop), Border (border-ink/10)
+
+Vertical scroll trap prevented by "Skip" link.
+
+Marketplace
+
+Auto
+
+White Window, Shadow-Pop (shadow-pop), Border (border-ink/10)
+
+Horizontal snap-scroll rail.
+
+Info Dock
+
+Auto
+
+3x Circular Tokens
+
+Triggers informational modals.
+
+Footer
+
+Auto
+
+White, 2-Col Grid
+
+High-density link index.
+
+3. Component Specifications
+
+A. Navigation (Sticky Bottom FAB)
+
+Trigger: 64px (w-16 h-16) Circular Button.
+
+Style: Solid Ink (bg-ink) with White Icon/Text.
+
+Position: Fixed Bottom Center (bottom-8).
+
+Menu: "AssistiveTouch" style floating grid overlay (w-60 rounded-2xl panel).
+
+Logic: Auto-hides via CSS transform (translate-y-200%) when a Profile Modal is open to prevent obstruction.
+
+B. Header & Hero
+
+Header: Sticky (top-0), Glassmorphism (backdrop-blur-sm), bg-canvas/95.
+
+Hero Text: text-5xl to text-6xl Display Serif (Cormorant Garamond).
+
+Search Input: bg-white, border-line, Focus ring focus:border-ink. Filters directory content in real-time.
+
+C. Directory Listing Cards
+
+Grid: 2-Column layout on mobile (grid-cols-2).
+
+Card Types:
+
+Featured: Full-width (col-span-2), Image-Left layout. "Featured" badge (Top-Left, bg-ink).
+
+Pro: Full-width (col-span-2), Gold Border (border-gold/40). "Pro" badge (Top-Right, text-gold).
+
+Basic: Vertical 2-Column. Image (Aspect 3:4) + Title + Location. border-line.
+
+Unclaimed: Ghost style (Opacity 60%). Dashed Border. "Claim" button overlay.
+
+D. Marketplace Block
+
+Container: Matches Directory style.
+
+Scroll: Horizontal (overflow-x-auto), Snap-x (snap-x).
+
+Cards: min-w-[160px], aspect-[3/4], rounded-lg.
+
+E. Modals (Overlays)
+
+Quick View (Profile):
+
+Structure: Full-screen overlay (fixed inset-0).
+
+Header: Sticky Image (h-64) with Gradient overlay (from-black/60).
+
+Content: Scrolls under the sticky header.
+
+Action Dock: Floating glass bar at bottom (absolute bottom-0).
+
+Protocol (Info):
+
+Content: "Logic Switch" toggle (Brands & Buyers vs. Creators).
+
+Toggle Style: Inactive (text-ink), Active (bg-ink text-white).
+
+Membership (Info):
+
+Content: "Spec Sheet" pricing grid (Basic vs. Pro comparison).
+
+Style: 2-column grid, border-collapse, bg-gray-50 header.
+
+4. Typography & Color Tokens
+
+Headings: Cormorant Garamond (Serif). Class: .type-display.
+
+UI/Body: Inter Tight (Sans). Class: .type-meta.
+
+Ink: #0F1E33 (Primary Text/Bg).
+
+Canvas: #F9F8F6 (Page Bg).
+
+Gold: #C6A87C (Accents/Pro).
+
+Verified: #0D9488 (Teal).
+
+Line: rgba(15, 30, 51, 0.12).
+
+5. Interaction Logic
+
+Search Bar: Performs real-time client-side filtering of the creators array based on name, location, category, or tags.
+
+Filter Button: Toggles a simplified category/status filter overlay (#filter-overlay).
+
+Skip Links: "Skip to Marketplace" and "Skip to Footer" anchors provided in block headers to escape scroll areas.
+
+6. Content Governance (Truth UI)
+
+Directory Header: Must state "Ranked List" (implies hierarchy).
+
+Featured Badge: Must clarify "Paid placement" in footer or help text.
+
+Footer Disclosures:
+
+"Products sold by creators."
+
+"SuburbMates is a discovery platform."
+
+"Verified indicates ABN status verified."
+
+7. Dependencies
+
+Tailwind CSS: Loaded via CDN.
+
+Google Fonts: Inter Tight, Cormorant Garamond (Injected via <style> tag).
+
+React: Loaded via CDN (UMD).
+
+Babel: Loaded via CDN (Standalone) for JSX compilation.
+
+Icons: Inline SVGs (No external icon library required).
+
+
+---------------------
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuburbMates - Digital Creator Index</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- FONTS: Inter Tight (Structural) + Cormorant Garamond (Voice) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter Tight', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    colors: {
+                        'canvas': '#F9F8F6', // Warm Bone
+                        'ink': '#0F1E33',    // Deep Ultramarine
+                        'ink-muted': '#5D6B7F',
+                        'line': 'rgba(15, 30, 51, 0.12)', 
+                        'gold': '#C6A87C',
+                        'verified': '#0D9488',
+                    },
+                    fontSize: {
+                        'xxs': '0.625rem',
+                    },
+                    boxShadow: {
+                        'window': '0 10px 40px -10px rgba(15, 30, 51, 0.08)',
+                        'floating': '0 20px 50px -10px rgba(15, 30, 51, 0.25)',
+                        'pop': '0 16px 40px -5px rgba(15, 30, 51, 0.15)',
+                        'token': '0 4px 12px rgba(15, 30, 51, 0.1), inset 0 2px 4px rgba(255,255,255,0.5)',
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    },
+                    keyframes: {
+                        'slide-up-fade': {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: {
+                        'slide-up': 'slide-up-fade 0.6s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* BASE SETTINGS */
+        body {
+            background-color: #F9F8F6; /* canvas */
+            color: #0F1E33; /* ink */
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* TYPOGRAPHY */
+        .type-display { font-family: 'Cormorant Garamond', serif; letter-spacing: -0.02em; line-height: 0.95; }
+        .type-meta { font-family: 'Inter Tight', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+
+        /* SCROLL UTILITIES */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .snap-y-mandatory { scroll-snap-type: y mandatory; }
+        .snap-x-mandatory { scroll-snap-type: x mandatory; }
+        .snap-center { scroll-snap-align: center; }
+
+        /* MODAL ANIMATIONS */
+        .modal-enter { opacity: 0; transform: translateY(20px) scale(0.98); }
+        .modal-enter-active { opacity: 1; transform: translateY(0) scale(1); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-exit { opacity: 0; transform: translateY(20px) scale(0.98); transition: all 0.2s ease-in; }
+
+        /* ASSISTIVE MENU ANIMATIONS */
+        .menu-pop-enter { opacity: 0; transform: scale(0.8) translateY(20px); }
+        .menu-pop-active { opacity: 1; transform: scale(1) translateY(0); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); } 
+        .menu-pop-exit { opacity: 0; transform: scale(0.9) translateY(10px); transition: all 0.2s ease-in; }
+
+        /* FAB TRANSITION */
+        .fab-hidden { transform: translateY(200%) scale(0.8) !important; opacity: 0 !important; pointer-events: none; }
+        
+        /* LOGIC SWITCH TRANSITION */
+        .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .tab-content.active { display: block; opacity: 1; }
+        
+        /* Active State: Dark bg, White text */
+        .tab-btn.active { background-color: #0F1E33; color: white; border-color: #0F1E33; font-weight: 600; }
+        /* Inactive State: Transparent bg, Dark text */
+        .tab-btn { color: #0F1E33; opacity: 1; font-weight: 500; } 
+        .tab-btn:hover { opacity: 0.8; }
+
+        /* SCROLL DRIVEN ANIMATIONS */
+        @keyframes reveal-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scroll-reveal-item {
+            view-timeline-name: --item-reveal;
+            animation-timeline: view();
+            animation-name: reveal-in;
+            animation-range: entry 10% cover 30%;
+            animation-fill-mode: both;
+        }
+    </style>
+</head>
+<body class="relative h-screen flex flex-col">
+
+    <!-- 0. STICKY HEADER -->
+    <nav class="flex-none bg-canvas/95 backdrop-blur-sm z-40 border-b border-line px-6 py-4 flex justify-between items-center transition-all duration-300 sticky top-0">
+        <div class="flex items-center gap-1 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <h1 class="text-lg font-medium tracking-tight text-ink">SuburbMates<span class="text-gold">.</span></h1>
+        </div>
+        <div class="flex gap-4">
+            <button class="type-meta text-xs text-ink border-b border-transparent hover:border-ink pb-0.5">Sign In</button>
+        </div>
+    </nav>
+
+    <!-- MAIN SCROLL CONTAINER -->
+    <main class="flex-1 overflow-y-auto hide-scrollbar scroll-smooth">
+        
+        <!-- 1. HERO -->
+        <header class="px-6 pt-12 pb-12">
+            <h2 class="type-display text-5xl md:text-6xl text-ink mb-4">
+                Local Truth.<br>
+                <span class="italic text-ink-muted">Digital Goods.</span>
+            </h2>
+            <div class="border-l border-gold pl-4 mb-8">
+                <p class="text-sm text-ink-muted leading-relaxed max-w-md">
+                    Melbourne’s dedicated discovery layer. Verified creators, direct commerce, no algorithms.
+                </p>
+            </div>
+
+            <!-- Search -->
+            <div class="relative group" onclick="document.getElementById('search-input').focus()">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-ink-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input id="search-input" type="text" placeholder="Search creators, studios, or assets..." 
+                       class="w-full bg-white border border-line py-3 pl-10 pr-4 text-sm text-ink focus:outline-none focus:border-ink transition-colors"
+                       onkeyup="filterDirectory(this.value)">
+            </div>
+        </header>
+
+        <!-- 2. DIRECTORY BLOCK -->
+        <section id="directory" class="px-4 pb-12">
+            <!-- Window Container -->
+            <div class="border-2 border-ink/10 rounded-2xl bg-white shadow-pop overflow-hidden flex flex-col h-[70vh] relative transform transition-transform duration-500 hover:scale-[1.002]">
+                <!-- Header -->
+                <div class="px-5 py-4 border-b border-line bg-gradient-to-b from-gray-50 to-white backdrop-blur-md sticky top-0 z-20 flex justify-between items-center">
+                    <div>
+                        <h3 class="type-display text-xl text-ink">Directory</h3>
+                        <p class="text-[10px] text-ink-muted uppercase tracking-widest">Ranked List</p>
+                    </div>
+                    <!-- CONTROLS -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleFilters()" class="type-meta text-[10px] text-ink border border-line bg-white px-2 py-1 rounded hover:bg-gray-50 transition-colors flex items-center gap-1 shadow-sm">
+                            Filter <span class="text-gold text-xs">●</span>
+                        </button>
+                        <a href="#marketplace" class="type-meta text-[10px] text-ink border border-line bg-white px-2 py-1 rounded hover:bg-ink hover:text-white transition-colors flex items-center gap-1 shadow-sm">
+                            Skip <span>&darr;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Window Content -->
+                <div id="directory-list" class="flex-1 overflow-y-auto hide-scrollbar p-3 bg-gray-50/20 shadow-inner">
+                    <div id="directory-grid" class="grid grid-cols-2 gap-3">
+                        <!-- Dynamic Content -->
+                    </div>
+                    <div class="pt-6 pb-2 text-center">
+                        <button class="type-meta text-xs text-ink border-b border-ink pb-0.5 hover:opacity-50">Load Full Directory</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MARKETPLACE BLOCK -->
+        <section id="marketplace" class="px-4 pb-12">
+            <!-- Window Container -->
+            <div class="border-2 border-ink/10 rounded-2xl bg-white shadow-pop overflow-hidden flex flex-col relative transform transition-transform duration-500 hover:scale-[1.002]">
+                <div class="px-5 py-4 border-b border-line bg-gradient-to-b from-gray-50 to-white backdrop-blur-md flex justify-between items-center">
+                    <div>
+                        <h3 class="type-display text-xl text-ink">Marketplace</h3>
+                        <p class="text-[10px] text-ink-muted uppercase tracking-widest">Digital Assets</p>
+                    </div>
+                    <a href="#info-dock" class="type-meta text-[10px] text-ink border border-line bg-white px-2 py-1 rounded hover:bg-ink hover:text-white transition-colors flex items-center gap-1 shadow-sm">
+                        Skip <span>&darr;</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 overflow-x-auto hide-scrollbar px-5 pb-6 pt-5 snap-x bg-gray-50/20 shadow-inner">
+                    <!-- Products -->
+                    <div class="min-w-[160px] snap-center cursor-pointer group bg-white p-3 rounded-lg border border-line shadow-sm hover:border-ink transition-colors">
+                        <div class="aspect-[3/4] bg-gray-100 border border-line relative overflow-hidden mb-3 rounded">
+                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="text-xs font-medium text-ink leading-tight mb-1">Agency OS</h4>
+                        <p class="text-[9px] text-ink-muted mb-2">Notion Template</p>
+                        <div class="flex justify-between items-center border-t border-line pt-2">
+                            <span class="text-[10px] font-bold text-gold">$49.00</span>
+                            <span class="text-[9px] text-ink-muted">Contrast</span>
+                        </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="min-w-[160px] snap-center cursor-pointer group bg-white p-3 rounded-lg border border-line shadow-sm hover:border-ink transition-colors">
+                        <div class="aspect-[3/4] bg-gray-100 border border-line relative overflow-hidden mb-3 rounded">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="text-xs font-medium text-ink leading-tight mb-1">Melbourne LUTs</h4>
+                        <p class="text-[9px] text-ink-muted mb-2">Lightroom Pack</p>
+                        <div class="flex justify-between items-center border-t border-line pt-2">
+                            <span class="text-[10px] font-bold text-gold">$24.95</span>
+                            <span class="text-[9px] text-ink-muted">Lumière</span>
+                        </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="min-w-[160px] snap-center cursor-pointer group bg-white p-3 rounded-lg border border-line shadow-sm hover:border-ink transition-colors">
+                        <div class="aspect-[3/4] bg-gray-100 border border-line relative overflow-hidden mb-3 rounded">
+                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="text-xs font-medium text-ink leading-tight mb-1">Contract Kit</h4>
+                        <p class="text-[9px] text-ink-muted mb-2">Legal Template</p>
+                        <div class="flex justify-between items-center border-t border-line pt-2">
+                            <span class="text-[10px] font-bold text-gold">$35.00</span>
+                            <span class="text-[9px] text-ink-muted">Legal.au</span>
+                        </div>
+                    </div>
+                    <!-- Product 4 -->
+                    <div class="min-w-[160px] snap-center cursor-pointer group bg-white p-3 rounded-lg border border-line shadow-sm hover:border-ink transition-colors">
+                        <div class="aspect-[3/4] bg-gray-100 border border-line relative overflow-hidden mb-3 rounded flex items-center justify-center">
+                            <span class="type-display text-xl text-ink-muted italic">View All</span>
+                        </div>
+                        <h4 class="text-xs font-medium text-ink leading-tight mb-1">Browse More</h4>
+                        <p class="text-[9px] text-ink-muted mb-2">240+ Assets</p>
+                        <div class="flex justify-between items-center border-t border-line pt-2">
+                            <span class="text-[10px] font-bold text-ink">&rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. INFO DOCK -->
+        <section id="info-dock" class="px-6 py-12 flex justify-center items-start gap-6">
+            <!-- OBJECT 1: PROTOCOL (Dark) -->
+            <div onclick="openContentModal('protocol')" class="flex flex-col items-center gap-3 cursor-pointer group">
+                <div class="w-20 h-20 bg-ink rounded-full flex items-center justify-center shadow-pop border-2 border-white/10 transform transition-transform group-hover:scale-105 active:scale-95">
+                    <span class="text-2xl filter drop-shadow-sm">⚖️</span>
+                </div>
+                <span class="type-meta text-[10px] text-ink tracking-widest group-hover:text-gold transition-colors">Protocol</span>
+            </div>
+            <!-- OBJECT 2: MEMBERSHIP (Gold) -->
+            <div onclick="openContentModal('membership')" class="flex flex-col items-center gap-3 cursor-pointer group">
+                <div class="w-20 h-20 bg-gradient-to-br from-white to-gold/20 rounded-full flex items-center justify-center shadow-pop border-2 border-gold/30 transform transition-transform group-hover:scale-105 active:scale-95">
+                    <span class="text-2xl filter drop-shadow-sm">💎</span>
+                </div>
+                <span class="type-meta text-[10px] text-ink tracking-widest group-hover:text-gold transition-colors">Tiers</span>
+            </div>
+            <!-- OBJECT 3: WHO WE ARE (Canvas) -->
+            <div onclick="openContentModal('identity')" class="flex flex-col items-center gap-3 cursor-pointer group">
+                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-pop border-2 border-line transform transition-transform group-hover:scale-105 active:scale-95">
+                    <span class="text-2xl filter drop-shadow-sm">🇦🇺</span>
+                </div>
+                <span class="type-meta text-[10px] text-ink tracking-widest group-hover:text-gold transition-colors">Manifesto</span>
+            </div>
+        </section>
+
+        <!-- 9. CLAIM (Mini-Site Promo - Dark Mode RESTORED) -->
+        <section class="px-6 py-16 bg-ink text-canvas text-center">
+            <h3 class="type-display text-3xl mb-3">Own your creative space.</h3>
+            <p class="text-xs text-white/70 mb-8 max-w-xs mx-auto leading-relaxed">Turn a static listing into a commerce-ready Mini-Site. <br>Sell digital goods, manage bookings, and build trust.</p>
+            
+            <!-- Mock Profile Preview (Scroll Reveal) -->
+            <div class="bg-white/5 border border-white/10 rounded-xl p-4 mb-8 backdrop-blur-sm max-w-xs mx-auto transform transition-transform hover:scale-105 duration-500 cursor-default scroll-reveal-item">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-gold border border-gold/30">★</div>
+                    <div class="text-left">
+                        <div class="h-2 w-24 bg-white/20 rounded mb-1"></div>
+                        <div class="h-1.5 w-16 bg-white/10 rounded"></div>
+                    </div>
+                    <div class="ml-auto px-2 py-1 rounded border border-white/20 text-[8px] text-white/60 bg-white/5">VERIFIED</div>
+                </div>
+                <div class="flex gap-2">
+                    <div class="flex-1 h-16 bg-white/5 rounded border border-white/5 flex items-end p-2">
+                        <div class="h-1 w-8 bg-white/20 rounded"></div>
+                    </div>
+                    <div class="flex-1 h-16 bg-white/5 rounded border border-white/5 flex items-end p-2">
+                        <div class="h-1 w-8 bg-white/20 rounded"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3 max-w-xs mx-auto">
+                <button class="w-full bg-white text-ink py-3 rounded-lg type-meta text-xs font-medium hover:bg-gray-100 transition-colors shadow-lg">Claim Existing Listing</button>
+                <button class="w-full border border-white/20 text-white py-3 rounded-lg type-meta text-xs hover:bg-white/10 transition-colors">Create New Studio</button>
+            </div>
+        </section>
+
+        <!-- 4. FOOTER -->
+        <footer id="footer" class="bg-white border-t border-line px-6 py-8 pb-32">
+            <div class="flex justify-between items-baseline mb-8">
+                <h2 class="text-base font-medium text-ink">SuburbMates<span class="text-gold">.</span></h2>
+                <span class="text-[10px] text-ink-muted/60 uppercase tracking-widest">&copy; 2026 Melb</span>
+            </div>
+            <div class="grid grid-cols-2 gap-x-4 gap-y-6 mb-8">
+                <div class="space-y-3">
+                    <span class="type-meta text-[9px] text-ink-muted/50 block">Platform</span>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Directory</a>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Marketplace</a>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Collections</a>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Create a Studio</a>
+                </div>
+                <div class="space-y-3">
+                    <span class="type-meta text-[9px] text-ink-muted/50 block">Trust & Support</span>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Verification <span class="text-[9px] text-ink-muted/60">(Definitions)</span></a>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Featured <span class="text-[9px] text-ink-muted/60">(Policy)</span></a>
+                    <a href="#" class="block text-xs text-ink hover:text-gold transition-colors">Purchase Help <span class="text-[9px] text-ink-muted/60">(Creator)</span></a>
+                    <a href="#" class="block text-xs text-danger hover:text-red-700 transition-colors">Report Concern <span class="text-[9px] text-ink-muted/60">(Platform)</span></a>
+                </div>
+            </div>
+            <div class="border-t border-line pt-4 space-y-1.5">
+                <p class="text-[10px] text-ink-muted leading-tight text-left">Products are sold by creators. SuburbMates is a discovery platform.</p>
+                <p class="text-[10px] text-ink-muted leading-tight text-left">Featured placements are paid. Not an endorsement.</p>
+                <p class="text-[10px] text-ink-muted leading-tight text-left">Verified indicates ABN status verified.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- CONTENT MODAL (Generic Container for Info Dock) -->
+    <dialog id="content-modal" class="fixed inset-0 z-50 w-full h-full bg-transparent p-0 m-0 backdrop:bg-ink/30 backdrop:backdrop-blur-sm open:flex items-center justify-center hidden" onclick="closeContentModal()">
+        <div class="bg-white w-[90%] max-w-md rounded-2xl shadow-2xl overflow-hidden relative flex flex-col max-h-[80vh] modal-enter" id="content-panel" onclick="event.stopPropagation()">
+            <div class="px-6 py-4 border-b border-line flex justify-between items-center bg-gray-50/50">
+                <h3 id="content-title" class="type-display text-2xl text-ink"></h3>
+                <button onclick="closeContentModal()" class="text-ink-muted hover:text-ink text-xl">&times;</button>
+            </div>
+            <div id="content-body" class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- Dynamic Content Injected Here -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- DETAIL MODAL & ASSISTIVE MENU (Same as before) -->
+    <!-- ... -->
+    
+    <!-- Quick View (Studio Page/Mini-site Modal):
+    <dialog id="quick-view" class="fixed inset-0 z-50 w-full h-full bg-transparent p-0 m-0 backdrop:bg-ink/30 backdrop:backdrop-blur-sm open:flex items-end sm:items-center justify-center hidden" onclick="closeModal()">
+        <div class="bg-white w-full sm:w-[400px] h-[90vh] sm:h-auto sm:rounded-2xl rounded-t-3xl shadow-2xl overflow-hidden relative flex flex-col modal-enter" id="modal-panel" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-50 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-ink hover:bg-white transition-colors shadow-sm">&times;</button>
+            <div class="flex-1 overflow-y-auto hide-scrollbar relative bg-white pb-40">
+                <div class="sticky top-0 z-0 h-64 w-full">
+                    <img id="modal-img" src="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <h3 id="modal-title" class="text-3xl font-light leading-none mb-2 font-serif drop-shadow-md"></h3>
+                        <div class="flex items-center gap-2">
+                            <span id="modal-badge" class="type-meta text-[9px] bg-white text-ink px-1.5 py-0.5 rounded shadow-sm"></span>
+                            <span class="type-meta text-[9px] flex items-center gap-1">
+                                <svg class="w-3 h-3 text-verified" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Verified
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative z-10 bg-white -mt-4 rounded-t-3xl p-6 min-h-[50vh]">
+                    <div class="w-12 h-1 bg-gray-200 rounded-full mx-auto mb-6"></div>
+                    <div class="flex gap-4 mb-8 border-b border-line pb-6">
+                        <div class="flex-1">
+                            <span class="text-[10px] text-ink-muted uppercase tracking-widest block mb-1">Location</span>
+                            <span id="modal-loc" class="text-sm text-ink font-medium"></span>
+                        </div>
+                        <div class="flex-1">
+                            <span class="text-[10px] text-ink-muted uppercase tracking-widest block mb-1">Category</span>
+                            <span id="modal-cat" class="text-sm text-ink font-medium"></span>
+                        </div>
+                    </div>
+                    <h4 class="type-meta text-xs text-ink mb-3">About the Studio</h4>
+                    <p id="modal-desc" class="text-base text-ink font-light leading-relaxed mb-8"></p>
+                    <div class="mt-8 pt-8 border-t border-line text-center">
+                        <p class="text-[10px] text-ink-muted">Member since 2024 &bull; Melbourne</p>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 pb-8 bg-gradient-to-t from-white via-white/95 to-transparent z-20 flex flex-col gap-3">
+                <button class="w-full bg-ink text-white py-4 rounded-xl type-meta text-xs hover:bg-black transition-colors shadow-lg">View Full Studio Page</button>
+                <button class="w-full border border-line bg-white/80 backdrop-blur-sm text-ink py-4 rounded-xl type-meta text-xs hover:bg-white transition-colors">Contact</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- ASSISTIVE MENU -->
+    <div id="assistive-menu" class="fixed inset-0 z-40 bg-transparent hidden flex-col justify-end items-center pointer-events-none pb-28">
+        <div class="fixed inset-0 pointer-events-auto" onclick="toggleMenu()"></div> 
+        <div id="assistive-menu-panel" class="bg-ink/95 backdrop-blur-xl border border-white/10 rounded-2xl p-3 w-60 shadow-floating menu-pop-enter pointer-events-auto relative transform transition-all duration-300" onclick="event.stopPropagation()">
+            <div class="grid grid-cols-2 gap-2">
+                <a href="#directory" onclick="toggleMenu()" class="flex flex-col items-center justify-center bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors aspect-[4/3] border border-white/5">
+                    <span class="text-lg mb-1 opacity-80">📂</span>
+                    <span class="type-meta text-[8px] text-white/80">DIR</span>
+                </a>
+                <a href="#marketplace" onclick="toggleMenu()" class="flex flex-col items-center justify-center bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors aspect-[4/3] border border-white/5">
+                    <span class="text-lg mb-1 opacity-80">🛍️</span>
+                    <span class="type-meta text-[8px] text-white/80">SHOP</span>
+                </a>
+                <button onclick="document.getElementById('search-input').focus(); toggleMenu();" class="flex flex-col items-center justify-center bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors aspect-[4/3] border border-white/5">
+                    <span class="text-lg mb-1 opacity-80">🔍</span>
+                    <span class="type-meta text-[8px] text-white/80">FIND</span>
+                </button>
+                <a href="#" class="flex flex-col items-center justify-center bg-white/10 rounded-lg p-3 hover:bg-white/20 transition-colors aspect-[4/3] border border-white/20">
+                    <span class="text-lg mb-1 opacity-100">✨</span>
+                    <span class="type-meta text-[8px] text-white font-medium">JOIN</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- STICKY BOTTOM NAV -->
+    <div id="menu-trigger-container" class="fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none transition-transform duration-300">
+        <button id="menu-trigger" onclick="toggleMenu()" class="pointer-events-auto w-16 h-16 bg-ink text-white rounded-full flex items-center justify-center shadow-2xl border border-white/10 transform transition-transform duration-200 active:scale-90 hover:scale-105 group">
+            <span class="font-serif font-bold text-xl tracking-tighter group-hover:rotate-90 transition-transform duration-300">SM<span class="text-gold">.</span></span>
+        </button>
+    </div>
+
+    <script>
+        // ... (Data & Render logic same as before) ...
+        const creators = [
+            { id: 'featured-1', title: 'Contrast Studio', desc: 'A Melbourne-based brand identity studio.', img: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=600', badge: 'Featured', loc: 'Fitzroy', cat: 'Branding', tags: ['Brand'] },
+            { id: 'pro-1', title: 'Lumière Visuals', desc: 'Editorial photography.', img: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=600', badge: 'Pro', loc: 'Collingwood', cat: 'Photography', tags: ['Photo'] },
+            { id: 'basic-1', title: 'Type & Grid', desc: 'Webflow development.', img: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600', badge: 'Basic', loc: 'Brunswick', cat: 'Web Design', tags: ['Web'] },
+            { id: 'basic-2', title: 'The Notion Guy', desc: 'Notion workspaces.', img: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=600', badge: 'Basic', loc: 'Northcote', cat: 'Productivity', tags: ['Notion'] },
+            { id: 'basic-3', title: 'Sarah J. Copy', desc: 'Conversion copywriting.', img: 'https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=600', badge: 'Basic', loc: 'Richmond', cat: 'Copywriting', tags: ['Copy'] },
+            { id: 'unclaimed-1', title: 'Melbourne SEO Pro', desc: 'Local SEO.', img: null, badge: 'Unclaimed', loc: 'CBD', cat: 'Marketing', tags: ['SEO'] }
+        ];
+
+        // --- RENDER LOGIC ---
+        const directoryGrid = document.getElementById('directory-grid');
+
+        function renderCreators(data) {
+            directoryGrid.innerHTML = '';
+            
+            data.forEach(c => {
+                let html = '';
+                if (c.badge === 'Featured') {
+                    html = `<article class="col-span-2 bg-white border border-line rounded-xl p-4 cursor-pointer hover:border-ink transition-colors group shadow-sm relative flex flex-col sm:flex-row gap-4" onclick="openModal('${c.id}')"><div class="absolute top-0 left-0 bg-ink text-white type-meta text-[9px] px-2 py-1 rounded-br-lg rounded-tl-lg z-10">Featured</div><div class="w-full sm:w-24 h-32 sm:h-24 bg-gray-200 shrink-0 rounded-lg overflow-hidden mt-6 sm:mt-0"><img src="${c.img}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"></div><div class="flex-1"><h4 class="text-xl font-light text-ink leading-tight mb-1 group-hover:translate-x-1 transition-transform font-serif">${c.title}</h4><div class="flex items-center gap-2 mb-2"><span class="type-meta text-[9px] text-verified flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Verified</span><span class="text-[9px] text-ink-muted">${c.loc}</span></div><p class="text-[10px] text-ink-muted line-clamp-2 leading-relaxed font-sans">${c.desc}</p></div></article>`;
+                } else if (c.badge === 'Pro') {
+                    html = `<article class="col-span-2 bg-white border border-gold/40 rounded-xl p-4 cursor-pointer hover:border-gold transition-colors group shadow-sm relative flex items-start gap-4" onclick="openModal('${c.id}')"><div class="absolute top-3 right-3 type-meta text-[9px] text-gold border border-gold px-1.5 py-0.5 rounded-sm">Pro</div><div class="w-12 h-12 bg-gray-200 shrink-0 rounded-full overflow-hidden border border-gold/20"><img src="${c.img}" class="w-full h-full object-cover grayscale"></div><div class="flex-1 pr-8"><h4 class="text-lg font-medium text-ink leading-tight mb-1 font-serif">${c.title}</h4><div class="flex items-center gap-2 mb-1"><span class="type-meta text-[9px] text-verified flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Verified</span></div><p class="text-[10px] text-ink-muted line-clamp-1 font-sans">${c.desc}</p></div></article>`;
+                } else if (c.badge === 'Basic') {
+                    html = `<article class="col-span-1 bg-white border border-line rounded-lg p-3 cursor-pointer hover:border-ink transition-colors group flex flex-col h-56 shadow-sm" onclick="openModal('${c.id}')"><div class="flex justify-between items-start mb-2"><span class="type-meta text-[8px] text-ink-muted/50">Basic</span><span class="type-meta text-[8px] text-verified flex items-center gap-0.5"><svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></span></div><div class="flex-1 w-full bg-gray-100 rounded-sm mb-2 overflow-hidden relative"><img src="${c.img}" class="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 transition-opacity"></div><div><h4 class="text-xs font-medium text-ink leading-tight mb-1 truncate font-serif">${c.title}</h4><div class="pt-2 border-t border-line type-meta text-[8px] text-ink-muted"><span>${c.loc}</span></div></div></article>`;
+                } else {
+                    html = `<article class="col-span-1 bg-white/30 border border-line/50 border-dashed rounded-lg p-3 opacity-60 flex flex-col h-56"><div class="flex justify-between items-start mb-1"><span class="type-meta text-[8px] bg-gray-200 text-ink-muted px-1 py-0.5">Unclaimed</span></div><div class="flex-1 w-full bg-gray-50/50 rounded-sm mb-2 flex items-center justify-center"><span class="text-xl opacity-10 font-serif">?</span></div><div><h4 class="text-xs font-light text-ink-muted mb-1 truncate font-serif">${c.title}</h4><div class="flex justify-between items-center pt-2 border-t border-line/30"><span class="type-meta text-[8px] text-ink-muted">${c.loc}</span><button class="type-meta text-[8px] border border-ink-muted/30 px-1.5 py-0.5 bg-white">Claim</button></div></div></article>`;
+                }
+                directoryGrid.innerHTML += html;
+            });
+        }
+
+        function filterDirectory(query) {
+            if(!query) {
+                renderCreators(creators);
+                return;
+            }
+            const lowerQ = query.toLowerCase();
+            const filtered = creators.filter(c => 
+                c.title.toLowerCase().includes(lowerQ) || 
+                c.cat.toLowerCase().includes(lowerQ) ||
+                c.loc.toLowerCase().includes(lowerQ) ||
+                c.tags.some(t => t.toLowerCase().includes(lowerQ)) ||
+                c.badge.toLowerCase().includes(lowerQ)
+            );
+            renderCreators(filtered);
+        }
+
+        const filterOverlay = document.getElementById('filter-overlay');
+        function toggleFilters() {
+            if(filterOverlay.classList.contains('hidden')) {
+                filterOverlay.classList.remove('hidden');
+                filterOverlay.classList.add('flex');
+            } else {
+                filterOverlay.classList.add('hidden');
+                filterOverlay.classList.remove('flex');
+            }
+        }
+
+        renderCreators(creators);
+
+        // --- CONTENT MODAL LOGIC ---
+        const contentModal = document.getElementById('content-modal');
+        const contentPanel = document.getElementById('content-panel');
+        const contentTitle = document.getElementById('content-title');
+        const contentBody = document.getElementById('content-body');
+
+        function openContentModal(type) {
+            let title = '';
+            let html = '';
+
+            if (type === 'protocol') {
+                title = 'Protocol';
+                // UPDATED: Toggle buttons with EXPLICIT classes for initial render state
+                html = `
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-white border border-gray-200 p-1 rounded-full flex gap-1 shadow-sm">
+                            <button onclick="switchTab('buyers')" id="btn-buyers" class="bg-ink text-white font-bold border-ink type-meta text-xs tracking-wide px-4 py-2 rounded-full transition-all border">
+                                BRANDS & BUYERS
+                            </button>
+                            <button onclick="switchTab('creators')" id="btn-creators" class="text-ink font-medium border-transparent bg-transparent type-meta text-xs tracking-wide px-4 py-2 rounded-full transition-all border hover:bg-gray-50">
+                                CREATORS
+                            </button>
+                        </div>
+                    </div>
+                    <div id="tab-buyers" class="tab-content active space-y-6">
+                        <div class="flex gap-4 items-start"><span class="type-meta text-ink bg-gray-100 w-6 h-6 flex items-center justify-center rounded-full text-[10px]">1</span><div><h4 class="type-meta text-xs text-ink mb-1">Search</h4><p class="text-sm font-light text-ink-muted">Find verified creative talent by category or location.</p></div></div>
+                        <div class="flex gap-4 items-start"><span class="type-meta text-ink bg-gray-100 w-6 h-6 flex items-center justify-center rounded-full text-[10px]">2</span><div><h4 class="type-meta text-xs text-ink mb-1">Evaluate</h4><p class="text-sm font-light text-ink-muted">View portfolios, verified status, and rates.</p></div></div>
+                        <div class="flex gap-4 items-start"><span class="type-meta text-ink bg-gray-100 w-6 h-6 flex items-center justify-center rounded-full text-[10px]">3</span><div><h4 class="type-meta text-xs text-ink mb-1">Acquire</h4><p class="text-sm font-light text-ink-muted">Buy digital assets directly from source.</p></div></div>
+                    </div>
+                    <div id="tab-creators" class="tab-content space-y-6 hidden">
+                        <div class="flex gap-4 items-start"><span class="type-meta text-white bg-ink w-6 h-6 flex items-center justify-center rounded-full text-[10px]">1</span><div><h4 class="type-meta text-xs text-ink mb-1">Claim</h4><p class="text-sm font-light text-ink-muted">Claim your studio listing.</p></div></div>
+                        <div class="flex gap-4 items-start"><span class="type-meta text-white bg-ink w-6 h-6 flex items-center justify-center rounded-full text-[10px]">2</span><div><h4 class="type-meta text-xs text-ink mb-1">Publish</h4><p class="text-sm font-light text-ink-muted">Sell 3 digital items on Basic, 10 on Pro.</p></div></div>
+                        <div class="flex gap-4 items-start"><span class="type-meta text-white bg-ink w-6 h-6 flex items-center justify-center rounded-full text-[10px]">3</span><div><h4 class="type-meta text-xs text-ink mb-1">Verify</h4><p class="text-sm font-light text-ink-muted">Optional ABN check to build trust.</p></div></div>
+                    </div>
+                `;
+            } else if (type === 'membership') {
+                title = 'Tiers';
+                html = `
+                    <div class="bg-white border border-line rounded-lg overflow-hidden shadow-sm">
+                        <div class="grid grid-cols-2 border-b border-line bg-gray-50">
+                            <div class="p-3 border-r border-line text-center"><h4 class="type-meta text-sm text-ink">BASIC</h4><span class="type-meta text-[10px] text-ink-muted">FREE</span></div>
+                            <div class="p-3 text-center relative"><div class="absolute top-0 right-0 bg-gold text-white text-[8px] px-2 py-0.5 type-meta">BEST</div><h4 class="type-meta text-sm text-gold">PRO</h4><span class="type-meta text-[10px] text-ink">$19/MO</span></div>
+                        </div>
+                        <div class="grid grid-cols-2 text-center text-xs font-light text-ink-muted">
+                            <div class="p-3 border-r border-b border-line">3 Products</div><div class="p-3 border-b border-line font-medium text-ink">10 Products</div>
+                            <div class="p-3 border-r border-b border-line">Studio Page</div><div class="p-3 border-b border-line font-medium text-ink">Mini-site Mode</div>
+                            <div class="p-3 border-r border-line opacity-30">&mdash;</div><div class="p-3 font-medium text-ink">Priority Rank</div>
+                        </div>
+                        <div class="grid grid-cols-2 border-t border-line">
+                            <button class="p-3 type-meta text-[10px] hover:bg-gray-50 border-r border-line transition-colors">INITIATE_BASIC</button>
+                            <button class="p-3 type-meta text-[10px] bg-ink text-white hover:bg-black transition-colors">UPGRADE_PRO</button>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'identity') {
+                title = 'Manifesto';
+                html = `
+                    <div class="space-y-4 text-sm font-light text-ink leading-relaxed">
+                        <p>SuburbMates is a discovery layer for Melbourne's digital creative ecosystem. We exist to map the local talent economy without the noise of global gig platforms.</p>
+                        <p class="font-medium text-ink">Our Core Tenets:</p>
+                        <ul class="list-disc pl-4 space-y-2 text-ink-muted">
+                            <li><strong>Local Relevance:</strong> We only list creators based in Melbourne. Context matters.</li>
+                            <li><strong>Radical Truth:</strong> No fake "trusted by" badges. No inflated metrics. Just verified data.</li>
+                            <li><strong>Direct Commerce:</strong> We are not the merchant of record. You buy directly from the creator's Stripe.</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            contentTitle.innerText = title;
+            contentBody.innerHTML = html;
+
+            menuTriggerContainer.classList.add('fab-hidden');
+            contentModal.classList.remove('hidden');
+            setTimeout(() => {
+                contentModal.classList.add('flex');
+                contentPanel.classList.remove('modal-enter');
+                contentPanel.classList.add('modal-enter-active');
+            }, 10);
+        }
+
+        function closeContentModal() {
+            contentPanel.classList.remove('modal-enter-active');
+            contentPanel.classList.add('modal-exit');
+            menuTriggerContainer.classList.remove('fab-hidden');
+            setTimeout(() => {
+                contentModal.classList.remove('flex');
+                contentModal.classList.add('hidden');
+                contentPanel.classList.remove('modal-exit');
+                contentPanel.classList.add('modal-enter');
+            }, 200);
+        }
+
+        // Logic Switch inside Modal
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('active');
+            });
+            const target = document.getElementById('tab-' + tabName);
+            if(target) {
+                target.classList.remove('hidden');
+                target.classList.add('active');
+            }
+            
+            // Explicitly set classes for active/inactive
+            const buyersBtn = document.getElementById('btn-buyers');
+            const creatorsBtn = document.getElementById('btn-creators');
+
+            if (tabName === 'buyers') {
+                buyersBtn.className = "bg-ink text-white font-bold border-ink type-meta text-xs tracking-wide px-4 py-2 rounded-full transition-all border";
+                creatorsBtn.className = "text-ink font-medium border-transparent bg-transparent type-meta text-xs tracking-wide px-4 py-2 rounded-full transition-all border hover:bg-gray-50";
+            } else {
+                creatorsBtn.className = "bg-ink text-white font-bold border-ink type-meta text-xs tracking-wide px-4 py-2 rounded-full transition-all border";
+                buyersBtn.className = "text-ink font-medium border-transparent bg-transparent type-meta text-xs tracking-wide px-4 py-2 rounded-full transition-all border hover:bg-gray-50";
+            }
+        }
+
+        // --- PROFILE MODAL LOGIC (Standard) ---
+        const modal = document.getElementById('quick-view');
+        const modalPanel = document.getElementById('modal-panel');
+        const menuTriggerContainer = document.getElementById('menu-trigger-container');
+
+        function openModal(id) {
+            const data = creators.find(c => c.id === id);
+            if(!data) return;
+
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-desc').innerText = data.desc;
+            document.getElementById('modal-img').src = data.img || ''; 
+            document.getElementById('modal-badge').innerText = data.badge;
+            document.getElementById('modal-loc').innerText = data.loc;
+            document.getElementById('modal-cat').innerText = data.cat;
+
+            menuTriggerContainer.classList.add('fab-hidden');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.add('flex');
+                modalPanel.classList.remove('modal-enter');
+                modalPanel.classList.add('modal-enter-active');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalPanel.classList.remove('modal-enter-active');
+            modalPanel.classList.add('modal-exit');
+            menuTriggerContainer.classList.remove('fab-hidden');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                modalPanel.classList.remove('modal-exit');
+                modalPanel.classList.add('modal-enter');
+            }, 200);
+        }
+
+        // --- MENU LOGIC ---
+        const assistiveMenu = document.getElementById('assistive-menu');
+        const assistivePanel = document.getElementById('assistive-menu-panel');
+        const triggerBtn = document.getElementById('menu-trigger');
+
+        function toggleMenu() {
+            if (assistiveMenu.classList.contains('hidden')) {
+                assistiveMenu.classList.remove('hidden');
+                assistiveMenu.classList.add('flex');
+                triggerBtn.classList.add('scale-90', 'opacity-50'); 
+                setTimeout(() => {
+                    assistivePanel.classList.remove('menu-pop-enter');
+                    assistivePanel.classList.add('menu-pop-active');
+                }, 10);
+            } else {
+                assistivePanel.classList.remove('menu-pop-active');
+                assistivePanel.classList.add('menu-pop-exit');
+                triggerBtn.classList.remove('scale-90', 'opacity-50');
+                setTimeout(() => {
+                    assistiveMenu.classList.add('hidden');
+                    assistiveMenu.classList.remove('flex');
+                    assistivePanel.classList.remove('menu-pop-exit');
+                    assistivePanel.classList.add('menu-pop-enter');
+                }, 200);
+            }
+        }
+    </script>
+</body>
+</html>
