@@ -25,7 +25,7 @@ Translate the main visual elements from the `reference only` HTML into reusable 
 *   [x] Task: Create `Hero.tsx` component in `components/home/`. [2fd7636]
 *   [x] Task: Create `Directory.tsx` component for the directory listing in `components/home/`. [42161e8]
 *   [x] Task: Create `Marketplace.tsx` component for the marketplace section in `components/home/`. [2424c82]
-*   [ ] Task: Create `InfoDock.tsx` component in `components/home/`.
+*   [x] Task: Create `InfoDock.tsx` component in `components/home/`. [bb43361]
 *   [ ] Task: Create `Footer.tsx` component in `components/layout/`.
 *   [ ] Task: Conductor - User Manual Verification 'Migrate Core UI Components' (Protocol in workflow.md)
 
