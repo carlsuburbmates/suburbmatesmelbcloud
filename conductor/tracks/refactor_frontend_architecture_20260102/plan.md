@@ -35,7 +35,7 @@ Translate the main visual elements from the `reference only` HTML into reusable 
 Refactor navigation and modal interactions to strictly adhere to SSOT UI/UX patterns.
 
 *   [x] Task: Replace the floating action button with a Bottom Navigation Bar component in `components/layout/`. [51de533]
-*   [ ] Task: Create a generic `Modal.tsx` component in `components/ui/` for info dock content.
+*   [x] Task: Create a generic `Modal.tsx` component in `components/ui/` for info dock content. [f8bdf05]
 *   [ ] Task: Create a `StudioPageModal.tsx` component in `components/directory/` for the quick view.
 *   [ ] Task: Conductor - User Manual Verification 'Implement SSOT-Compliant Navigation and Modals' (Protocol in workflow.md)
 
