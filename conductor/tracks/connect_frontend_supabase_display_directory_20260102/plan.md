@@ -3,8 +3,8 @@
 ## Phase 1: Data Fetching Logic
 
 - [x] **Task:** Create the `lib/listings.ts` module. (47119ec)
-- [ ] **Task:** Implement a function within `lib/listings.ts` to fetch all creator listings from the Supabase `listings` table.
-- [ ] **Task:** Write unit tests for the data fetching function to ensure it correctly queries the database and returns the expected data.
+- [x] **Task:** Implement a function within `lib/listings.ts` to fetch all creator listings from the Supabase `listings` table. (0fd4065)
+- [x] **Task:** Write unit tests for the data fetching function to ensure it correctly queries the database and returns the expected data. (0fd4065)
 
 ## Phase 2: Frontend Integration
 
