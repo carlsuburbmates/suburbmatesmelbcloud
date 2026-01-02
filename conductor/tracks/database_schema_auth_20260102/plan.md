@@ -46,6 +46,6 @@ Enforce the "Middleman Truth" and data ownership via Row Level Security.
 Ensure end-to-end type safety and project-wide integration.
 
 *   [x] Task: Generate TypeScript types from remote Supabase schema into `types/supabase.ts`. [a6651cf]
-*   [ ] Task: Update existing components to use generated types.
+*   [x] Task: Update existing components to use generated types. [9b37723]
 *   [ ] Task: Perform final audit of enforcement state hooks for future automation.
 *   [ ] Task: Conductor - User Manual Verification 'Type Generation & Final Integration' (Protocol in workflow.md)
