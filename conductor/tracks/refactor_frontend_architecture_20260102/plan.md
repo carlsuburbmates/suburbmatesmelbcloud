@@ -23,7 +23,7 @@ Translate the main visual elements from the `reference only` HTML into reusable 
 
 *   [x] Task: Create `Header.tsx` component in `components/layout/`. [6fe8091]
 *   [x] Task: Create `Hero.tsx` component in `components/home/`. [2fd7636]
-*   [ ] Task: Create `Directory.tsx` component for the directory listing in `components/home/`.
+*   [x] Task: Create `Directory.tsx` component for the directory listing in `components/home/`. [42161e8]
 *   [ ] Task: Create `Marketplace.tsx` component for the marketplace section in `components/home/`.
 *   [ ] Task: Create `InfoDock.tsx` component in `components/home/`.
 *   [ ] Task: Create `Footer.tsx` component in `components/layout/`.
