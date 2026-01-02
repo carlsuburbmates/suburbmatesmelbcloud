@@ -21,7 +21,7 @@ Set up the foundational Next.js App Router project and integrate basic styling.
 ### Objective
 Translate the main visual elements from the `reference only` HTML into reusable React components.
 
-*   [ ] Task: Create `Header.tsx` component in `components/layout/`.
+*   [x] Task: Create `Header.tsx` component in `components/layout/`. [6fe8091]
 *   [ ] Task: Create `Hero.tsx` component in `components/home/`.
 *   [ ] Task: Create `Directory.tsx` component for the directory listing in `components/home/`.
 *   [ ] Task: Create `Marketplace.tsx` component for the marketplace section in `components/home/`.
