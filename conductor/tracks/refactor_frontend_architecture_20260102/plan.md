@@ -29,7 +29,7 @@ Translate the main visual elements from the `reference only` HTML into reusable 
 *   [x] Task: Create `Footer.tsx` component in `components/layout/`. [acfba3b]
 *   [x] Task: Conductor - User Manual Verification 'Migrate Core UI Components' (Protocol in workflow.md) [10d3390]
 
-## Phase 3: Implement SSOT-Compliant Navigation and Modals
+## Phase 3: Implement SSOT-Compliant Navigation and Modals [checkpoint: 72f5b1e]
 
 ### Objective
 Refactor navigation and modal interactions to strictly adhere to SSOT UI/UX patterns.
@@ -37,7 +37,7 @@ Refactor navigation and modal interactions to strictly adhere to SSOT UI/UX patt
 *   [x] Task: Replace the floating action button with a Bottom Navigation Bar component in `components/layout/`. [51de533]
 *   [x] Task: Create a generic `Modal.tsx` component in `components/ui/` for info dock content. [f8bdf05]
 *   [x] Task: Create a `StudioPageModal.tsx` component in `components/directory/` for the quick view. [040029b]
-*   [ ] Task: Conductor - User Manual Verification 'Implement SSOT-Compliant Navigation and Modals' (Protocol in workflow.md)
+*   [x] Task: Conductor - User Manual Verification 'Implement SSOT-Compliant Navigation and Modals' (Protocol in workflow.md) [72f5b1e]
 
 ## Phase 4: Terminological and Content Cleanup
 
