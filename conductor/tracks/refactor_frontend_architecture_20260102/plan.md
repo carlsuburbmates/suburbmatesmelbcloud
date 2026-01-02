@@ -44,6 +44,6 @@ Refactor navigation and modal interactions to strictly adhere to SSOT UI/UX patt
 ### Objective
 Perform a final audit and ensure all remaining terminology and hardcoded content aligns with SSOT.
 
-*   [ ] Task: Review all components for hardcoded strings and replace them with SSOT-compliant terminology.
-*   [ ] Task: Create a `constants.ts` file in `lib/` to store canonical strings.
+*   [~] Task: Review all components for hardcoded strings and replace them with SSOT-compliant terminology.
+*   [~] Task: Create a `constants.ts` file in `lib/` to store canonical strings.
 *   [ ] Task: Conductor - User Manual Verification 'Terminological and Content Cleanup' (Protocol in workflow.md)

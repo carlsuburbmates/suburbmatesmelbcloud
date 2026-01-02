@@ -1,5 +1,1 @@
-{
-  "general": {
-    "previewFeatures": true
-  }
-}
+{"security": {"disableYoloMode": false}}

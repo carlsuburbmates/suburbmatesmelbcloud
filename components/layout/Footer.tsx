@@ -1,14 +1,15 @@
 import React from 'react';
+import { SITE_CONFIG } from '@/lib/constants';
 
 const Footer = () => {
   return (
     <footer id="footer" className="bg-white border-t border-line px-6 py-8 pb-32">
       <div className="flex justify-between items-baseline mb-8">
         <h2 className="text-base font-medium text-ink">
-          SuburbMates<span className="text-gold">.</span>
+          {SITE_CONFIG.name}<span className="text-gold">.</span>
         </h2>
         <span className="text-[10px] text-ink-muted/60 uppercase tracking-widest">
-          &copy; 2026 Melb
+          {SITE_CONFIG.footer.copyright}
         </span>
       </div>
       <div className="grid grid-cols-2 gap-x-4 gap-y-6 mb-8">
@@ -17,13 +18,13 @@ const Footer = () => {
             Platform
           </span>
           <a
-            href="#"
+            href={SITE_CONFIG.links.directory}
             className="block text-xs text-ink hover:text-gold transition-colors"
           >
             Directory
           </a>
           <a
-            href="#"
+            href={SITE_CONFIG.links.marketplace}
             className="block text-xs text-ink hover:text-gold transition-colors"
           >
             Marketplace
@@ -76,7 +77,7 @@ const Footer = () => {
       </div>
       <div className="border-t border-line pt-4 space-y-1.5">
         <p className="text-[10px] text-ink-muted leading-tight text-left">
-          Products are sold by creators. SuburbMates is a discovery platform.
+          Products are sold by creators. {SITE_CONFIG.name} is a discovery platform.
         </p>
         <p className="text-[10px] text-ink-muted leading-tight text-left">
           Featured placements are paid. Not an endorsement.
