@@ -14,7 +14,7 @@ Define the foundational SQL structures and seed the canonical taxonomies.
 *   [x] Task: Create SQL migration for the `Listings` table with monetization and status fields. [799bf06]
 *   [x] Task: Create SQL migration for the `Products` table with tier-based constraint triggers. [571f75d]
 *   [x] Task: Create SQL migration for the `Featured Placement Queue` (FIFO logic). [5031f39]
-*   [ ] Task: Create SQL migration for `Profiles` including the 4-step enforcement ladder.
+*   [x] Task: Create SQL migration for `Profiles` including the 4-step enforcement ladder. [083051f]
 *   [ ] Task: Conductor - User Manual Verification 'Database Schema & Taxonomies' (Protocol in workflow.md)
 
 ## Phase 2: Authentication & User Provisioning
