@@ -16,7 +16,7 @@ Set up the foundational Next.js App Router project and integrate basic styling.
 *   [x] Task: Migrate global styles and Tailwind CSS configuration from `reference only` file to `styles/globals.css` and `tailwind.config.ts`. [6b47e2d]
 *   [x] Task: Conductor - User Manual Verification 'Establish Next.js Project Structure' (Protocol in workflow.md) [6c3667e]
 
-## Phase 2: Migrate Core UI Components
+## Phase 2: Migrate Core UI Components [checkpoint: 10d3390]
 
 ### Objective
 Translate the main visual elements from the `reference only` HTML into reusable React components.
@@ -27,7 +27,7 @@ Translate the main visual elements from the `reference only` HTML into reusable 
 *   [x] Task: Create `Marketplace.tsx` component for the marketplace section in `components/home/`. [2424c82]
 *   [x] Task: Create `InfoDock.tsx` component in `components/home/`. [bb43361]
 *   [x] Task: Create `Footer.tsx` component in `components/layout/`. [acfba3b]
-*   [ ] Task: Conductor - User Manual Verification 'Migrate Core UI Components' (Protocol in workflow.md)
+*   [x] Task: Conductor - User Manual Verification 'Migrate Core UI Components' (Protocol in workflow.md) [10d3390]
 
 ## Phase 3: Implement SSOT-Compliant Navigation and Modals
 
