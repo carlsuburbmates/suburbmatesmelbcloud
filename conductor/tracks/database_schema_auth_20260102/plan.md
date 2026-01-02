@@ -11,7 +11,7 @@ Establish core SQL schema, passwordless authentication, and automated enforcemen
 Define the foundational SQL structures and seed the canonical taxonomies.
 
 *   [x] Task: Create SQL migration for enums and categories (Business & Product). [7a6a168]
-*   [ ] Task: Create SQL migration for the `Listings` table with monetization and status fields.
+*   [x] Task: Create SQL migration for the `Listings` table with monetization and status fields. [799bf06]
 *   [ ] Task: Create SQL migration for the `Products` table with tier-based constraint triggers.
 *   [ ] Task: Create SQL migration for the `Featured Placement Queue` (FIFO logic).
 *   [ ] Task: Create SQL migration for `Profiles` including the 4-step enforcement ladder.
