@@ -17,7 +17,7 @@ Define the foundational SQL structures and seed the canonical taxonomies.
 *   [x] Task: Create SQL migration for `Profiles` including the 4-step enforcement ladder. [083051f]
 *   [x] Task: Conductor - User Manual Verification 'Database Schema & Taxonomies' (Protocol in workflow.md) [5558051]
 
-## Phase 2: Authentication & User Provisioning
+## Phase 2: Authentication & User Provisioning [checkpoint: 8ece04c]
 
 ### Objective
 Implement Magic Link auth and automatic profile creation.
@@ -27,7 +27,7 @@ Implement Magic Link auth and automatic profile creation.
 *   [x] Task: Implement database trigger for profile creation on Auth Sign-up. [bf200d6]
 *   [x] Task: Write tests for Magic Link sign-in logic. [8fc52e7]
 *   [x] Task: Implement Magic Link sign-in flow on the frontend (Auth components). [19d867b]
-*   [ ] Task: Conductor - User Manual Verification 'Authentication & User Provisioning' (Protocol in workflow.md)
+*   [x] Task: Conductor - User Manual Verification 'Authentication & User Provisioning' (Protocol in workflow.md) [8ece04c]
 
 ## Phase 3: RLS Policies & Security
 
