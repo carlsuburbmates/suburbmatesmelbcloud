@@ -1,19 +1,12 @@
 import React from 'react';
+import { Database } from '@/types/supabase';
 
-interface Creator {
-  id: string;
-  title: string;
-  desc: string;
-  img: string | null;
-  badge: string;
-  loc: string;
-  cat: string;
-}
+type Listing = Database['public']['Tables']['listings']['Row'];
 
 interface StudioPageModalProps {
   isOpen: boolean;
   onClose: () => void;
-  creator: Creator | null;
+  creator: Listing | null;
 }
 
 const StudioPageModal: React.FC<StudioPageModalProps> = ({ isOpen, onClose, creator }) => {
@@ -39,34 +32,38 @@ const StudioPageModal: React.FC<StudioPageModalProps> = ({ isOpen, onClose, crea
         </button>
         <div className="flex-1 overflow-y-auto hide-scrollbar relative bg-white pb-40">
           <div className="sticky top-0 z-0 h-64 w-full">
-            <img
-              src={creator.img || ''}
-              alt={creator.title}
-              className="w-full h-full object-cover"
-            />
+            {creator.id && (
+              <img
+                src={`https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=600`} // Placeholder for now
+                alt={creator.name}
+                className="w-full h-full object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div className="absolute bottom-6 left-6 right-6 text-white">
               <h3 className="text-3xl font-light leading-none mb-2 font-serif drop-shadow-md">
-                {creator.title}
+                {creator.name}
               </h3>
               <div className="flex items-center gap-2">
                 <span className="type-meta text-[9px] bg-white text-ink px-1.5 py-0.5 rounded shadow-sm">
-                  {creator.badge}
+                  {creator.tier}
                 </span>
-                <span className="type-meta text-[9px] flex items-center gap-1">
-                  <svg
-                    className="w-3 h-3 text-verified"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                  Verified
-                </span>
+                {creator.is_verified && (
+                  <span className="type-meta text-[9px] flex items-center gap-1">
+                    <svg
+                      className="w-3 h-3 text-verified"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    Verified
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -77,18 +74,18 @@ const StudioPageModal: React.FC<StudioPageModalProps> = ({ isOpen, onClose, crea
                 <span className="text-[10px] text-ink-muted uppercase tracking-widest block mb-1">
                   Location
                 </span>
-                <span className="text-sm text-ink font-medium">{creator.loc}</span>
+                <span className="text-sm text-ink font-medium">{creator.location}</span>
               </div>
               <div className="flex-1">
                 <span className="text-[10px] text-ink-muted uppercase tracking-widest block mb-1">
                   Category
                 </span>
-                <span className="text-sm text-ink font-medium">{creator.cat}</span>
+                <span className="text-sm text-ink font-medium">Digital Creator</span>
               </div>
             </div>
             <h4 className="type-meta text-xs text-ink mb-3">About the Studio</h4>
             <p className="text-base text-ink font-light leading-relaxed mb-8">
-              {creator.desc}
+              {creator.description}
             </p>
             <div className="mt-8 pt-8 border-t border-line text-center">
               <p className="text-[10px] text-ink-muted">Member since 2024 &bull; Melbourne</p>
