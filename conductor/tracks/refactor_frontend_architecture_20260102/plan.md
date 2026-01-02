@@ -39,11 +39,11 @@ Refactor navigation and modal interactions to strictly adhere to SSOT UI/UX patt
 *   [x] Task: Create a `StudioPageModal.tsx` component in `components/directory/` for the quick view. [040029b]
 *   [x] Task: Conductor - User Manual Verification 'Implement SSOT-Compliant Navigation and Modals' (Protocol in workflow.md) [72f5b1e]
 
-## Phase 4: Terminological and Content Cleanup
+## Phase 4: Terminological and Content Cleanup [checkpoint: 2666294]
 
 ### Objective
 Perform a final audit and ensure all remaining terminology and hardcoded content aligns with SSOT.
 
 *   [x] Task: Review all components for hardcoded strings and replace them with SSOT-compliant terminology. [9fa049f]
 *   [x] Task: Create a `constants.ts` file in `lib/` to store canonical strings. [9fa049f]
-*   [ ] Task: Conductor - User Manual Verification 'Terminological and Content Cleanup' (Protocol in workflow.md)
+*   [x] Task: Conductor - User Manual Verification 'Terminological and Content Cleanup' (Protocol in workflow.md) [2666294]
