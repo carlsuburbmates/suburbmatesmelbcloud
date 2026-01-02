@@ -36,7 +36,7 @@ Enforce the "Middleman Truth" and data ownership via Row Level Security.
 
 *   [x] Task: Write tests to verify public vs. creator vs. operator access levels. [b72cb56]
 *   [x] Task: Implement RLS policies for Listings (hiding delisted/suspended items). [840c2e7]
-*   [ ] Task: Implement RLS policies for Products (enforcing tier limits).
+*   [x] Task: Implement RLS policies for Products (enforcing tier limits). [ca510d6]
 *   [ ] Task: Create seed script for the initial `operator` user.
 *   [ ] Task: Conductor - User Manual Verification 'RLS Policies & Security' (Protocol in workflow.md)
 
