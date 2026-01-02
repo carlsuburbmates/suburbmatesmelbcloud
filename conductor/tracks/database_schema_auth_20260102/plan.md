@@ -40,12 +40,12 @@ Enforce the "Middleman Truth" and data ownership via Row Level Security.
 *   [x] Task: Create seed script for the initial `operator` user. [e209cf2]
 *   [x] Task: Conductor - User Manual Verification 'RLS Policies & Security' (Protocol in workflow.md) [7fe0ae9]
 
-## Phase 4: Type Generation & Final Integration
+## Phase 4: Type Generation & Final Integration [checkpoint: 4b78939]
 
 ### Objective
 Ensure end-to-end type safety and project-wide integration.
 
 *   [x] Task: Generate TypeScript types from remote Supabase schema into `types/supabase.ts`. [a6651cf]
 *   [x] Task: Update existing components to use generated types. [9b37723]
-*   [ ] Task: Perform final audit of enforcement state hooks for future automation.
-*   [ ] Task: Conductor - User Manual Verification 'Type Generation & Final Integration' (Protocol in workflow.md)
+*   [x] Task: Perform final audit of enforcement state hooks for future automation. [9e18da5]
+*   [x] Task: Conductor - User Manual Verification 'Type Generation & Final Integration' (Protocol in workflow.md) [4b78939]
