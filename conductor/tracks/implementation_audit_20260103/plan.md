@@ -6,7 +6,7 @@
 - [x] **Task:** Inspect all components in `components/*` to build the Component Inventory. (8f6f959)
 - [x] **Task:** Analyze component props, database types (`types/supabase.ts`), and data-fetching logic (`lib/listings.ts`) to identify all State Variables & Flags. (5c24172)
 - [x] **Task:** Extract all user-facing strings from components to create the UI Copy Extract and identify forbidden term violations. (da09207)
-- [ ] **Task:** Map the `onClick` and `href` logic in components to document the State/Flow Behavior for listings, products, and other user interactions.
+- [x] **Task:** Map the `onClick` and `href` logic in components to document the State/Flow Behavior for listings, products, and other user interactions. (94e04ae)
 - [ ] **Task:** Read all specified `docs/SSOT/*` documents to build a matrix of requirements.
 - [ ] **Task:** Conductor - User Manual Verification 'Code and Document Analysis' (Protocol in workflow.md)
 
