@@ -8,7 +8,7 @@
 
 ## Phase 2: Frontend Integration
 
-- [ ] **Task:** Update the main directory page (`app/(home)/page.tsx`) to use the new data fetching function from `lib/listings.ts`.
+- [x] **Task:** Update the main directory page (`app/(home)/page.tsx`) to use the new data fetching function from `lib/listings.ts`. (9d26948)
 - [ ] **Task:** Implement Incremental Static Regeneration (ISR) on the directory page with a 5-minute revalidation interval.
 - [ ] **Task:** Pass the fetched listings data as props to the `Directory.tsx` component.
 - [ ] **Task:** Write a unit test for the directory page to verify that it correctly fetches and passes the data.
