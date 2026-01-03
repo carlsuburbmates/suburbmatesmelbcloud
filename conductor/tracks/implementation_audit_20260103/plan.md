@@ -1,6 +1,6 @@
 # Implementation Plan: Evidence-based Implementation Audit
 
-## Phase 1: Code and Document Analysis
+## Phase 1: Code and Document Analysis [checkpoint: 8e59b9d]
 
 - [x] **Task:** Systematically inspect all `app/` routes to build the Route Inventory. (640f4a3)
 - [x] **Task:** Inspect all components in `components/*` to build the Component Inventory. (8f6f959)
