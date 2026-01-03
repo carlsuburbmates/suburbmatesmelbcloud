@@ -18,4 +18,4 @@
 - [x] **Task:** Update the `Directory.tsx` component to dynamically render a list of `ListingCard` components based on the received data. (284237b)
 - [x] **Task:** Update the `ListingCard` component to display the creator's name, category, location, and any applicable status indicators ("Featured", "Verified"). (f910fe7)
 - [x] **Task:** Write unit tests for the `Directory.tsx` and `ListingCard` components to ensure they render the data correctly. (284237b, f910fe7)
-- [ ] **Task:** Conductor - User Manual Verification 'UI Implementation' (Protocol in workflow.md)
+- [~] **Task:** Conductor - User Manual Verification 'UI Implementation' (Protocol in workflow.md)
