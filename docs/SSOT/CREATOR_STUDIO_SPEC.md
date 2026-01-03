@@ -56,6 +56,42 @@ No additional top-level sections may be introduced without updating this documen
 
 ---
 
+### 3A. Studio Lifecycle and Progression
+
+The Creator Studio MUST guide Creators through a clear lifecycle, from incomplete to pro-enabled. The UI MUST reflect the Creator's current stage and clearly indicate the next required action to progress. <!-- Satisfies Artifact #2 -->
+
+**Lifecycle Stages:**
+
+*   **S0: Incomplete**
+    *   **Definition:** The Creator has claimed a Listing but has not completed the minimum required fields for a public Studio Page.
+    *   **State:** The public Studio Page is not live. The Studio UI is focused on completing required information.
+
+*   **S1: Live (Basic)**
+    *   **Definition:** The Creator has filled all mandatory fields.
+    *   **State:** The public Studio Page is live. The Creator has access to all Basic features. The next action presented is to optimize their listing.
+
+*   **S2: Optimised** <!-- Resolves Blocker #4 -->
+    *   **Definition:** The Creator has met a deterministic set of criteria indicating their Studio is well-configured for public discovery and commerce.
+    *   **State:** The Creator is eligible to purchase "Featured Placement". The next action presented is to upgrade to Pro.
+    *   **S1 → S2 Gating Criteria:** A Studio automatically transitions to S2 ONLY IF all of the following criteria are met:
+        1.  A description/about section has been completed.
+        2.  At least one (1) Product has been published.
+        3.  A primary contact method (e.g., email or phone) has been set.
+        4.  The Creator has reviewed and confirmed their primary business category.
+        5.  The Creator has accepted the most recent platform policy acknowledgements.
+    *   **Computation:** Stage evaluation MUST be automatic based on the system checking the criteria above. It is NEVER a manual operator flag.
+    *   **Regression:** If a Creator modifies their Studio such that one or more of the S2 criteria are no longer met (e.g., by unpublishing all products), their stage MUST automatically regress to S1.
+
+*   **S3: Pro-enabled**
+    *   **Definition:** The Creator has upgraded to the Pro plan.
+    *   **State:** All Pro features, including the Mini-site editor and Share Kit, are unlocked.
+
+**Gating Rules:**
+
+*   **Featured Placement:** A Creator MUST NOT be able to purchase or activate a Featured Placement unless their Studio is in stage `S2: Optimised` or higher. <!-- Satisfies Artifact #2 -->
+
+---
+
 ## 4. Studio Sections (Behavioral Contract)
 
 ### 4.1 Overview

@@ -164,19 +164,35 @@ A curated public grouping of Listings and/or Products.
 
 4.1 Listing State Machine
 
-Listing (Unclaimed)
-        ↓ claim
-Listing (Claimed)
+A Listing can exist in several states, which control its visibility and interactivity.
 
-Listing (Unclaimed)
-	•	Appears in Directory
-	•	Card routes to Claim flow only
-	•	No public detail page
+**Core States:**
+*   `Unclaimed` → `Claimed`
 
-Listing (Claimed)
-	•	Owned by a Creator
-	•	Has an associated Studio
-	•	Public destination enabled
+**Operational States (for Claimed Listings):**
+*   `Live` (Default for Claimed)
+*   `Under Review`
+*   `Unavailable`
+
+**State Transitions & Rules:**
+
+*   **Listing (Unclaimed)**
+    *   Appears in Directory.
+    *   Card routes to the Claim flow ONLY.
+    *   Has no public detail page.
+
+*   **Listing (Claimed)**
+    *   Owned by a Creator and has an associated Studio.
+    *   Default status is `Live`.
+
+*   **`Listing.status` Field Contract:** <!-- Satisfies Artifact #1 -->
+    *   The `Listing.status` field is the source of truth for a Listing's public state.
+    *   All UI routing and component rendering MUST branch based on the value of this field.
+
+*   **Operational State Rules:** <!-- Satisfies Artifact #1 -->
+    *   **Live:** The default, fully interactive state. The public destination is enabled.
+    *   **Under Review:** An operational state used during Operator review. Cards in this state MUST be either hidden from public view or rendered in a disabled state. They MUST NOT be interactive.
+    *   **Unavailable:** An operational state indicating temporary or permanent deactivation. Cards in this state MUST be either hidden from public view or rendered in a disabled state. They MUST NOT be interactive.
 
 ⸻
 

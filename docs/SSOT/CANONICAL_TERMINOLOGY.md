@@ -151,6 +151,8 @@ Hard rule: Studio is never public.
 ### Card
 - A preview component.
 - Always links to a destination.
+- A Card MUST be interactive (i.e., it routes on click) unless its state explicitly requires it to be disabled (e.g., a Listing that is 'Under Review'). <!-- Satisfies Artifact #3 -->
+- A Card MUST be interactive (i.e., it routes on click) unless its state explicitly requires it to be disabled (e.g., a Listing that is 'Under Review'). <!-- Satisfies Artifact #3 -->
 - Types:
   - Listing card
   - Studio card
@@ -197,6 +199,10 @@ The following must never appear in public or creator-facing UI, specs, or copy:
 - admin (public)
 - tiered verification
 - managed marketplace
+- account <!-- Satisfies Artifact #1 -->
+- user account <!-- Satisfies Artifact #1 -->
+- account <!-- Satisfies Artifact #1 -->
+- user account <!-- Satisfies Artifact #1 -->
 
 These may exist internally in legacy code only, never in language.
 

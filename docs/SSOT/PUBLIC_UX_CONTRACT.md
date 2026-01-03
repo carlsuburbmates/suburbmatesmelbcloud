@@ -126,6 +126,7 @@ Definition:
 Rules:
 - Must always be labeled “Featured placement”
 - Must not appear indistinguishable from organic results
+- The disclosure ("Featured") MUST appear at the point of impression (e.g., on-card, via tooltip, or as inline microcopy) and MUST NOT be confined to a site-wide footer. <!-- Satisfies Artifact #3 -->
 - Must not override Truth UI language
 
 ---
@@ -138,6 +139,7 @@ Rules:
 - Independent of tier
 - Independent of Featured
 - Must clearly explain what is verified (identity, not quality)
+- The explanation of what is verified MUST be accessible on mobile devices (i.e., via a tap action, not hover-only). <!-- Satisfies Artifact #3 -->
 
 ---
 
@@ -153,6 +155,29 @@ Every product must clearly state:
 - SuburbMates does not handle fulfilment or refunds
 
 Ambiguity is considered a UX defect.
+
+---
+
+### 5.3 Product Cards <!-- Resolves Blocker #3 -->
+
+Product Cards are preview components used in public marketplace surfaces. They MUST adhere to the following contract to ensure consistency and clarity.
+
+**A) Mandatory Fields & Elements:**
+A Product Card MUST display the following information:
+*   **Thumbnail:** A visual representation of the product MAY be displayed.
+*   **Product Name:** The canonical name of the product.
+*   **Product Price:** The current price, including currency symbol.
+*   **Product Category:** The product's assigned category from the platform taxonomy.
+*   **Seller Line:** MUST be the exact label "Sold by [Creator]", where `[Creator]` is the public name of the seller. Tapping this element MUST route to the Creator's public Studio Page.
+*   **ABN Verified Badge:** The "ABN Verified" badge MUST be displayed ONLY IF the seller's Listing is verified.
+*   **Freshness Label:** A label indicating the last update time, formatted as "Updated [Month YYYY]" (e.g., "Updated January 2026"), derived from the `product.updated_at` timestamp.
+
+**B) Click Routing:**
+*   A tap on any part of the Product Card, excluding the Seller Line, MUST route to the canonical Product page.
+*   The canonical route for a Product page MUST be `/product/[id]`.
+
+**C) Disclosure Location:**
+*   The platform disclosure ("SuburbMates is a discovery platform. Purchases are fulfilled by the Creator.") MUST appear on the Product page. It MUST NOT appear on the Product Card itself.
 
 ---
 
