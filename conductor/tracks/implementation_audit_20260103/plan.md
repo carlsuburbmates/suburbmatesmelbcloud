@@ -16,7 +16,7 @@
 - [x] **Task:** Populate the "Route Inventory" section of the report. (d6a8ed0)
 - [x] **Task:** Populate the "Component Inventory" section of the report. (3a71ca6)
 - [x] **Task:** Populate the "Current State Variables & Flags" section of the report. (e7fbd80)
-- [ ] **Task:** Populate the "UI Copy Extract" and "FORBIDDEN TERM VIOLATIONS" sections of the report.
+- [x] **Task:** Populate the "UI Copy Extract" and "FORBIDDEN TERM VIOLATIONS" sections of the report. (03d18dd)
 - [ ] **Task:** Populate the "State/Flow Behavior" section, explicitly stating "NOT FOUND" where applicable.
 - [ ] **Task:** Cross-reference the analysis with the SSOT matrix to identify and document all gaps in the "Gaps vs SSOT" section.
 - [ ] **Task:** Review the complete report to ensure every claim is evidence-backed and no assumptions have been made.
