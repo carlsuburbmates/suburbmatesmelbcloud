@@ -36,6 +36,6 @@ describe('Home Page', () => {
 
     // Then
     expect(listings.getListings).toHaveBeenCalledOnce();
-    expect(Directory).toHaveBeenCalledWith({ listings: mockListings }, {});
+    expect(Directory.mock.calls[0][0]).toEqual({ listings: mockListings });
   });
 });

@@ -35,8 +35,8 @@ describe('Directory Component', () => {
     const listingCards = screen.getAllByTestId('listing-card');
     expect(listingCards).toHaveLength(2);
     expect(ListingCard).toHaveBeenCalledTimes(2);
-    expect(ListingCard).toHaveBeenCalledWith({ listing: mockListings[0] }, {});
-    expect(ListingCard).toHaveBeenCalledWith({ listing: mockListings[1] }, {});
+    expect(ListingCard.mock.calls[0][0]).toEqual({ listing: mockListings[0] });
+    expect(ListingCard.mock.calls[1][0]).toEqual({ listing: mockListings[1] });
   });
 
   it('should render a message when no listings are available', () => {

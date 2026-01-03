@@ -55,5 +55,20 @@ This document outlines the core technologies and libraries used in the SuburbMat
 
 ## 8. Localization & Content
 
+
+
 *   **Language:** Australian English (en-AU)
+
     *   **Rationale:** All user-facing content, including UI text, error messages, and documentation, must use Australian English to ensure consistency and cater to the primary target audience in Melbourne.
+
+
+
+## 9. Database & Automation Infrastructure
+
+
+
+*   **Schema Management:** SQL migrations located in `supabase/migrations/`.
+
+*   **Type Safety Automation:** `scripts/generate-types.sh` for generating TypeScript interfaces from the remote schema.
+
+*   **Enforcement States:** Pre-integrated fields in `profiles` for the 4-step automated escalation ladder (Warn, Delist, Suspend, Evict).

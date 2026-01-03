@@ -10,7 +10,7 @@ describe('ListingCard Component', () => {
   const baseListing = {
     id: '1',
     name: 'Test Studio',
-    category: 'Design',
+    category: { name: 'Design' },
     location: 'Melbourne',
     is_featured: false,
     is_verified: false,
