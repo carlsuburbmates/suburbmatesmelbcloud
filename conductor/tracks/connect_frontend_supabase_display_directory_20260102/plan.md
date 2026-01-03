@@ -6,7 +6,7 @@
 - [x] **Task:** Implement a function within `lib/listings.ts` to fetch all creator listings from the Supabase `listings` table. (0fd4065)
 - [x] **Task:** Write unit tests for the data fetching function to ensure it correctly queries the database and returns the expected data. (0fd4065)
 
-## Phase 2: Frontend Integration
+## Phase 2: Frontend Integration [checkpoint: 18f20c1]
 
 - [x] **Task:** Update the main directory page (`app/(home)/page.tsx`) to use the new data fetching function from `lib/listings.ts`. (9d26948)
 - [x] **Task:** Implement Incremental Static Regeneration (ISR) on the directory page with a 5-minute revalidation interval. (042883a)
