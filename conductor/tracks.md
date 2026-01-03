@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [~] Track: Connect Frontend to Supabase & Display Directory Data
+## [x] Track: Connect Frontend to Supabase & Display Directory Data
 *Link: [./conductor/tracks/connect_frontend_supabase_display_directory_20260102/](./conductor/tracks/connect_frontend_supabase_display_directory_20260102/)*
 
 ---
