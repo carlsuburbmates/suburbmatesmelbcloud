@@ -3,7 +3,7 @@
 ## Phase 1: Code and Document Analysis
 
 - [x] **Task:** Systematically inspect all `app/` routes to build the Route Inventory. (640f4a3)
-- [ ] **Task:** Inspect all components in `components/*` to build the Component Inventory.
+- [x] **Task:** Inspect all components in `components/*` to build the Component Inventory. (8f6f959)
 - [ ] **Task:** Analyze component props, database types (`types/supabase.ts`), and data-fetching logic (`lib/listings.ts`) to identify all State Variables & Flags.
 - [ ] **Task:** Extract all user-facing strings from components to create the UI Copy Extract and identify forbidden term violations.
 - [ ] **Task:** Map the `onClick` and `href` logic in components to document the State/Flow Behavior for listings, products, and other user interactions.
