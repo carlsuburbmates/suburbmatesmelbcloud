@@ -1,0 +1,9 @@
+{
+  "track_id": "implementation_audit_20260103",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-01-03T12:00:00Z",
+  "updated_at": "2026-01-03T12:00:00Z",
+  "description": "audit: TASK: Evidence-based Implementation Audit for SuburbMates (NO ASSUMPTIONS)",
+  "goal": "Produce an audit report that enumerates what is CURRENTLY implemented in code + SSOT docs, so we can generate three authoritative artifacts:\n1) State machine + UI copy table (states × pages × exact labels)\n2) Studio Dashboard progression logic (stage → allowed actions)\n3) Directory + Marketplace card contract (fields, states, disclosures)"
+}
