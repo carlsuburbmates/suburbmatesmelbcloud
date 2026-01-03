@@ -13,7 +13,7 @@
 ## Phase 2: Report Generation
 
 - [x] **Task:** Synthesize the findings from Phase 1 into a draft Markdown report. (c0dd75b)
-- [ ] **Task:** Populate the "Route Inventory" section of the report.
+- [x] **Task:** Populate the "Route Inventory" section of the report. (d6a8ed0)
 - [ ] **Task:** Populate the "Component Inventory" section of the report.
 - [ ] **Task:** Populate the "Current State Variables & Flags" section of the report.
 - [ ] **Task:** Populate the "UI Copy Extract" and "FORBIDDEN TERM VIOLATIONS" sections of the report.
