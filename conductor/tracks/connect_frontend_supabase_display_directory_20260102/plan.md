@@ -13,9 +13,9 @@
 - [x] **Task:** Pass the fetched listings data as props to the `Directory.tsx` component. (9d26948)
 - [x] **Task:** Write a unit test for the directory page to verify that it correctly fetches and passes the data. (9d26948)
 
-## Phase 3: UI Implementation [checkpoint: 917e655]
+## Phase 3: UI Implementation [checkpoint: bdf1584]
 
 - [x] **Task:** Update the `Directory.tsx` component to dynamically render a list of `ListingCard` components based on the received data. (284237b)
 - [x] **Task:** Update the `ListingCard` component to display the creator's name, category, location, and any applicable status indicators ("Featured", "Verified"). (f910fe7)
 - [x] **Task:** Write unit tests for the `Directory.tsx` and `ListingCard` components to ensure they render the data correctly. (284237b, f910fe7)
-- [~] **Task:** Conductor - User Manual Verification 'UI Implementation' (Protocol in workflow.md)
+- [x] **Task:** Conductor - User Manual Verification 'UI Implementation' (Protocol in workflow.md) (bdf1584)
