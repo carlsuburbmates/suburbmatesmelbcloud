@@ -1,0 +1,48 @@
+{
+  "categories": [
+    {
+      "type": "business",
+      "name": "Design & Creative"
+    },
+    {
+      "type": "business",
+      "name": "Media Creation"
+    },
+    {
+      "type": "business",
+      "name": "Marketing & Content"
+    },
+    {
+      "type": "business",
+      "name": "Technology & Automation"
+    },
+    {
+      "type": "business",
+      "name": "Education & Consulting"
+    },
+    {
+      "type": "product",
+      "name": "Templates & Systems"
+    },
+    {
+      "type": "product",
+      "name": "Design & Creative Assets"
+    },
+    {
+      "type": "product",
+      "name": "Media Assets"
+    },
+    {
+      "type": "product",
+      "name": "Education & Guides"
+    },
+    {
+      "type": "product",
+      "name": "Software & Tools"
+    },
+    {
+      "type": "product",
+      "name": "Other Digital Products"
+    }
+  ]
+}

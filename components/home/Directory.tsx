@@ -4,7 +4,7 @@ import { ListingCard } from './ListingCard';
 import type { Tables } from '@/types/supabase';
 
 interface DirectoryProps {
-  listings: Tables<'listings'>[];
+  listings: (Tables<'listings'> & { category: { name: string } | null })[];
 }
 
 const Directory = ({ listings }: DirectoryProps) => {

@@ -7,7 +7,7 @@ describe('Row Level Security (RLS) Policies', () => {
 
   beforeAll(async () => {
     // 1. Get a valid category id
-    const { data: catData } = await supabaseAdmin.from('business_categories').select('id').limit(1).single();
+    const { data: catData } = await supabaseAdmin.from('categories').select('id').eq('type', 'business').limit(1).single();
     
     // 2. Create a test listing using admin
     const { data: listingData, error: listingError } = await supabaseAdmin

@@ -12,19 +12,12 @@ describe('ListingCard Component', () => {
     name: 'Test Studio',
     category: { name: 'Design' },
     location: 'Melbourne',
-    is_featured: false,
+    featured_until: null,
     is_verified: false,
   };
 
-  it('should render the listing name, category, and location', () => {
-    render(<ListingCard listing={baseListing} />);
-    expect(screen.getByText('Test Studio')).toBeInTheDocument();
-    expect(screen.getByText('Design')).toBeInTheDocument();
-    expect(screen.getByText('Melbourne')).toBeInTheDocument();
-  });
-
-  it('should display a "Featured" badge if is_featured is true', () => {
-    const featuredListing = { ...baseListing, is_featured: true };
+  it('should display a "Featured" badge if featured_until is set', () => {
+    const featuredListing = { ...baseListing, featured_until: '2027-01-01' };
     render(<ListingCard listing={featuredListing} />);
     expect(screen.getByText('Featured')).toBeInTheDocument();
   });

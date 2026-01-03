@@ -5,16 +5,16 @@ import * as listings from '@/lib/listings';
 
 // Mock child components
 vi.mock('@/components/home/Hero', () => ({
-  Hero: () => <div>Hero Mock</div>,
+  default: () => <div>Hero Mock</div>,
 }));
 vi.mock('@/components/home/Directory', () => ({
-  Directory: vi.fn(() => <div>Directory Mock</div>),
+  default: vi.fn(() => <div>Directory Mock</div>),
 }));
 vi.mock('@/components/home/Marketplace', () => ({
-  Marketplace: () => <div>Marketplace Mock</div>,
+  default: () => <div>Marketplace Mock</div>,
 }));
 vi.mock('@/components/home/InfoDock', () => ({
-  InfoDock: () => <div>InfoDock Mock</div>,
+  default: () => <div>InfoDock Mock</div>,
 }));
 
 // Mock the listings library
@@ -28,7 +28,7 @@ describe('Home Page', () => {
       { id: '2', name: 'Test Studio 2', slug: 'test-studio-2' },
     ];
     vi.mocked(listings.getListings).mockResolvedValue(mockListings as any);
-    const { Directory } = await import('@/components/home/Directory');
+    const Directory = (await import('@/components/home/Directory')).default;
 
     // When
     const Page = await Home();

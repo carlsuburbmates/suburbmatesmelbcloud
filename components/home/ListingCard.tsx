@@ -11,7 +11,7 @@ export const ListingCard = ({ listing }: ListingCardProps) => {
       <p className="text-sm text-ink-muted">{listing.category?.name}</p>
       <p className="text-sm text-ink-muted">{listing.location}</p>
       <div className="flex gap-2 mt-2">
-        {listing.is_featured && (
+        {listing.featured_until && (
           <span className="text-xs font-semibold bg-gold text-white px-2 py-1 rounded-full">
             Featured
           </span>
