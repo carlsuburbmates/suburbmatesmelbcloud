@@ -15,7 +15,7 @@
 
 ## Phase 3: UI Implementation
 
-- [ ] **Task:** Update the `Directory.tsx` component to dynamically render a list of `ListingCard` components based on the received data.
+- [x] **Task:** Update the `Directory.tsx` component to dynamically render a list of `ListingCard` components based on the received data. (284237b)
 - [ ] **Task:** Update the `ListingCard` component to display the creator's name, category, location, and any applicable status indicators ("Featured", "Verified").
 - [ ] **Task:** Write unit tests for the `Directory.tsx` and `ListingCard` components to ensure they render the data correctly.
 - [ ] **Task:** Conductor - User Manual Verification 'UI Implementation' (Protocol in workflow.md)
