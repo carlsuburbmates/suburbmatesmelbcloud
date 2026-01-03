@@ -1,23 +1,20 @@
-import Header from '@/components/layout/Header';
-import Hero from '@/components/home/Hero';
-import Directory from '@/components/home/Directory';
-import Marketplace from '@/components/home/Marketplace';
-import InfoDock from '@/components/home/InfoDock';
-import Footer from '@/components/layout/Footer';
-import BottomNavBar from '@/components/layout/BottomNavBar';
+import { Hero } from '@/components/home/Hero';
+import { Directory } from '@/components/home/Directory';
+import { Marketplace } from '@/components/home/Marketplace';
+import { InfoDock } from '@/components/home/InfoDock';
+import { getListings } from '@/lib/listings';
 
-export default function Home() {
+export default async function Home() {
+  const listings = await getListings();
+
   return (
     <>
-      <Header />
       <main className="pb-16">
         <Hero />
-        <Directory />
+        <Directory listings={listings} />
         <Marketplace />
         <InfoDock />
       </main>
-      <Footer />
-      <BottomNavBar />
     </>
   );
 }
