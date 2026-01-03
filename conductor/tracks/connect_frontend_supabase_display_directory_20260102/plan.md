@@ -10,7 +10,7 @@
 
 - [x] **Task:** Update the main directory page (`app/(home)/page.tsx`) to use the new data fetching function from `lib/listings.ts`. (9d26948)
 - [x] **Task:** Implement Incremental Static Regeneration (ISR) on the directory page with a 5-minute revalidation interval. (042883a)
-- [ ] **Task:** Pass the fetched listings data as props to the `Directory.tsx` component.
+- [x] **Task:** Pass the fetched listings data as props to the `Directory.tsx` component. (9d26948)
 - [ ] **Task:** Write a unit test for the directory page to verify that it correctly fetches and passes the data.
 
 ## Phase 3: UI Implementation
