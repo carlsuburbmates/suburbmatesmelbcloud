@@ -1,3 +1,5 @@
+NON-AUTHORITATIVE: For implementation, defer to docs/SSOT/**.
+
 **SuburbMates Melbourne** is a localized, mobile-first "Directory + Marketplace" designed to connect digital creators with local buyers. It operates on a strict "Middleman Truth" architecture, acting as a high-trust discovery layer rather than a merchant of record, and is governed by a "Premium Minimalism" design constitution that rejects generic AI templates in favor of editorial craft.
 
 Here is the comprehensive synthesis of the platform’s logic, taxonomy, and operational rules.

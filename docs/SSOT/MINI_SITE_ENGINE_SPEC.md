@@ -10,7 +10,7 @@ Change Rule: Any change requires distribution-impact and downgrade-safety review
 
 ## 1. Purpose
 
-This document defines the Mini-Site Engine as a mode of the public Studio page unlocked by Pro.
+Pro features are unlocked upon upgrade to the S3 Pro-enabled stage. See docs/SSOT/CREATOR_STUDIO_SPEC.md for lifecycle details.
 
 It exists to:
 - Deliver a share-first, conversion-ready public page

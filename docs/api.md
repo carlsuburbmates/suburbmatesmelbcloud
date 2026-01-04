@@ -1,3 +1,5 @@
+NON-AUTHORITATIVE: For implementation, defer to docs/SSOT/**.
+
 # API Documentation
 
 This document describes the API for the SuburbMates Melbourne platform.
