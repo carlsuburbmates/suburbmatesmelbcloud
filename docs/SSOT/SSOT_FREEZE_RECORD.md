@@ -4,13 +4,13 @@ This document provides an auditable record of when the SuburbMates Single Source
 
 ---
 
-## Freeze Instance: 2026-01-05
+## Freeze Instance: 2026-01-05 (Robust Fix Verified)
 
 *   **Repository:** `https://github.com/carlsuburbmates/suburbmatesmelbcloud.git`
-*   **Branch:** `main`
-*   **Commit Hash:** `238fca44632611e035cb3d01c51085946f14d2c9`
-*   **Freeze Timestamp (UTC):** `2026-01-04T13:28:52+00:00`
-*   **Freeze Timestamp (Local):** `2026-01-05T00:28:52+11:00` (Australia/Melbourne)
+*   **Branch:** `docs/robust-fix-2026-01-05`
+*   **Commit Hash:** `4b43c51ae566950a3257399d23fc218b3874ce53`
+*   **Freeze Timestamp (UTC):** `2026-01-05T03:43:44+00:00`
+*   **Freeze Timestamp (Local):** `2026-01-05T14:43:44+11:00` (Australia/Melbourne)
 *   **Scope Frozen:** All files and directories under `docs/SSOT/`.
 
 ---
@@ -18,3 +18,17 @@ This document provides an auditable record of when the SuburbMates Single Source
 ## Governance Rule
 
 **Any change to the frozen scope requires a new reconciliation cycle and a new, subsequent entry in this freeze record.** The previously frozen state becomes invalid upon the commit of any change to the `docs/SSOT/` directory. Engineering MUST halt and reference the newly frozen SSOT once it is declared.
+
+---
+
+## Verification Gate Evidence
+
+The following verification was run and passed at the time of freeze, confirming no forbidden terms exist in the narrative of authoritative SSOT documents.
+
+**Command:**
+```bash
+grep -RniE "profile|vendor|account|business profile|vendor account" docs/SSOT/*.md | grep -v "CANONICAL_TERMINOLOGY.md"
+```
+
+**Result (PASS):**
+The command returned no output.

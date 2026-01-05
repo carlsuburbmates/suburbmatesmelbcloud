@@ -249,7 +249,7 @@ The following are explicitly out of scope:
 - Refund handling
 - Dispute arbitration
 - White-label storefronts
-- Multi-vendor cart ownership
+- Multi-Creator cart ownership
 
 Requests in these areas should be rejected by default.
 

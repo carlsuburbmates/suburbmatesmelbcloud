@@ -6,14 +6,14 @@ Here is the comprehensive synthesis of the platform’s logic, taxonomy, and ope
 
 ### 1. Core Identity and Trust Architecture
 *   **The "Mall" Model:** The platform functions as a venue. It aggregates listings and facilitates discovery, but the transaction contract is strictly between the Buyer and the Creator. Every product page must explicitly state: "Sold by [Creator]. Payments processed by Stripe",,.
-*   **No Fake Signals:** The design forbids "fake scale" metrics (e.g., "trusted by thousands") or artificial urgency. "Alive" is defined by real data freshness (new drops, updated profiles), not by decorative motion or carousels,,.
+*   **No Fake Signals:** The design forbids "fake scale" metrics (e.g., "trusted by thousands") or artificial urgency. "Alive" is defined by real data freshness (new drops, updated Studio Pages), not by decorative motion or carousels,,.
 *   **Support Pathways:** To enforce the middleman role, support is split into two distinct lanes:
     1.  **"Get help with this purchase":** Routes directly to the Creator,.
     2.  **"Report a platform concern":** Routes to the Admin for fraud, scams, or policy enforcement,.
 
 ### 2. The Two-Domain Taxonomy
 To prevent data pollution, the platform enforces a strict separation between **Business** entities and **Product** inventory.
-*   **Business Domain (The Directory):** Uses exactly **16 Business Categories**. These act as hard filters for Studios and Unclaimed Listings. A business profile cannot use a product category,.
+*   **Business Domain (The Directory):** Uses exactly **16 Business Categories**. These act as hard filters for Studios and Unclaimed Listings. A Listing cannot use a product category,.
 *   **Product Domain (The Marketplace):** Uses a separate "digital product seed set." These categories apply only to the items sold by creators,.
 *   **Cross-Contamination Ban:** You must never mix these domains. An unclaimed listing cannot sell products, and a product cannot be labeled with a business category (e.g., "Plumber"),.
 
@@ -34,11 +34,11 @@ The platform uses a deterministic sorting logic to ensure fairness and search in
 
 ### 5. Design Constitution: Premium Minimalism
 *   **Visual Strategy:** The UI relies on "bold minimalism"—editorial typography, precise spacing, and high-quality imagery—rather than ornamentation. It avoids "stock-hero" patterns (gradient blobs) and excessive glassmorphism,,.
-*   **Mobile-First Ergonomics:** The core loop uses thumb-friendly bottom navigation. Filters must open as a **bottom sheet**, not a sidebar. Primary actions on profiles (Save, Share, Shop) must be sticky,,.
+*   **Mobile-First Ergonomics:** The core loop uses thumb-friendly bottom navigation. Filters must open as a **bottom sheet**, not a sidebar. Primary actions on Studio Pages (Save, Share, Shop) must be sticky,,.
 *   **Mixed Collections:** When curating Studios and Products together, they must be separated into two distinct sections (via a toggle or divider) and never interleaved in a single list to preserve domain clarity,,.
 
 ### 6. Creator Mini-Sites
-Creator profiles are designed to function as standalone portfolios ("Mini-sites") rather than social network profiles.
+Creator public pages are designed to function as standalone portfolios ("Mini-sites") rather than social network pages.
 *   **Structure:** Strict hierarchy of Identity → Proof (Portfolio) → Action (Shop/Contact).
 *   **Templates:** Basic users get the Standard template; Pro users get the HighEnd template ("Pro Mini-site"). Switching templates changes layout but never hides core content,.
 
