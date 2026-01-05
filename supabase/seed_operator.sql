@@ -6,13 +6,13 @@ DO $$
 DECLARE
   target_email TEXT := 'admin@suburbmates.au'; -- REPLACE THIS
 BEGIN
-  UPDATE public.profiles
+  UPDATE public.actors
   SET role = 'operator'
   WHERE email = target_email;
 
   IF FOUND THEN
     RAISE NOTICE 'User % has been promoted to operator.', target_email;
   ELSE
-    RAISE WARNING 'User % not found in public.profiles. Ensure you have signed up first.', target_email;
+    RAISE WARNING 'User % not found in public.actors. Ensure you have signed up first.', target_email;
   END IF;
 END $$;

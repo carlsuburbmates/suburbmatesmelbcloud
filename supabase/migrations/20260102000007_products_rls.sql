@@ -7,11 +7,11 @@ CREATE POLICY "Public select non-restricted products" ON products
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.listings
-      JOIN public.profiles ON profiles.id = listings.owner_id
+      JOIN public.actors ON actors.id = listings.owner_id
       WHERE listings.id = products.listing_id
-      AND profiles.is_delisted = FALSE
-      AND profiles.is_suspended = FALSE
-      AND profiles.is_evicted = FALSE
+      AND actors.is_delisted = FALSE
+      AND actors.is_suspended = FALSE
+      AND actors.is_evicted = FALSE
     )
   );
 

@@ -7,13 +7,84 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.1"
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
   public: {
     Tables: {
+      actors: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          evicted_at: string | null
+          full_name: string | null
+          id: string
+          is_delisted: boolean
+          is_evicted: boolean
+          is_suspended: boolean
+          role: Database["public"]["Enums"]["app_role"]
+          suspended_until: string | null
+          updated_at: string
+          violation_log: Json
+          warning_count: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          evicted_at?: string | null
+          full_name?: string | null
+          id: string
+          is_delisted?: boolean
+          is_evicted?: boolean
+          is_suspended?: boolean
+          role?: Database["public"]["Enums"]["app_role"]
+          suspended_until?: string | null
+          updated_at?: string
+          violation_log?: Json
+          warning_count?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          evicted_at?: string | null
+          full_name?: string | null
+          id?: string
+          is_delisted?: boolean
+          is_evicted?: boolean
+          is_suspended?: boolean
+          role?: Database["public"]["Enums"]["app_role"]
+          suspended_until?: string | null
+          updated_at?: string
+          violation_log?: Json
+          warning_count?: number
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           id: string
@@ -102,7 +173,7 @@ export type Database = {
       }
       listings: {
         Row: {
-          category_id: string | null
+          category_id: string
           created_at: string
           description: string | null
           featured_until: string | null
@@ -116,7 +187,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          category_id?: string | null
+          category_id: string
           created_at?: string
           description?: string | null
           featured_until?: string | null
@@ -130,7 +201,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          category_id?: string | null
+          category_id?: string
           created_at?: string
           description?: string | null
           featured_until?: string | null
@@ -185,7 +256,7 @@ export type Database = {
       }
       products: {
         Row: {
-          category_id: string | null
+          category_id: string
           created_at: string
           description: string | null
           id: string
@@ -195,7 +266,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          category_id?: string | null
+          category_id: string
           created_at?: string
           description?: string | null
           id?: string
@@ -205,7 +276,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          category_id?: string | null
+          category_id?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -230,57 +301,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      profiles: {
-        Row: {
-          avatar_url: string | null
-          created_at: string
-          email: string | null
-          evicted_at: string | null
-          full_name: string | null
-          id: string
-          is_delisted: boolean
-          is_evicted: boolean
-          is_suspended: boolean
-          role: Database["public"]["Enums"]["app_role"]
-          suspended_until: string | null
-          updated_at: string
-          violation_log: Json
-          warning_count: number
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          email?: string | null
-          evicted_at?: string | null
-          full_name?: string | null
-          id: string
-          is_delisted?: boolean
-          is_evicted?: boolean
-          is_suspended?: boolean
-          role?: Database["public"]["Enums"]["app_role"]
-          suspended_until?: string | null
-          updated_at?: string
-          violation_log?: Json
-          warning_count?: number
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string
-          email?: string | null
-          evicted_at?: string | null
-          full_name?: string | null
-          id?: string
-          is_delisted?: boolean
-          is_evicted?: boolean
-          is_suspended?: boolean
-          role?: Database["public"]["Enums"]["app_role"]
-          suspended_until?: string | null
-          updated_at?: string
-          violation_log?: Json
-          warning_count?: number
-        }
-        Relationships: []
       }
       tags: {
         Row: {
@@ -441,6 +461,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       app_role: ["visitor", "creator", "operator"],
@@ -450,3 +473,4 @@ export const Constants = {
     },
   },
 } as const
+

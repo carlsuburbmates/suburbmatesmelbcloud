@@ -8,6 +8,6 @@ export const SITE_CONFIG = {
     home: '/',
     directory: '/directory',
     marketplace: '/marketplace',
-    account: '/account',
+    studio: '/studio',
   },
 };

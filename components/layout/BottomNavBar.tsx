@@ -13,8 +13,8 @@ const BottomNavBar = () => {
       <a href={SITE_CONFIG.links.marketplace} className="type-meta text-xs text-ink hover:text-gold transition-colors">
         Marketplace
       </a>
-      <a href={SITE_CONFIG.links.account} className="type-meta text-xs text-ink hover:text-gold transition-colors">
-        Account
+      <a href={SITE_CONFIG.links.studio} className="type-meta text-xs text-ink hover:text-gold transition-colors">
+        Studio
       </a>
     </nav>
   );

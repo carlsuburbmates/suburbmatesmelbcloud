@@ -1,8 +1,8 @@
--- Trigger function to create a profile for new users
+-- Trigger function to create an actor for new users
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, full_name, avatar_url, role)
+  INSERT INTO public.actors (id, email, full_name, avatar_url, role)
   VALUES (
     NEW.id,
     NEW.email,

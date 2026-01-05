@@ -1,44 +1,45 @@
-import { describe, it, expect, beforeAll } from 'vitest';
-import { supabaseAdmin } from '../../lib/supabase-admin';
+/* eslint-disable no-undef */
+import {
+  beforeAll, describe, it, expect,
+} from 'vitest';
+import { signUpUser, supabaseAdmin } from './utils';
 
-describe('User Profile Auto-creation Trigger', () => {
-  const testEmail = `test-${Math.random()}@example.com`;
-  const testPassword = 'password123';
-  let userId: string;
+describe('User Actor Auto-creation Trigger', () => {
+  let user;
+  let testEmail;
 
   beforeAll(async () => {
-    // Cleanup if needed (rare case)
-  });
-
-  it('should create a profile record when a new user signs up', async () => {
-    // 1. Create user in auth schema
-    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
-      email: testEmail,
-      password: testPassword,
-      email_confirm: true
-    });
-
-    if (authError) throw authError;
-    userId = authData.user.id;
-
-    // 2. Check if profile exists in public schema
-    // This is expected to fail (returning no rows) until the trigger is implemented
-    const { data: profileData, error: profileError } = await supabaseAdmin
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
-
-    if (profileError && profileError.code !== 'PGRST116') {
-        // PGRST116 is 'no rows found' for single()
-        throw profileError;
+    // Generate a random email for each test run
+    testEmail = `testuser_${Date.now()}@example.com`;
+    // Sign up a new user
+    const { data, error } = await signUpUser(testEmail);
+    if (error) {
+      throw new Error(`User sign-up failed: ${error.message}`);
     }
-
-    expect(profileData).toBeDefined();
-    expect(profileData?.email).toBe(testEmail);
-    expect(profileData?.role).toBe('visitor');
+    user = data.user;
   });
 
-  // Cleanup after test
-  // NOTE: In a real environment, we'd delete the user.
+  it('should create an actor record when a new user signs up', async () => {
+    expect(user).toBeDefined();
+
+    // 2. Check if actor exists in public schema
+    try {
+      const { data: actorData, error: actorError } = await supabaseAdmin
+        .from('actors')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (actorError && actorError.code !== 'PGRST116') { // PGRST116: "exact one row expected, but 0 rows were found"
+        throw actorError;
+      }
+
+      expect(actorData).toBeDefined();
+      expect(actorData?.email).toBe(testEmail);
+      expect(actorData?.role).toBe('visitor');
+    } catch (e) {
+      // Re-throw the error with more context for easier debugging
+      throw new Error(`Error querying for new actor: ${e.message}`);
+    }
+  });
 });

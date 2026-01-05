@@ -2,7 +2,7 @@
 CREATE OR REPLACE FUNCTION public.get_my_role()
 RETURNS app_role AS $$
 BEGIN
-  RETURN (SELECT role FROM public.profiles WHERE id = auth.uid());
+  RETURN (SELECT role FROM public.actors WHERE id = auth.uid());
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;
 
@@ -16,11 +16,11 @@ CREATE POLICY "Public select non-restricted listings" ON listings
   FOR SELECT USING (
     owner_id IS NULL OR
     EXISTS (
-      SELECT 1 FROM public.profiles
-      WHERE profiles.id = listings.owner_id
-      AND profiles.is_delisted = FALSE
-      AND profiles.is_suspended = FALSE
-      AND profiles.is_evicted = FALSE
+      SELECT 1 FROM public.actors
+      WHERE actors.id = listings.owner_id
+      AND actors.is_delisted = FALSE
+      AND actors.is_suspended = FALSE
+      AND actors.is_evicted = FALSE
     )
   );
 

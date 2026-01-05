@@ -4,8 +4,8 @@
 
 PROJECT_ID="nhkmhgbbbcgfbudszfqj"
 
-echo "Generating types for project $PROJECT_ID..."
-npx supabase gen types typescript --project-id "$PROJECT_ID" > types/supabase.ts
+echo "Generating types from local database..."
+npx supabase gen types typescript --local > types/supabase.ts
 
 if [ $? -eq 0 ]; then
   echo "Types generated successfully in types/supabase.ts"
