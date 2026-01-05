@@ -63,7 +63,7 @@ Color Authority
 - System enforces contrast automatically
 
 Layout Toggles
-- Hero style (Cover vs Profile-focus)
+- Hero style (Cover vs Creator-focus)
 - Product display (Grid vs List)
 - Density (Comfortable vs Compact)
 

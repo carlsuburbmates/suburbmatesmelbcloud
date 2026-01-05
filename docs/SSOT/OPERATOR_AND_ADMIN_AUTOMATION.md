@@ -120,7 +120,7 @@ It does not exist to resolve commercial disputes.
    - Logged
 
 4. Evict
-   - Account termination
+   - Access termination
    - Final action
    - Human-confirmed only
 

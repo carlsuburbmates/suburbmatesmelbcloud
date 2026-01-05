@@ -8,15 +8,19 @@ This document describes the API for the SuburbMates Melbourne platform.
 
 All API endpoints that require authentication expect a valid JWT token in the `Authorization` header, as provided by Supabase Auth.
 
-## Businesses
+## Conceptual Endpoints (Not Implemented)
 
-### GET /api/businesses
+The following endpoints are conceptual and do not reflect the current implementation. For the authoritative data model, see `docs/SSOT/USER_MODEL_AND_STATE_MACHINE.md`.
 
-Returns a list of businesses, sorted by the platform's ranking contract.
+## Listings
+
+### GET /api/listings
+
+Returns a list of listings, sorted by the platform's ranking contract.
 
 **Query Parameters:**
 
-*   `categoryId` (optional): `number` - Filter businesses by category ID.
+*   `categoryId` (optional): `number` - Filter listings by category ID.
 *   `page` (optional): `number` - The page number for pagination (default: 1).
 *   `pageSize` (optional): `number` - The number of items per page (default: 10).
 
@@ -29,8 +33,8 @@ Returns a list of businesses, sorted by the platform's ranking contract.
     "name": "string",
     "description": "string",
     "category_id": "number",
-    "owner_id": "uuid",
-    "is_claimed": "boolean",
+    "creator_id": "uuid", // Formerly owner_id
+    "status": "string", // e.g., 'Unclaimed', 'Live', 'Under Review'
     "is_verified": "boolean",
     "tier": "string",
     "featured_until": "timestamp",
@@ -40,9 +44,9 @@ Returns a list of businesses, sorted by the platform's ranking contract.
 ]
 ```
 
-### POST /api/businesses
+### POST /api/listings
 
-Creates a new business. Requires authentication.
+Creates a new listing. Requires authentication.
 
 **Request Body:**
 
@@ -54,24 +58,6 @@ Creates a new business. Requires authentication.
 }
 ```
 
-**Response (201 Created):**
-
-```json
-{
-  "id": "uuid",
-  "name": "string",
-  "description": "string",
-  "category_id": "number",
-  "owner_id": "uuid",
-  "is_claimed": true,
-  "is_verified": false,
-  "tier": "Basic",
-  "featured_until": null,
-  "created_at": "timestamp",
-  "updated_at": "timestamp"
-}
-```
-
 ## Products
 
 ### GET /api/products
@@ -80,7 +66,7 @@ Returns a list of products.
 
 **Query Parameters:**
 
-*   `businessId` (optional): `string` - Filter products by business ID.
+*   `listingId` (optional): `string` - Filter products by listing ID.
 *   `page` (optional): `number` - The page number for pagination (default: 1).
 *   `pageSize` (optional): `number` - The number of items per page (default: 10).
 
@@ -94,72 +80,20 @@ Returns a list of products.
     "description": "string",
     "price": "number",
     "category_id": "number",
-    "business_id": "uuid",
+    "listing_id": "uuid", // Formerly business_id
     "created_at": "timestamp",
     "updated_at": "timestamp"
   }
 ]
 ```
 
-### POST /api/products
-
-Creates a new product. Requires authentication.
-
-**Request Body:**
-
-```json
-{
-  "name": "string",
-  "description": "string" (optional),
-  "price": "number",
-  "category_id": "number",
-  "business_id": "uuid"
-}
-```
-
-**Response (201 Created):**
-
-```json
-{
-  "id": "uuid",
-  "name": "string",
-  "description": "string",
-  "price": "number",
-  "category_id": "number",
-  "business_id": "uuid",
-  "created_at": "timestamp",
-  "updated_at": "timestamp"
-}
-```
-
 ## Categories
 
-### GET /api/business-categories
+### GET /api/listing-categories
 
-Returns a list of all business categories.
-
-**Response (200 OK):**
-
-```json
-[
-  {
-    "id": "number",
-    "name": "string"
-  }
-]
-```
+Returns a list of all listing categories.
 
 ### GET /api/product-categories
 
 Returns a list of all product categories.
 
-**Response (200 OK):**
-
-```json
-[
-  {
-    "id": "number",
-    "name": "string"
-  }
-]
-```

@@ -18,7 +18,7 @@ This document defines:
 	•	What permissions unlock at each state
 
 It prevents:
-	•	Role confusion (e.g. “users vs vendors vs admins”)
+	•       Role confusion (e.g. “Customer vs Creator vs Operator”)
 	•	UX leaks (showing actions that aren’t valid yet)
 	•	Automation bugs caused by ambiguous states
 
@@ -121,7 +121,7 @@ Definition:
 The private workspace associated with a claimed Listing.
 
 Exists when:
-A Listing is claimed and a Creator account is created.
+A Listing is claimed and a Creator is registered.
 
 Contains:
 	•	Business information
@@ -198,7 +198,7 @@ A Listing can exist in several states, which control its visibility and interact
 
 4.2 Creator State Machine
 
-No Account
+Not Registered
    ↓ register during claim
 Creator (Basic)
    ↓ upgrade
