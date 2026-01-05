@@ -160,9 +160,60 @@ A curated public grouping of Listings and/or Products.
 
 ⸻
 
-4. State Machines
+4. Core User Lifecycle Workflows
 
-4.1 Listing State Machine
+This section defines the standard, deterministic workflows for user account management.
+
+4.1 User Registration & Onboarding
+
+This workflow describes how a `Visitor` becomes a registered user, enabling them to become a `Creator` by claiming a listing.
+
+1.  **Initiation:** The user provides a valid email address and a secure password.
+2.  **Verification:** The system sends a verification email containing a unique, single-use link to the provided address.
+3.  **Confirmation:** The user must click the verification link to confirm ownership of the email address.
+4.  **Completion:** Once confirmed, the user is considered registered. They can now log in and begin the Listing Claim process to become a `Creator`.
+
+4.2 User Authentication (Login)
+
+This workflow describes how a registered user signs in.
+
+1.  **Credentials:** The user provides their registered email address and password.
+2.  **Validation:** The system validates the credentials against the stored user data.
+3.  **Session:** Upon success, the system issues a JWT to manage the user's session, consistent with Supabase Auth standards.
+4.  **Failure:** Upon failure, a generic "Invalid credentials" error is displayed.
+
+4.3 Password Reset
+
+This workflow is for registered users who have forgotten their password.
+
+1.  **Initiation:** The user provides their registered email address on the "Forgot Password" page.
+2.  **Token Generation:** The system generates a unique, time-sensitive password reset token and sends it to the user's email address.
+3.  **Redirection:** The user clicks the link in the email, which directs them to a secure page to set a new password.
+4.  **Completion:** The user enters and confirms a new password. Upon submission, the old password is invalidated, and the new password becomes active.
+
+4.4 Creator Offboarding (Account Deactivation)
+
+This workflow defines how a `Creator` can deactivate their account.
+
+1.  **Initiation:** The `Creator` navigates to their Studio settings and requests deactivation.
+2.  **Confirmation:** The user must confirm this action through a modal dialog that clearly explains the consequences.
+3.  **Execution (Non-Destructive):**
+    *   The `Creator` user account is marked as `inactive` and can no longer be logged into.
+    *   The associated `Listing` reverts to the `Unclaimed` state and remains in the directory.
+    *   All `Products` owned by the `Creator` are marked as `archived` or `inactive` and are no longer visible or for sale in the marketplace.
+    *   This process is a soft-delete to preserve community data and allow for potential reactivation through an Operator-led process.
+
+4.5 Operator Account Lifecycle
+
+`Operator` accounts are internal administrative accounts and are not self-service.
+
+*   **Creation & Management:** `Operator` accounts are provisioned, managed, and decommissioned directly by a system administrator via secure, internal-only mechanisms (e.g., a secured CLI or direct database interaction).
+
+⸻
+
+5. State Machines
+
+5.1 Listing State Machine
 
 A Listing can exist in several states, which control its visibility and interactivity.
 
