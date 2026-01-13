@@ -7,9 +7,6 @@ import { COUNCILS, Council } from '@/lib/councils';
 export function AreaFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  if (!searchParams) return null;
-  const currentLocation = searchParams.get('location');
 
   // Group councils by Region for better UX
   const regions = useMemo(() => {
@@ -21,9 +18,11 @@ export function AreaFilter() {
     return groups;
   }, []);
 
+  const currentLocation = searchParams ? searchParams.get('location') : null;
+
   const createQueryString = useCallback(
     (name: string, value: string | null) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams ? searchParams.toString() : '');
       if (value) {
         params.set(name, value);
       } else {
@@ -39,6 +38,8 @@ export function AreaFilter() {
     const newValue = councilName === currentLocation ? null : councilName;
     router.push(`/directory?${createQueryString('location', newValue)}`);
   };
+
+  if (!searchParams) return null;
 
   return (
     <div className="space-y-6">

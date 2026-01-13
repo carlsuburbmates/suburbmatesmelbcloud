@@ -13,13 +13,13 @@ describe('AuthForm Component', () => {
     mockSignIn.mockResolvedValue({ data: {}, error: null } as any);
 
     render(<AuthForm />);
-    
+
     const input = screen.getByPlaceholderText(/your email/i);
     const button = screen.getByRole('button', { name: /send magic link/i });
 
     fireEvent.change(input, { target: { value: 'test@example.com' } });
     fireEvent.click(button);
 
-    expect(mockSignIn).toHaveBeenCalledWith('test@example.com');
+    expect(mockSignIn).toHaveBeenCalledWith('test@example.com', undefined);
   });
 });

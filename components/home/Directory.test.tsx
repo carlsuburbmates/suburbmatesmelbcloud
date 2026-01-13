@@ -44,7 +44,7 @@ describe('Directory Component', () => {
     render(<Directory listings={[]} />);
 
     // Then
-    const message = screen.getByText('No listings found.');
+    const message = screen.getByText(/no results found/i);
     expect(message).toBeInTheDocument();
   });
 });

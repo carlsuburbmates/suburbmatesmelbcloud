@@ -5,8 +5,9 @@ import { CheckoutButton } from '@/components/marketing/CheckoutButton';
 import { Lock, Star, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import Link from 'next/link';
 
-export default async function PromotePage({ searchParams }: { searchParams: { success?: string } }) {
+export default async function PromotePage({ searchParams }: { searchParams: Promise<{ success?: string }> }) {
     const supabase = await createClient();
+    const { success } = await searchParams;
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) redirect('/auth/login');
@@ -68,7 +69,7 @@ export default async function PromotePage({ searchParams }: { searchParams: { su
                 </p>
             </div>
 
-            {searchParams.success && (
+            {success && (
                 <div className="mb-8 p-4 bg-green-50 text-green-700 rounded-xl border border-green-100 flex items-center justify-center gap-2 max-w-xl mx-auto">
                     <CheckCircle className="w-5 h-5 flex-shrink-0" />
                     <strong>Success!</strong> Your reservation has been placed.

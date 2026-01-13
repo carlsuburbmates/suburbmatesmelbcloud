@@ -69,9 +69,10 @@ export default async function MarketplacePage({
                   
                   {/* Location Filter (Temporary Input) */}
                   <form action="/marketplace" method="get" className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-ink-muted">Location</label>
-                    <input 
-                      type="text" 
+                    <label htmlFor="location" className="text-xs font-bold uppercase tracking-wider text-ink-muted">Location</label>
+                    <input
+                      id="location"
+                      type="text"
                       name="location" 
                       defaultValue={locationParam}
                       placeholder="Enter suburb..."

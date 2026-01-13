@@ -14,6 +14,7 @@ describe('ListingCard Component', () => {
     location: 'Melbourne',
     featured_until: null,
     is_verified: false,
+    owner_id: null,
   };
 
   it('should display a "Featured" badge if featured_until is set', () => {
@@ -22,8 +23,8 @@ describe('ListingCard Component', () => {
     expect(screen.getByText('Featured')).toBeInTheDocument();
   });
 
-  it('should display a "Verified" badge if is_verified is true', () => {
-    const verifiedListing = { ...baseListing, is_verified: true };
+  it('should display a "Verified" badge if is_verified is true on claimed listing', () => {
+    const verifiedListing = { ...baseListing, is_verified: true, owner_id: 'user-123' };
     render(<ListingCard listing={verifiedListing} />);
     expect(screen.getByText('Verified')).toBeInTheDocument();
   });

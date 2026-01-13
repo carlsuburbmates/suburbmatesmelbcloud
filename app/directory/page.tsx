@@ -128,7 +128,7 @@ export default async function DirectoryPage({
                       </div>
 
                       <div className="flex items-center gap-3">
-                          <label className="text-xs font-medium text-ink-muted uppercase tracking-wider hidden sm:block">Sort By</label>
+                          <span className="text-xs font-medium text-ink-muted uppercase tracking-wider hidden sm:block">Sort By</span>
                           <div className="flex gap-2">
                              {[
                                  { label: 'Relevance', value: 'relevance' },

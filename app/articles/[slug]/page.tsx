@@ -6,9 +6,9 @@ import Markdown from 'react-markdown'; // Assuming we can use a markdown rendere
 
 export const revalidate = 3600; // Cache for 1 hour
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const supabase = await createClient();
-    const { slug } = params;
+    const { slug } = await params;
 
     const { data: article } = await supabase
         .from('articles')

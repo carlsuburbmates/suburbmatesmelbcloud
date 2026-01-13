@@ -11,13 +11,10 @@ interface CategoryFilterProps {
 export function CategoryFilter({ categories, basePath = '/directory' }: CategoryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  if (!searchParams) return null;
-  const currentCategory = searchParams.get('category');
 
   const createQueryString = useCallback(
     (name: string, value: string | null) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams ? searchParams.toString() : '');
       if (value) {
         params.set(name, value);
       } else {
@@ -28,11 +25,15 @@ export function CategoryFilter({ categories, basePath = '/directory' }: Category
     [searchParams]
   );
 
+  const currentCategory = searchParams ? searchParams.get('category') : null;
+
   const handleCategoryChange = (category: string) => {
     // Toggle off if same
     const newValue = category === currentCategory ? null : category;
     router.push(`${basePath}?${createQueryString('category', newValue)}`);
   };
+
+  if (!searchParams) return null;
 
   return (
     <div className="space-y-4">
