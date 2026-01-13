@@ -1,0 +1,1 @@
+TRUNCATE TABLE listings, listing_tags, featured_queue CASCADE;

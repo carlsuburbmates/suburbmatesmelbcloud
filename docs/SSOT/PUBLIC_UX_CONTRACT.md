@@ -22,6 +22,14 @@ If the public UX implies something that contradicts this document, the UX is inv
 
 ---
 
+## 1.1 Localization & Language (Strict)
+- **Language:** Australian English (`en-AU`) only. No American spelling (e.g., "Colour" not "Color", "Organise" not "Organize").
+- **Date Format:** `DD/MM/YYYY`.
+- **Currency:** Australian Dollars (`AUD`, `$`).
+- **Timezone:** Australian Eastern Standard/Daylight Time (AEST/AEDT).
+
+---
+
 ## 2. Public Surfaces (Read-Only Contract)
 
 ### 2.1 Directory

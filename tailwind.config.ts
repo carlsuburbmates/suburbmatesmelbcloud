@@ -14,8 +14,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        sans: ['Inter Tight', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'serif'],
+        sans: ['var(--font-sans)', 'sans-serif'],
+        serif: ['var(--font-serif)', 'serif'],
       },
       colors: {
         'canvas': '#F9F8F6', // Warm Bone
@@ -37,12 +37,12 @@ const config: Config = {
       },
       keyframes: {
         'slide-up-fade': {
-            '0%': { opacity: '0', transform: 'translateY(10px)' },
-            '100%': { opacity: '1', transform: 'translateY(0)' },
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         }
       },
       animation: {
-          'slide-up': 'slide-up-fade 0.6s ease-out forwards',
+        'slide-up': 'slide-up-fade 0.6s ease-out forwards',
       }
     },
   },

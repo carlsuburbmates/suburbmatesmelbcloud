@@ -1,0 +1,37 @@
+--- SETUP DB ---
+Creating/Fetching User...
+Create User Note: A user with this email address has already been registered
+User ID: 8dabe9a6-a181-418c-b1e2-74026df2fecf
+
+--- TEST 1: CUSTOMER BINDING (MISMATCH) ---
+Calling Join Queue with Mismatched SI (Customers: cus_TmcNmddcHzrnHx vs cus_TmcNDflYapWhW5 )...
+Response Status: 400
+Response Body: {"error":"SetupIntent customer mismatch"}
+✅ PASS: Mismatch Rejected
+
+--- TEST 2: IDEMPOTENCY ---
+Inserting Queue Row with PM: pm_1Sp38RQ6skL3QrtsFSGQIB7V
+Running Process 1...
+Row 1 Status: active PI: pi_3Sp38VQ6skL3Qrts1HjOou7a
+Resetting to pending_ready (Attempt 0)...
+Running Process 2 (Retry)...
+Row 2 Status: active PI: pi_3Sp38VQ6skL3Qrts1HjOou7a
+✅ PASS: Idempotency Key Worked (Same PI ID returned)
+Stripe PI Amount: 4900
+
+--- TEST 3: COMPLETE PAYMENT (SCA) ---
+Calling complete-payment as Owner...
+Response: {
+  client_secret: "pi_3Sp38VQ6skL3Qrts1HjOou7a_secret_ohuVRRQhRejHlbYLZXj7JnTKS"
+}
+✅ PASS: Verification successful, client_secret returned
+
+--- TEST 4: POLLER RECONCILIATION (Requires Action -> Active) ---
+Debug: Pre-Poller Peek Count: 1
+Debug: Row is VISIBLE for claiming.
+Running Poller (expecting reconciliation to Active)...
+Poller Response Status: 200
+Poller Response Body: {"success":true,"results":[]}
+Poller Result Status: requires_action
+Poller Result Notified: null
+❌ FAIL: Poller failed (Status: requires_action)

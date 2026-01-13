@@ -2,23 +2,67 @@
   "categories": [
     {
       "type": "business",
-      "name": "Design & Creative"
+      "name": "Brand Identity"
     },
     {
       "type": "business",
-      "name": "Media Creation"
+      "name": "Web Design"
     },
     {
       "type": "business",
-      "name": "Marketing & Content"
+      "name": "UI/UX Design"
     },
     {
       "type": "business",
-      "name": "Technology & Automation"
+      "name": "Illustration"
     },
     {
       "type": "business",
-      "name": "Education & Consulting"
+      "name": "Photography"
+    },
+    {
+      "type": "business",
+      "name": "Videography"
+    },
+    {
+      "type": "business",
+      "name": "Audio Production"
+    },
+    {
+      "type": "business",
+      "name": "Animation"
+    },
+    {
+      "type": "business",
+      "name": "Social Media Management"
+    },
+    {
+      "type": "business",
+      "name": "Copywriting"
+    },
+    {
+      "type": "business",
+      "name": "Content Marketing"
+    },
+    {
+      "type": "business",
+      "name": "SEO & Strategy"
+    },
+    {
+      "type": "business",
+      "name": "Web Development"
+    },
+    {
+      "type": "business",
+      "name": "No-Code Automation"
+    },
+    {
+      "type": "business",
+      "name": "App Development"
+    },
+    {
+      "type": "business",
+      "name": "Business Consulting"
     },
     {
       "type": "product",

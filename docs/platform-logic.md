@@ -21,7 +21,7 @@ To prevent data pollution, the platform enforces a strict separation between **B
 There are strictly two subscription tiers and one paid placement add-on. References to a "Premium" tier have been eliminated,,.
 *   **Basic (Free):** Allows a creator to publish **3 products**. Displays as a standard "Studio Page",.
 *   **Pro ($20 AUD/30 days):** Allows **10 products**. Unlocks the "Pro Mini-site" mode (HighEnd template) and prioritized placement. Auto-renews,,.
-*   **Featured Placement ($15 AUD/30 days):** A non-recurring add-on. It is capped at **5 slots per Council area**. If full, it uses a **FIFO (First-In-First-Out) queue** to schedule the next available slot,,.
+*   **Featured Placement ($15 AUD/30 days):** A non-recurring add-on. Requires **Stage S2: Optimised** status. It is capped at **5 slots per Council area**. If full, it uses a **FIFO (First-In-First-Out) queue** to schedule the next available slot,,.
 
 ### 4. The Ranking and Placement Contract
 The platform uses a deterministic sorting logic to ensure fairness and search integrity.
@@ -41,6 +41,7 @@ The platform uses a deterministic sorting logic to ensure fairness and search in
 Creator public pages are designed to function as standalone portfolios ("Mini-sites") rather than social network pages.
 *   **Structure:** Strict hierarchy of Identity → Proof (Portfolio) → Action (Shop/Contact).
 *   **Templates:** Basic users get the Standard template; Pro users get the HighEnd template ("Pro Mini-site"). Switching templates changes layout but never hides core content,.
+*   **Product Details:** All product cards route to a dedicated detail page at `/product/[id]`,.
 
 ### 7. Admin and Enforcement (Solo-Operator)
 The admin system is designed for a solo operator using "Enforcement & Conduct" workflows rather than dispute resolution.

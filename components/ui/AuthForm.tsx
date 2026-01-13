@@ -1,9 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { signInWithMagicLink } from '@/lib/auth';
+import { useSearchParams } from 'next/navigation';
 
 const AuthForm = () => {
+  const searchParams = useSearchParams();
+  const next = searchParams?.get('next');
+  
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -13,7 +17,7 @@ const AuthForm = () => {
     setLoading(true);
     setMessage('');
 
-    const { error } = await signInWithMagicLink(email);
+    const { error } = await signInWithMagicLink(email, next || undefined);
 
     if (error) {
       setMessage(`Error: ${error.message}`);
@@ -25,7 +29,7 @@ const AuthForm = () => {
 
   return (
     <div className="w-full max-w-sm mx-auto p-6 bg-white border border-line rounded-xl shadow-sm">
-      <h3 className="type-display text-2xl mb-4 text-ink">Sign In</h3>
+      <h3 className="type-display text-2xl mb-4 text-ink font-serif">Sign In</h3>
       <p className="text-sm text-ink-muted mb-6">
         Enter your email to receive a passwordless magic link.
       </p>

@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "sb-nhkmhgbbbcgfbudszfqj-auth-token",
+      "value": "{\"access_token\":\"eyJhbGciOiJFUzI1NiIsImtpZCI6IjczODRiNzFlLTJhOTMtNGZkZC1iNmU5LTFhZTczODM4MTZmNyIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL25oa21oZ2JiYmNnZmJ1ZHN6ZnFqLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI3ZjYxYTNjMC1iYjIxLTRhNDUtYjBiYy03YWRlYTRhOTU0YzYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY4MTk1ODQxLCJpYXQiOjE3NjgxOTIyNDEsImVtYWlsIjoiZTJlX3Rlc3RfdXNlckBzdWJ1cmJtYXRlcy5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsX3ZlcmlmaWVkIjp0cnVlfSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc2ODE5MjI0MX1dLCJzZXNzaW9uX2lkIjoiZWQ3NjllNjUtOTk5My00NTE0LTg3NjMtMWJjYjc3N2M0ZWRhIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.0S3oyHPY-7M2f_u_kcwkwEckYpEl8X6CGDd7VjhBncsnbZJ1W3Aif4UASyiYJcEn8K6w38Nfp97YYoUDC8mNUQ\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1768195841,\"refresh_token\":\"mc4knrr5h5fc\",\"user\":{\"id\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"e2e_test_user@suburbmates.com\",\"email_confirmed_at\":\"2026-01-10T20:40:32.239847Z\",\"phone\":\"\",\"confirmed_at\":\"2026-01-10T20:40:32.239847Z\",\"last_sign_in_at\":\"2026-01-12T04:30:41.884729167Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email_verified\":true},\"identities\":[{\"identity_id\":\"6289dda2-5145-4b62-853e-04f741901515\",\"id\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\",\"user_id\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\",\"identity_data\":{\"email\":\"e2e_test_user@suburbmates.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\"},\"provider\":\"email\",\"last_sign_in_at\":\"2026-01-10T20:40:32.228038Z\",\"created_at\":\"2026-01-10T20:40:32.228685Z\",\"updated_at\":\"2026-01-10T20:40:32.228685Z\",\"email\":\"e2e_test_user@suburbmates.com\"}],\"created_at\":\"2026-01-10T20:40:32.172312Z\",\"updated_at\":\"2026-01-12T04:30:41.890027Z\",\"is_anonymous\":false},\"weak_password\":null}",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "sb-nhkmhgbbbcgfbudszfqj-auth-token",
+          "value": "{\"access_token\":\"eyJhbGciOiJFUzI1NiIsImtpZCI6IjczODRiNzFlLTJhOTMtNGZkZC1iNmU5LTFhZTczODM4MTZmNyIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL25oa21oZ2JiYmNnZmJ1ZHN6ZnFqLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI3ZjYxYTNjMC1iYjIxLTRhNDUtYjBiYy03YWRlYTRhOTU0YzYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY4MTk1ODQxLCJpYXQiOjE3NjgxOTIyNDEsImVtYWlsIjoiZTJlX3Rlc3RfdXNlckBzdWJ1cmJtYXRlcy5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsX3ZlcmlmaWVkIjp0cnVlfSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc2ODE5MjI0MX1dLCJzZXNzaW9uX2lkIjoiZWQ3NjllNjUtOTk5My00NTE0LTg3NjMtMWJjYjc3N2M0ZWRhIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.0S3oyHPY-7M2f_u_kcwkwEckYpEl8X6CGDd7VjhBncsnbZJ1W3Aif4UASyiYJcEn8K6w38Nfp97YYoUDC8mNUQ\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1768195841,\"refresh_token\":\"mc4knrr5h5fc\",\"user\":{\"id\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"e2e_test_user@suburbmates.com\",\"email_confirmed_at\":\"2026-01-10T20:40:32.239847Z\",\"phone\":\"\",\"confirmed_at\":\"2026-01-10T20:40:32.239847Z\",\"last_sign_in_at\":\"2026-01-12T04:30:41.884729167Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email_verified\":true},\"identities\":[{\"identity_id\":\"6289dda2-5145-4b62-853e-04f741901515\",\"id\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\",\"user_id\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\",\"identity_data\":{\"email\":\"e2e_test_user@suburbmates.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"7f61a3c0-bb21-4a45-b0bc-7adea4a954c6\"},\"provider\":\"email\",\"last_sign_in_at\":\"2026-01-10T20:40:32.228038Z\",\"created_at\":\"2026-01-10T20:40:32.228685Z\",\"updated_at\":\"2026-01-10T20:40:32.228685Z\",\"email\":\"e2e_test_user@suburbmates.com\"}],\"created_at\":\"2026-01-10T20:40:32.172312Z\",\"updated_at\":\"2026-01-12T04:30:41.890027Z\",\"is_anonymous\":false},\"weak_password\":null}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+--- SETUP DB ---
+Creating/Fetching User...
+Create User Note: A user with this email address has already been registered
+User ID: 8dabe9a6-a181-418c-b1e2-74026df2fecf
+
+--- TEST 1: CUSTOMER BINDING (MISMATCH) ---
+Calling Join Queue with Mismatched SI...
+Response Status: 400
+Response Body: {"error":"SetupIntent not succeeded"}
+✅ PASS: Request Failed (Check logs for mismatch confirmation)
+
+--- TEST 2: IDEMPOTENCY ---
+FATAL: Error: The customer does not have a payment method with the ID pm_1Sp1YHQ6skL3QrtsCKBRq5Q5. The payment method must be attached to the customer.
+    at g.wt [as generate] (https://esm.sh/stripe@14.10.0/denonext/stripe.mjs:3:6051)
+    at n.toJSON.then.V.message (https://esm.sh/stripe@14.10.0/denonext/stripe.mjs:4:16344)
+    at eventLoopTick (ext:core/01_core.js:187:7) {
+  type: "Ie",
+  raw: {
+    message: "The customer does not have a payment method with the ID pm_1Sp1YHQ6skL3QrtsCKBRq5Q5. The payment method must be attached to the customer.",
+    param: "payment_method",
+    request_log_url: "https://dashboard.stripe.com/acct_1SULznQ6skL3Qrts/test/workbench/logs?object=req_oiNdGRSLVzRuEP",
+    type: "invalid_request_error",
+    headers: {
+      "access-control-allow-credentials": "true",
+      "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+      "access-control-allow-origin": "*",
+      "access-control-expose-headers": "Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required",
+      "access-control-max-age": "300",
+      "cache-control": "no-cache, no-store",
+      "content-length": "367",
+      "content-security-policy": "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=F15mbJCnqjrCqfudXNkrmAMpAtRM8QyKznHjxW8DEF-ndvT_9EXHFCuoqGcb-dVN9O-haCR73f-zmMJP",
+      "content-type": "application/json",
+      date: "Tue, 13 Jan 2026 06:58:05 GMT",
+      "idempotency-key": "stripe-node-retry-20e028b6-d7e5-4970-9c07-8c83f357030a",
+      "original-request": "req_oiNdGRSLVzRuEP",
+      "request-id": "req_oiNdGRSLVzRuEP",
+      server: "nginx",
+      "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+      "stripe-should-retry": "false",
+      "stripe-version": "2023-10-16",
+      vary: "Origin",
+      "x-stripe-priority-routing-enabled": "true",
+      "x-stripe-routing-context-priority-tier": "api-testmode",
+      "x-wc": "ABGHIJ"
+    },
+    statusCode: 400,
+    requestId: "req_oiNdGRSLVzRuEP"
+  },
+  rawType: "invalid_request_error",
+  code: undefined,
+  doc_url: undefined,
+  param: "payment_method",
+  detail: undefined,
+  headers: {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required",
+    "access-control-max-age": "300",
+    "cache-control": "no-cache, no-store",
+    "content-length": "367",
+    "content-security-policy": "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=F15mbJCnqjrCqfudXNkrmAMpAtRM8QyKznHjxW8DEF-ndvT_9EXHFCuoqGcb-dVN9O-haCR73f-zmMJP",
+    "content-type": "application/json",
+    date: "Tue, 13 Jan 2026 06:58:05 GMT",
+    "idempotency-key": "stripe-node-retry-20e028b6-d7e5-4970-9c07-8c83f357030a",
+    "original-request": "req_oiNdGRSLVzRuEP",
+    "request-id": "req_oiNdGRSLVzRuEP",
+    server: "nginx",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+    "stripe-should-retry": "false",
+    "stripe-version": "2023-10-16",
+    vary: "Origin",
+    "x-stripe-priority-routing-enabled": "true",
+    "x-stripe-routing-context-priority-tier": "api-testmode",
+    "x-wc": "ABGHIJ"
+  },
+  requestId: "req_oiNdGRSLVzRuEP",
+  statusCode: 400,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined
+}

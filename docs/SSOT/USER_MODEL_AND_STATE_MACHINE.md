@@ -209,6 +209,37 @@ This workflow defines how a `Creator` can deactivate their account.
 
 *   **Creation & Management:** `Operator` accounts are provisioned, managed, and decommissioned directly by a system administrator via secure, internal-only mechanisms (e.g., a secured CLI or direct database interaction).
 
+4.6 Listing Claim Workflow
+
+This workflow defines how a `Creator` takes ownership of an `Unclaimed` listing.
+
+1.  **Discovery:** The user finds their business on the Directory (status: `Unclaimed`) and clicks "Claim this Listing".
+2.  **Authentication:** If not logged in, the user enters the Registration/Login flow (`4.1`/`4.2`).
+3.  **association:** The system tentatively links the `User` (Profile) to the `Listing`.
+4.  **Verification (Proof of Ownership):**
+    *   The user must provide a valid ABN (Australian Business Number).
+    *   The system performs an automated Luhn checksum validation.
+    *   (Optional) The system attempts to match the ABN entity name to the Listing name.
+5.  **Transition:**
+    *   **Success:** Listing status transitions to `Claimed`. The User is granted `Creator` role permissions for this specific listing.
+    *   **Ambiguity:** If the match is not 100% confident (e.g., name mismatch), the claim enters `Under Review` for Operator manual approval (`Branch 8` workflow).
+6.  **Onboarding:** The Creator is immediately redirected to the Studio Onboarding flow to complete their profile (S0 -> S1).
+
+⸻
+
+4.7 Creator Studio Lifecycle (S-Stages)
+
+To ensure quality and trust, every Creator Studio progresses through deterministic stages.
+
+*   **S0: Incomplete** - Required fields missing. Public page is hidden.
+*   **S1: Live (Basic)** - Mandatory fields present. Public page is active.
+*   **S2: Optimised** - Requirement: Description + Contact + at least 1 Product + Policy/Category confirmed.
+    *   **Capability:** Unlocks the ability to purchase **Featured Placement**.
+*   **S3: Pro-enabled** - Requirement: Active Pro subscription.
+    *   **Capability:** Unlocks Mini-site mode, Share Kit, and Spotlight.
+
+Progression and regression between S1 and S2 are automated based on data completeness.
+
 ⸻
 
 5. State Machines

@@ -88,7 +88,10 @@ The Creator Studio MUST guide Creators through a clear lifecycle, from incomplet
 
 **Gating Rules:**
 
-*   **Featured Placement:** A Creator MUST NOT be able to purchase or activate a Featured Placement unless their Studio is in stage `S2: Optimised` or higher. <!-- Satisfies Artifact #2 -->
+*   **Featured Placement:** A Creator MUST NOT be able to purchase or activate a Featured Placement unless their Studio is in stage `S2: Optimised` or higher.
+*   **LGA Capacity Rule:** Featured Placements are strictly limited to **5 slots per Council (LGA)** at any given time.
+    *   **Allocation:** First-In-First-Out (FIFO).
+    *   **Behavior:** If 5 slots are occupied for a specific Council, the purchase option MUST be disabled/greyed out for all other Creators in that Council until a slot opens.
 
 ---
 
@@ -114,7 +117,7 @@ Editable fields include:
 - Location
 - Description / tagline
 - Links / contact methods
-- Media assets
+- Media assets (Business Logo, Cover Image)
 
 Rules:
 - Changes here propagate to the public page
@@ -132,7 +135,7 @@ Capabilities:
 - View basic performance signals (if enabled elsewhere)
 
 Tier limits:
-- Basic: Limited number of Products
+- Basic: Up to 3 Products
 - Pro: Up to 10 Products
 
 Attempting to exceed Basic limits must trigger a Pro upgrade prompt.

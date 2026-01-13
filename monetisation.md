@@ -32,12 +32,14 @@ The foundation of the platform is a binary creator tier system. All prices are i
 ### 2. Featured Placement (The "Add-On")
 Featured placement is a separate, non-recurring purchase available to both Basic and Pro users. It is a "digital real estate" purchase, not a subscription.
 
+*   **Eligibility:** Must be in **Stage S2: Optimised** (requires description, contact info, and at least 1 public product).
 *   **Cost:** **$15 AUD** for **30 days** (non-recurring, manual re-purchase required).
 *   **Scope:** **Council-based only** (LGA). It is not suburb-based or region-based.
 *   **Hard Constraint:** Maximum **5 featured slots** per Council area at any one time. No exceptions.
 *   **Visual Identity:**
     *   **Card Design:** **Larger card** than Pro or Basic (more media height, distinct layout).
     *   **Label:** Must explicitly state "Featured placement" or "Featured" to ensure middleman truth (no implied endorsement).
+*   **Routing:** Tapping a product card (except the seller line) routes to the canonical Product page at `/product/[id]`.
 *   **Ranking:** The absolute top bucket. Featured cards always appear above Pro and Basic cards.
 
 #### **The FIFO Queue Logic (Fairness Contract)**

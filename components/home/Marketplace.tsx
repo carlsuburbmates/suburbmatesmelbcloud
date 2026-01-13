@@ -34,7 +34,7 @@ const Marketplace = () => {
             </h4>
             <p className="text-[9px] text-ink-muted mb-2">Notion Template</p>
             <div className="flex justify-between items-center border-t border-line pt-2">
-              <span className="text-[10px] font-bold text-gold">$49.00</span>
+              <span className="text-[10px] font-bold text-ink">$49.00</span>
               <span className="text-[9px] text-ink-muted">Contrast</span>
             </div>
           </div>
@@ -52,7 +52,7 @@ const Marketplace = () => {
             </h4>
             <p className="text-[9px] text-ink-muted mb-2">Lightroom Pack</p>
             <div className="flex justify-between items-center border-t border-line pt-2">
-              <span className="text-[10px] font-bold text-gold">$24.95</span>
+              <span className="text-[10px] font-bold text-ink">$24.95</span>
               <span className="text-[9px] text-ink-muted">Lumière</span>
             </div>
           </div>
@@ -70,7 +70,7 @@ const Marketplace = () => {
             </h4>
             <p className="text-[9px] text-ink-muted mb-2">Legal Template</p>
             <div className="flex justify-between items-center border-t border-line pt-2">
-              <span className="text-[10px] font-bold text-gold">$35.00</span>
+              <span className="text-[10px] font-bold text-ink">$35.00</span>
               <span className="text-[9px] text-ink-muted">Legal.au</span>
             </div>
           </div>

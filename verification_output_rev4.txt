@@ -1,0 +1,34 @@
+--- SETUP DB ---
+Creating/Fetching User...
+Create User Note: A user with this email address has already been registered
+User ID: 8dabe9a6-a181-418c-b1e2-74026df2fecf
+
+--- TEST 1: CUSTOMER BINDING (MISMATCH) ---
+Calling Join Queue with Mismatched SI (Customers: cus_TmaoST0oXQ3fLB vs cus_TmaoVZnFkved31 )...
+Response Status: 400
+Response Body: {"error":"SetupIntent customer mismatch"}
+✅ PASS: Mismatch Rejected
+
+--- TEST 2: IDEMPOTENCY ---
+Inserting Queue Row with PM: pm_1Sp1dEQ6skL3QrtsRyyUKrpn
+Running Process 1...
+Row 1 Status: active PI: pi_3Sp1dHQ6skL3Qrts1LEvtGJC
+Resetting to pending_ready (Attempt 0)...
+Running Process 2 (Retry)...
+Row 2 Status: active PI: pi_3Sp1dHQ6skL3Qrts1LEvtGJC
+✅ PASS: Idempotency Key Worked (Same PI ID returned)
+Stripe PI Amount: 4900
+
+--- TEST 3: COMPLETE PAYMENT (SCA) ---
+Calling complete-payment as Owner...
+Response: {
+  client_secret: "pi_3Sp1dHQ6skL3Qrts1LEvtGJC_secret_RhaXVSJH9CdP6EzZIQQWdkLwD"
+}
+✅ PASS: Verification successful, client_secret returned
+
+--- TEST 4: POLLER RECONCILIATION (Requires Action -> Active) ---
+Running Poller (expecting reconciliation to Active)...
+FATAL: TypeError: Cannot read properties of null (reading 'status')
+    at testPollerReconciliation (file:///Users/carlg/Documents/PROJECTS/Project-dev/suburbmatesmelblocal/tests/strict_verification.ts:265:46)
+    at eventLoopTick (ext:core/01_core.js:187:7)
+    at async main (file:///Users/carlg/Documents/PROJECTS/Project-dev/suburbmatesmelblocal/tests/strict_verification.ts:281:13)

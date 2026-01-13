@@ -1,90 +1,59 @@
 import React from 'react';
+import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
 
 const Footer = () => {
   return (
-    <footer id="footer" className="bg-white border-t border-line px-6 py-8 pb-32">
-      <div className="flex justify-between items-baseline mb-8">
-        <h2 className="text-base font-medium text-ink">
-          {SITE_CONFIG.name}<span className="text-gold">.</span>
-        </h2>
-        <span className="text-[10px] text-ink-muted/60 uppercase tracking-widest">
-          {SITE_CONFIG.footer.copyright}
-        </span>
-      </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-6 mb-8">
-        <div className="space-y-3">
-          <span className="type-meta text-[9px] text-ink-muted/50 block">
-            Platform
+    <footer id="footer" className="bg-white border-t border-line px-6 py-12 pb-32 md:pb-12">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-baseline mb-10 gap-8">
+          <h2 className="text-lg font-medium text-ink font-sans tracking-tight">
+            {SITE_CONFIG.name}<span className="text-ink-muted">.</span>
+          </h2>
+          <span className="text-[10px] text-ink-muted/60 uppercase tracking-widest font-sans font-medium">
+            {SITE_CONFIG.footer.copyright}
           </span>
-          <a
-            href={SITE_CONFIG.links.directory}
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Directory
-          </a>
-          <a
-            href={SITE_CONFIG.links.marketplace}
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Marketplace
-          </a>
-          <a
-            href="#"
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Collections
-          </a>
-          <a
-            href="#"
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Create a Studio
-          </a>
         </div>
-        <div className="space-y-3">
-          <span className="type-meta text-[9px] text-ink-muted/50 block">
-            Trust & Support
-          </span>
-          <a
-            href="#"
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Verification{' '}
-            <span className="text-[9px] text-ink-muted/60">(Definitions)</span>
-          </a>
-          <a
-            href="#"
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Featured <span className="text-[9px] text-ink-muted/60">(Policy)</span>
-          </a>
-          <a
-            href="#"
-            className="block text-xs text-ink hover:text-gold transition-colors"
-          >
-            Purchase Help{' '}
-            <span className="text-[9px] text-ink-muted/60">(Creator)</span>
-          </a>
-          <a
-            href="#"
-            className="block text-xs text-danger hover:text-red-700 transition-colors"
-          >
-            Report Concern{' '}
-            <span className="text-[9px] text-ink-muted/60">(Platform)</span>
-          </a>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div className="space-y-4">
+            <span className="type-meta text-[10px] text-ink-muted/50 block">Platform</span>
+            <div className="flex flex-col space-y-2">
+              <Link href={SITE_CONFIG.links.directory} className="text-sm text-ink hover:text-ink-muted transition-colors font-medium">Directory</Link>
+              <Link href={SITE_CONFIG.links.marketplace} className="text-sm text-ink hover:text-ink-muted transition-colors font-medium">Marketplace</Link>
+              <Link href="#" className="text-sm text-ink hover:text-ink-muted transition-colors font-medium">Collections</Link>
+              <Link href="#" className="text-sm text-ink hover:text-ink-muted transition-colors font-medium">Create a Studio</Link>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <span className="type-meta text-[10px] text-ink-muted/50 block">Trust & Support</span>
+            <div className="flex flex-col space-y-2">
+              <Link href="#" className="text-sm text-ink hover:text-ink-muted transition-colors font-medium flex items-center gap-1">
+                Verification <span className="text-[10px] text-ink-muted/60 font-normal">(Definitions)</span>
+              </Link>
+              <Link href="#" className="text-sm text-ink hover:text-ink-muted transition-colors font-medium flex items-center gap-1">
+                Featured <span className="text-[10px] text-ink-muted/60 font-normal">(Policy)</span>
+              </Link>
+              <Link href="#" className="text-sm text-ink hover:text-ink-muted transition-colors font-medium flex items-center gap-1">
+                Purchase Help <span className="text-[10px] text-ink-muted/60 font-normal">(Creator)</span>
+              </Link>
+              <Link href="#" className="text-sm text-red-600 hover:text-red-700 transition-colors font-medium flex items-center gap-1">
+                Report Concern <span className="text-[10px] text-ink-muted/60 font-normal">(Platform)</span>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="border-t border-line pt-4 space-y-1.5">
-        <p className="text-[10px] text-ink-muted leading-tight text-left">
-          Products are sold by creators. {SITE_CONFIG.name} is a discovery platform.
-        </p>
-        <p className="text-[10px] text-ink-muted leading-tight text-left">
-          Featured placements are paid. Not an endorsement.
-        </p>
-        <p className="text-[10px] text-ink-muted leading-tight text-left">
-          Verified indicates ABN status verified.
-        </p>
+
+        <div className="border-t border-line pt-6 flex flex-col gap-2">
+          <p className="text-[11px] text-ink-muted leading-relaxed max-w-2xl">
+            Products are sold by creators. {SITE_CONFIG.name} is a discovery platform. Purchases are fulfilled by the Creator.
+          </p>
+          <div className="flex flex-wrap gap-4 text-[11px] text-ink-muted/70">
+            <span>Featured placements are paid. Not an endorsement.</span>
+            <span>Verified indicates ABN status verified.</span>
+          </div>
+        </div>
       </div>
     </footer>
   );

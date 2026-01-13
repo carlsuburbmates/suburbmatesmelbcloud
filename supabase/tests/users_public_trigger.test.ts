@@ -19,27 +19,27 @@ describe('User Actor Auto-creation Trigger', () => {
     user = data.user;
   });
 
-  it('should create an actor record when a new user signs up', async () => {
+  it('should create a users_public record when a new user signs up', async () => {
     expect(user).toBeDefined();
 
-    // 2. Check if actor exists in public schema
+    // 2. Check if user record exists in public schema
     try {
-      const { data: actorData, error: actorError } = await supabaseAdmin
-        .from('actors')
+      const { data: userData, error: userError } = await supabaseAdmin
+        .from('users_public')
         .select('*')
         .eq('id', user.id)
         .single();
 
-      if (actorError && actorError.code !== 'PGRST116') { // PGRST116: "exact one row expected, but 0 rows were found"
-        throw actorError;
+      if (userError && userError.code !== 'PGRST116') { // PGRST116: "exact one row expected, but 0 rows were found"
+        throw userError;
       }
 
-      expect(actorData).toBeDefined();
-      expect(actorData?.email).toBe(testEmail);
-      expect(actorData?.role).toBe('visitor');
+      expect(userData).toBeDefined();
+      expect(userData?.email).toBe(testEmail);
+      expect(userData?.role).toBe('visitor');
     } catch (e) {
       // Re-throw the error with more context for easier debugging
-      throw new Error(`Error querying for new actor: ${e.message}`);
+      throw new Error(`Error querying for new user record: ${e.message}`);
     }
   });
 });

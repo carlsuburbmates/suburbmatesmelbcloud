@@ -1,0 +1,19 @@
+--- SETUP DB ---
+Creating/Fetching User...
+Create User Note: A user with this email address has already been registered
+User ID: 8dabe9a6-a181-418c-b1e2-74026df2fecf
+
+--- TEST 1: CUSTOMER BINDING (MISMATCH) ---
+Calling Join Queue with Mismatched SI (Customers: cus_TmanGqpDR1Phvl vs cus_Tmana5mIjY3pd2 )...
+Response Status: 400
+Response Body: {"error":"SetupIntent customer mismatch"}
+✅ PASS: Mismatch Rejected
+
+--- TEST 2: IDEMPOTENCY ---
+Inserting Queue Row with PM: pm_1Sp1bsQ6skL3QrtsKEOMDXpV
+Insert Queue Error: new row violates row-level security policy for table "featured_queue"
+Running Process 1...
+FATAL: TypeError: Cannot read properties of null (reading 'status')
+    at testIdempotency (file:///Users/carlg/Documents/PROJECTS/Project-dev/suburbmatesmelblocal/tests/strict_verification.ts:152:39)
+    at eventLoopTick (ext:core/01_core.js:187:7)
+    at async main (file:///Users/carlg/Documents/PROJECTS/Project-dev/suburbmatesmelblocal/tests/strict_verification.ts:276:22)

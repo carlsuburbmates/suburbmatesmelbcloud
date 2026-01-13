@@ -76,7 +76,7 @@ Content Emphasis
 ### 3.4 Guardrails (System-Enforced)
 The system must enforce:
 - Auto-contrast (no unreadable text)
-- Fixed aspect ratios (avatar 1:1, cover 16:9)
+- Fixed aspect ratios (Business Logo 1:1, cover 16:9)
 - Character limits (tagline, descriptions)
 - Reset-to-default at all times
 

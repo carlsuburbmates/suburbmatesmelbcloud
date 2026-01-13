@@ -11,8 +11,8 @@ body {
 }
 
 /* TYPOGRAPHY */
-.type-display { font-family: 'Cormorant Garamond', serif; letter-spacing: -0.02em; line-height: 0.95; }
-.type-meta { font-family: 'Inter Tight', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+.type-display { font-family: var(--font-serif); letter-spacing: -0.02em; line-height: 0.95; }
+.type-meta { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
 
 /* SCROLL UTILITIES */
 .hide-scrollbar::-webkit-scrollbar { display: none; }

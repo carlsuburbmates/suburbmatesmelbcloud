@@ -1,0 +1,79 @@
+--- SETUP DB ---
+Creating/Fetching User...
+Create User Note: A user with this email address has already been registered
+User ID: 8dabe9a6-a181-418c-b1e2-74026df2fecf
+
+--- TEST 1: CUSTOMER BINDING (MISMATCH) ---
+FATAL: Error: This SetupIntent is configured to accept payment methods enabled in your Dashboard. Because some of these payment methods might redirect your customer off of your page, you must provide a `return_url`. If you don't want to accept redirect-based payment methods, set `automatic_payment_methods[enabled]` to `true` and `automatic_payment_methods[allow_redirects]` to `never` when creating Setup Intents and Payment Intents.
+    at g.wt [as generate] (https://esm.sh/stripe@14.10.0/denonext/stripe.mjs:3:6051)
+    at n.toJSON.then.V.message (https://esm.sh/stripe@14.10.0/denonext/stripe.mjs:4:16344)
+    at eventLoopTick (ext:core/01_core.js:187:7) {
+  type: "Ie",
+  raw: {
+    message: "This SetupIntent is configured to accept payment methods enabled in your Dashboard. Because some of these payment methods might redirect your customer off of your page, you must provide a `return_url`. If you don't want to accept redirect-based payment methods, set `automatic_payment_methods[enabled]` to `true` and `automatic_payment_methods[allow_redirects]` to `never` when creating Setup Intents and Payment Intents.",
+    request_log_url: "https://dashboard.stripe.com/acct_1SULznQ6skL3Qrts/test/workbench/logs?object=req_FHOtBc6vPmRQaT",
+    type: "invalid_request_error",
+    headers: {
+      "access-control-allow-credentials": "true",
+      "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+      "access-control-allow-origin": "*",
+      "access-control-expose-headers": "Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required",
+      "access-control-max-age": "300",
+      "cache-control": "no-cache, no-store",
+      "content-length": "620",
+      "content-security-policy": "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=LhZJolbRmEphvfk_OtyhKYzdyZPLvNV-bMYVWOJAS6WMrRBNlFkZ50a9u-rujpDh__LihZIrQqTWv2J2",
+      "content-type": "application/json",
+      date: "Tue, 13 Jan 2026 07:01:06 GMT",
+      "idempotency-key": "stripe-node-retry-266a0da8-6c54-4c28-8528-cfdd2a7239c1",
+      "original-request": "req_FHOtBc6vPmRQaT",
+      "request-id": "req_FHOtBc6vPmRQaT",
+      server: "nginx",
+      "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+      "stripe-should-retry": "false",
+      "stripe-version": "2023-10-16",
+      vary: "Origin",
+      "x-stripe-priority-routing-enabled": "true",
+      "x-stripe-routing-context-priority-tier": "api-testmode",
+      "x-wc": "ABGHIJ"
+    },
+    statusCode: 400,
+    requestId: "req_FHOtBc6vPmRQaT"
+  },
+  rawType: "invalid_request_error",
+  code: undefined,
+  doc_url: undefined,
+  param: undefined,
+  detail: undefined,
+  headers: {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required",
+    "access-control-max-age": "300",
+    "cache-control": "no-cache, no-store",
+    "content-length": "620",
+    "content-security-policy": "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=LhZJolbRmEphvfk_OtyhKYzdyZPLvNV-bMYVWOJAS6WMrRBNlFkZ50a9u-rujpDh__LihZIrQqTWv2J2",
+    "content-type": "application/json",
+    date: "Tue, 13 Jan 2026 07:01:06 GMT",
+    "idempotency-key": "stripe-node-retry-266a0da8-6c54-4c28-8528-cfdd2a7239c1",
+    "original-request": "req_FHOtBc6vPmRQaT",
+    "request-id": "req_FHOtBc6vPmRQaT",
+    server: "nginx",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+    "stripe-should-retry": "false",
+    "stripe-version": "2023-10-16",
+    vary: "Origin",
+    "x-stripe-priority-routing-enabled": "true",
+    "x-stripe-routing-context-priority-tier": "api-testmode",
+    "x-wc": "ABGHIJ"
+  },
+  requestId: "req_FHOtBc6vPmRQaT",
+  statusCode: 400,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined
+}

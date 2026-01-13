@@ -71,9 +71,9 @@ CREATE TABLE public.tags (
 );
 
 --
--- Profiles table
+-- Users Public table
 --
-CREATE TABLE public.profiles (
+CREATE TABLE public.users_public (
     id uuid NOT NULL,
     role public.app_role DEFAULT 'visitor'::public.app_role NOT NULL,
     email text,
@@ -86,9 +86,13 @@ CREATE TABLE public.profiles (
     is_evicted boolean DEFAULT false NOT NULL,
     evicted_at timestamp with time zone,
     violation_log jsonb DEFAULT '[]'::jsonb NOT NULL,
+    -- Stripe / Monetisation Fields
+    stripe_account_id text,
+    stripe_customer_id text,
+    stripe_subscription_status text,
     created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
-    CONSTRAINT profiles_pkey PRIMARY KEY (id)
+    CONSTRAINT users_public_pkey PRIMARY KEY (id)
 );
 
 --
@@ -144,11 +148,24 @@ CREATE TABLE public.product_tags (
 );
 
 --
+-- Featured Queue Table (FIFO Logic)
+--
+CREATE TABLE public.featured_queue (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    listing_id uuid NOT NULL,
+    council_area text NOT NULL,
+    requested_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+    scheduled_start timestamp with time zone,
+    status text DEFAULT 'pending'::text, -- pending, active, completed, expired
+    CONSTRAINT featured_queue_pkey PRIMARY KEY (id)
+);
+
+--
 -- Foreign Keys
 --
 
-ALTER TABLE ONLY public.profiles
-    ADD CONSTRAINT profiles_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.users_public
+    ADD CONSTRAINT users_public_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY public.listings
     ADD CONSTRAINT listings_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES auth.users(id);
@@ -160,7 +177,7 @@ ALTER TABLE ONLY public.products
     ADD CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id);
 
 ALTER TABLE ONLY public.products
-    ADD CONSTRAINT products_business_id_fkey FOREIGN KEY (business_id) REFERENCES public.listings(id); -- Assumed business_id refers to listings(id)
+    ADD CONSTRAINT products_business_id_fkey FOREIGN KEY (business_id) REFERENCES public.listings(id);
 
 ALTER TABLE ONLY public.listing_tags
     ADD CONSTRAINT listing_tags_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listings(id) ON DELETE CASCADE;
@@ -174,24 +191,45 @@ ALTER TABLE ONLY public.product_tags
 ALTER TABLE ONLY public.product_tags
     ADD CONSTRAINT product_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY public.featured_queue
+    ADD CONSTRAINT featured_queue_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listings(id) ON DELETE CASCADE;
+
 --
 -- Row Level Security
 --
 
 ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.tags ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.users_public ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.listings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.listing_tags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.product_tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.featured_queue ENABLE ROW LEVEL SECURITY;
 
 --
--- Policies (Representative subset, refer to migrations for full list)
+-- Policies
 --
 
+-- Categories & Tags: Public Read, Service/Admin Write
 CREATE POLICY "Public read access for categories" ON public.categories FOR SELECT USING (true);
 CREATE POLICY "Public read access for tags" ON public.tags FOR SELECT USING (true);
-CREATE POLICY "Public read access for profiles" ON public.profiles FOR SELECT USING (true);
+
+-- Users Public: Public Read Basic Info, Owner Write
+CREATE POLICY "Public read access for users" ON public.users_public FOR SELECT USING (true);
+CREATE POLICY "Users can update own record" ON public.users_public FOR UPDATE USING (auth.uid() = id);
+
+-- Listings: Public Read, Owner Write
 CREATE POLICY "Public read access for listings" ON public.listings FOR SELECT USING (true);
+CREATE POLICY "Users can insert own listings" ON public.listings FOR INSERT WITH CHECK (auth.uid() = owner_id);
+CREATE POLICY "Users can update own listings" ON public.listings FOR UPDATE USING (auth.uid() = owner_id);
+CREATE POLICY "Users can delete own listings" ON public.listings FOR DELETE USING (auth.uid() = owner_id);
+
+-- Products: Public Read, Owner (via Business) Write
 CREATE POLICY "Public read access for products" ON public.products FOR SELECT USING (true);
+-- Note: Product write policies require join verification or simplified checks. 
+-- For simplicity in this patch, we allow if user owns the business (logic handled in app layer usually, but enforced here ideally).
+-- Skipping complex RLS join for now to minimize SQL complexity, relying on API layer checks for product owners.
+
+-- Featured Queue: Service Role Only (managed by payment webhooks/admin)
+-- No public policies means default deny.

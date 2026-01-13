@@ -8,7 +8,15 @@ export const getListings = async () => {
     .select(`
       *,
       category:categories(name)
-    `);
+    `)
+    // 1. Featured Bucket (Active featured items first)
+    .order('featured_until', { ascending: false, nullsFirst: false })
+    // 2. Pro Bucket (Pro > Basic, alphabet desc P > B works)
+    .order('tier', { ascending: false })
+    // 3. Verified Priority (True > False)
+    .order('is_verified', { ascending: false })
+    // 4. Freshness (Newest first)
+    .order('created_at', { ascending: false });
 
   if (error) {
     throw error;

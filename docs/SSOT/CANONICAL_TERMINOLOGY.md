@@ -48,6 +48,14 @@ Never replaced by: vendor, business owner
 
 ---
 
+#### Prospect
+- A visitor (verified or unverified) who intends to claim a Listing.
+- Exists in the "Claim Flow" state.
+
+Allowed contexts: Documentation, Analytics, Funnel Tracking
+
+---
+
 #### Customer
 - A user who purchases a Product.
 - May or may not be logged in.
@@ -107,6 +115,28 @@ Public label: “Pro Mini-site” (where tier signaling is required)
 ### Product
 - A digital item sold by a Creator.
 - Always labeled “Sold by [Creator]”.
+- **Exclusion**: Never refers to Platform Services (like Featured spots) or Subscriptions.
+
+---
+
+### Platform Service
+- A capability sold by SuburbMates to a Creator.
+- Example: "Featured Placement", "Urgent Verification".
+- Managed via Operator/Queue tables, NOT the Product table.
+
+---
+
+### Platform Subscription
+- The recurring billing relationship between SuburbMates and a Creator.
+- Levels: Basic (Free), Pro (Paid).
+- Managed via Stripe.
+
+
+### Marketplace
+- The public destination for browsing all Products.
+- Distinct from the Directory (which is for Listings).
+- A secondary discovery surface.
+- **Exclusion**: Never displays Platform Services (like Pro upgrades or Featured spots).
 
 ---
 
@@ -120,14 +150,22 @@ Public label: “Pro Mini-site” (where tier signaling is required)
 ### Studio
 - The Creator’s private workspace.
 - Used to manage:
+  - Mini-site settings
   - Listing details
   - Products
-  - Mini-site settings
   - Share Kit
   - Verification
   - Billing
 
 Hard rule: Studio is never public.
+
+---
+
+### Media Assets
+- **Business Logo**: The primary identifier for the business (square).
+- **Cover Image**: The background banner for the Studio Page/Mini-site.
+
+Never called: avatar (unless referring to User), profile pic, banner (generic)
 
 ---
 
@@ -151,7 +189,7 @@ Hard rule: Studio is never public.
 ### Card
 - A preview component.
 - Always links to a destination.
-- A Card MUST be interactive (i.e., it routes on click) unless its state explicitly requires it to be disabled (e.g., a Listing that is 'Under Review'). <!-- Satisfies Artifact #3 -->
+- A Card MUST be interactive (i.e., it routes on click) unless its state explicitly requires it to be disabled (e.g., a Listing that is 'Under Review').
 - Types:
   - Listing card
   - Studio card
@@ -162,7 +200,7 @@ Hard rule: Studio is never public.
 
 ## 7. States & Badges (Truth UI)
 
-### Basic
+### Basic 
 - Free Creator tier.
 - Enables Studio Page.
 
@@ -198,8 +236,8 @@ The following must never appear in public or creator-facing UI, specs, or copy:
 - admin (public)
 - tiered verification
 - managed marketplace
-- account <!-- Satisfies Artifact #1 -->
-- user account <!-- Satisfies Artifact #1 -->
+- account
+- user account
 
 These may exist internally in legacy code only, never in language.
 
