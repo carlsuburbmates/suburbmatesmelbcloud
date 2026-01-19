@@ -77,6 +77,69 @@ export async function POST(req: NextRequest) {
                     if (userData?.user?.email) {
                         await sendProActivatedEmail(userData.user.email);
                     }
+                } else if (session.mode === 'payment' && session.metadata?.purchase_type === 'product_sale') {
+                    // ============================================================
+                    // D6: PRODUCT SALE WEBHOOK HANDLING
+                    // Purpose: Idempotently mark order as paid after Stripe checkout
+                    // Evidence: Phase 3 Commerce MVP - webhook marks order "paid"
+                    // ============================================================
+                    const orderId = session.metadata?.order_id;
+                    const paymentIntentId = session.payment_intent as string | null;
+
+                    if (!orderId) {
+                        console.error('[Product Sale] Missing order_id in session metadata');
+                        break;
+                    }
+
+                    // Idempotency check: Only update if order is still pending
+                    // Note: orders table not in generated Supabase types yet - using 'as any' cast
+                    const { data: existingOrder } = await (supabase as any)
+                        .from('orders')
+                        .select('id, status, customer_id')
+                        .eq('id', orderId)
+                        .single();
+
+                    if (!existingOrder) {
+                        console.error(`[Product Sale] Order not found: ${orderId}`);
+                        break;
+                    }
+
+                    // Idempotent: Skip if already paid
+                    if (existingOrder.status === 'paid') {
+                        console.log(`[Product Sale] Order ${orderId} already marked as paid (idempotent skip)`);
+                        break;
+                    }
+
+                    // Mark order as paid
+                    // Note: orders table not in generated Supabase types yet - using 'as any' cast
+                    const { error: updateError } = await (supabase as any)
+                        .from('orders')
+                        .update({
+                            status: 'paid',
+                            stripe_checkout_session_id: session.id,
+                            stripe_payment_intent_id: paymentIntentId,
+                            updated_at: new Date().toISOString(),
+                        })
+                        .eq('id', orderId)
+                        .eq('status', 'pending'); // Double-check idempotency
+
+                    if (updateError) {
+                        console.error(`[Product Sale] Failed to update order ${orderId}:`, updateError);
+                    } else {
+                        console.log(`[Product Sale] Order ${orderId} marked as paid`);
+                    }
+
+                    // Send confirmation email if email system exists
+                    const customerId = existingOrder.customer_id;
+                    if (customerId) {
+                        const { data: customerData } = await supabase.auth.admin.getUserById(customerId);
+                        if (customerData?.user?.email) {
+                            // Note: sendOrderConfirmationEmail not yet implemented
+                            // Will be added in future iteration when email templates are ready
+                            console.log(`[Product Sale] Order ${orderId} paid - customer email: ${customerData.user.email}`);
+                        }
+                    }
+
                 } else if (session.mode === 'payment' && session.metadata?.purchase_type === 'featured_placement') {
                     // Handle Featured Placement (FIFO)
                     const { data: listing } = await supabase
