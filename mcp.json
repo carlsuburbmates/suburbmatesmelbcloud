@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase"
+      ],
+      "env": {
+        "SUPABASE_URL": "",
+        "SUPABASE_SERVICE_ROLE_KEY": ""
+      }
+    },
+    "stripe": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@stripe/mcp"
+      ],
+      "env": {
+        "STRIPE_API_KEY": ""
+      }
+    },
+    "nextjs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-handler"
+      ]
+    }
+  }
+}
