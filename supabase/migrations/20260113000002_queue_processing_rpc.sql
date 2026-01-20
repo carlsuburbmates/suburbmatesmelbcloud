@@ -3,6 +3,9 @@
 
 BEGIN;
 
+-- Drop existing function if signature changed
+DROP FUNCTION IF EXISTS public.process_daily_queue();
+
 CREATE OR REPLACE FUNCTION public.process_daily_queue()
 RETURNS TABLE (
     action_type text,         -- 'expired' or 'promoted'

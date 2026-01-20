@@ -1,11 +1,16 @@
 -- Migration: Monetisation & Security Fixes
--- Run this in the Supabase SQL Editor
+-- Updated to handle both profiles and actors tables for backwards compatibility
 
--- 1. Add Monetisation Fields to Profiles
-ALTER TABLE public.profiles 
-ADD COLUMN IF NOT EXISTS stripe_account_id text,
-ADD COLUMN IF NOT EXISTS stripe_customer_id text,
-ADD COLUMN IF NOT EXISTS stripe_subscription_status text;
+-- 1. Add Monetisation Fields to actors (if exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'actors' AND table_schema = 'public') THEN
+    ALTER TABLE public.actors 
+    ADD COLUMN IF NOT EXISTS stripe_account_id text,
+    ADD COLUMN IF NOT EXISTS stripe_customer_id text,
+    ADD COLUMN IF NOT EXISTS stripe_subscription_status text;
+  END IF;
+END $$;
 
 -- 2. Create Featured Queue Table
 CREATE TABLE IF NOT EXISTS public.featured_queue (
@@ -42,12 +47,16 @@ CREATE POLICY "Users can insert own listings" ON public.listings FOR INSERT WITH
 CREATE POLICY "Users can update own listings" ON public.listings FOR UPDATE USING (auth.uid() = owner_id);
 CREATE POLICY "Users can delete own listings" ON public.listings FOR DELETE USING (auth.uid() = owner_id);
 
--- Profiles Policies
-DROP POLICY IF EXISTS "Public read access for profiles" ON public.profiles;
-DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
-
-CREATE POLICY "Public read access for profiles" ON public.profiles FOR SELECT USING (true);
-CREATE POLICY "Users can update own profile" ON public.profiles FOR UPDATE USING (auth.uid() = id);
+-- Profiles/Actors Policies (conditional)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'actors' AND table_schema = 'public') THEN
+    DROP POLICY IF EXISTS "Public read access for actors" ON public.actors;
+    DROP POLICY IF EXISTS "Self update access" ON public.actors;
+    CREATE POLICY "Public read access for actors" ON public.actors FOR SELECT USING (true);
+    CREATE POLICY "Self update access" ON public.actors FOR UPDATE USING (auth.uid() = id);
+  END IF;
+END $$;
 
 -- Categories & Tags (Read Only for Public)
 DROP POLICY IF EXISTS "Public read access for categories" ON public.categories;

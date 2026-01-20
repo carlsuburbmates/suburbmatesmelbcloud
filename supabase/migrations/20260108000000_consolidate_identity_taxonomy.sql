@@ -1,6 +1,36 @@
 -- Migration: Consolidate Identity & Enforce Taxonomy
--- 1. Drop Legacy 'actors' table (Split Brain resolution)
-DROP TABLE IF EXISTS public.actors;
+
+-- 0. Create profiles table first (will be renamed to users_public later)
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID NOT NULL PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT,
+    full_name TEXT,
+    avatar_url TEXT,
+    role app_role DEFAULT 'visitor' NOT NULL,
+    violation_log JSONB DEFAULT '[]'::jsonb NOT NULL,
+    warning_count INT DEFAULT 0 NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    is_suspended BOOLEAN DEFAULT FALSE NOT NULL,
+    suspended_until TIMESTAMPTZ,
+    is_delisted BOOLEAN DEFAULT FALSE NOT NULL,
+    is_evicted BOOLEAN DEFAULT FALSE NOT NULL,
+    evicted_at TIMESTAMPTZ,
+    stripe_account_id TEXT,
+    stripe_customer_id TEXT,
+    stripe_subscription_status TEXT
+);
+
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public read profiles" ON public.profiles;
+CREATE POLICY "Public read profiles" ON public.profiles FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Users update own profile" ON public.profiles;
+CREATE POLICY "Users update own profile" ON public.profiles FOR UPDATE USING (auth.uid() = id);
+
+-- 1. Drop Legacy 'actors' table (Split Brain resolution) with CASCADE
+DROP TABLE IF EXISTS public.actors CASCADE;
 
 -- 2. Update Auth Trigger to point to 'profiles' (SSOT)
 CREATE OR REPLACE FUNCTION public.handle_new_user()
