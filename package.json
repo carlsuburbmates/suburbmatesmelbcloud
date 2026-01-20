@@ -17,7 +17,7 @@
     "@ai-sdk/openai": "^3.0.12",
     "@ai-sdk/react": "^3.0.43",
     "@hookform/resolvers": "^5.2.2",
-    "@modelcontextprotocol/sdk": "^1.25.2",
+    "@modelcontextprotocol/sdk": "^1.25.3",
     "@radix-ui/react-slot": "^1.2.4",
     "@stripe/stripe-js": "^2.4.0",
     "@supabase/ssr": "^0.8.0",
