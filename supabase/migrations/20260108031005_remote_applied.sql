@@ -1,0 +1,2 @@
+-- Remote migration applied directly to production
+-- Placeholder created for migration history sync
