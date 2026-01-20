@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { ShieldCheck, ListFilter, Users, LayoutDashboard, LogOut, History, AlertTriangle, Star } from 'lucide-react';
+import { ShieldCheck, ListFilter, Users, LayoutDashboard, LogOut, History, AlertTriangle, Star, DollarSign } from 'lucide-react';
 import Copilot from "@/components/admin/Copilot";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -49,6 +49,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                     <Link href="/admin/users" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
                         <Users className="w-5 h-5" />
                         User Management
+                    </Link>
+                    <Link href="/admin/orders" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+                        <DollarSign className="w-5 h-5" />
+                        Orders & Payouts
                     </Link>
                     <Link href="/admin/reports" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
                         <AlertTriangle className="w-5 h-5" />

@@ -79,12 +79,13 @@ export async function POST(req: NextRequest) {
                     }
                 } else if (session.mode === 'payment' && session.metadata?.purchase_type === 'product_sale') {
                     // ============================================================
-                    // D6: PRODUCT SALE WEBHOOK HANDLING
-                    // Purpose: Idempotently mark order as paid after Stripe checkout
-                    // Evidence: Phase 3 Commerce MVP - webhook marks order "paid"
+                    // D4.3: PRODUCT SALE WEBHOOK HANDLING (Phase 4 - Connect Payouts)
+                    // Purpose: Idempotently mark order as paid + record payout routing
+                    // Evidence: Phase 4 Destination Charges - webhook tracks payout state
                     // ============================================================
                     const orderId = session.metadata?.order_id;
                     const paymentIntentId = session.payment_intent as string | null;
+                    const idempotencyKey = `webhook_checkout_${session.id}`;
 
                     if (!orderId) {
                         console.error('[Product Sale] Missing order_id in session metadata');
@@ -95,7 +96,7 @@ export async function POST(req: NextRequest) {
                     // Note: orders table not in generated Supabase types yet - using 'as any' cast
                     const { data: existingOrder } = await (supabase as any)
                         .from('orders')
-                        .select('id, status, customer_id')
+                        .select('id, status, customer_id, seller_id, platform_fee_cents, seller_earnings_cents, seller_stripe_account_id')
                         .eq('id', orderId)
                         .single();
 
@@ -110,7 +111,18 @@ export async function POST(req: NextRequest) {
                         break;
                     }
 
-                    // Mark order as paid
+                    // Extract application fee from payment intent for reconciliation
+                    let applicationFeeId: string | null = null;
+                    if (paymentIntentId) {
+                        try {
+                            const paymentIntent: any = await stripe.paymentIntents.retrieve(paymentIntentId);
+                            applicationFeeId = paymentIntent.application_fee || null;
+                        } catch (e) {
+                            console.warn(`[Product Sale] Failed to fetch payment intent ${paymentIntentId}:`, e);
+                        }
+                    }
+
+                    // Mark order as paid + record payout routing
                     // Note: orders table not in generated Supabase types yet - using 'as any' cast
                     const { error: updateError } = await (supabase as any)
                         .from('orders')
@@ -118,6 +130,8 @@ export async function POST(req: NextRequest) {
                             status: 'paid',
                             stripe_checkout_session_id: session.id,
                             stripe_payment_intent_id: paymentIntentId,
+                            stripe_application_fee_id: applicationFeeId,
+                            payout_status: 'routed',
                             updated_at: new Date().toISOString(),
                         })
                         .eq('id', orderId)
@@ -125,9 +139,41 @@ export async function POST(req: NextRequest) {
 
                     if (updateError) {
                         console.error(`[Product Sale] Failed to update order ${orderId}:`, updateError);
-                    } else {
-                        console.log(`[Product Sale] Order ${orderId} marked as paid`);
+                        break;
                     }
+
+                    console.log(`[Product Sale] Order ${orderId} marked as paid, payout routed to ${existingOrder.seller_stripe_account_id}`);
+
+                    // Write audit log for order_paid event (idempotent)
+                    await (supabase as any).from('audit_logs').insert({
+                        event_type: 'order_paid',
+                        entity_type: 'orders',
+                        entity_id: orderId,
+                        actor_id: session.customer as string,
+                        actor_type: 'customer',
+                        details: {
+                            payment_intent_id: paymentIntentId,
+                            total_cents: existingOrder.total_cents,
+                            platform_fee_cents: existingOrder.platform_fee_cents,
+                            seller_earnings_cents: existingOrder.seller_earnings_cents,
+                        },
+                        idempotency_key: `${idempotencyKey}_order_paid`,
+                    }).onConflict('idempotency_key').ignore();
+
+                    // Write audit log for payout_routed event (idempotent)
+                    await (supabase as any).from('audit_logs').insert({
+                        event_type: 'payout_routed',
+                        entity_type: 'orders',
+                        entity_id: orderId,
+                        actor_id: existingOrder.seller_id,
+                        actor_type: 'seller',
+                        details: {
+                            destination_account_id: existingOrder.seller_stripe_account_id,
+                            application_fee_id: applicationFeeId,
+                            amount_cents: existingOrder.seller_earnings_cents,
+                        },
+                        idempotency_key: `${idempotencyKey}_payout_routed`,
+                    }).onConflict('idempotency_key').ignore();
 
                     // Send confirmation email if email system exists
                     const customerId = existingOrder.customer_id;

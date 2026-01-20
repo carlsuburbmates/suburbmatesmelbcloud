@@ -48,6 +48,8 @@ export async function POST(req: NextRequest) {
   let totalCents = 0;
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
+  const sellerIds = new Set<string>();
+
   for (const item of cartItems) {
     const product = await getProduct(item.productId);
     if (!product) {
@@ -73,10 +75,42 @@ export async function POST(req: NextRequest) {
       },
       quantity: item.quantity,
     });
+
+    const sellerId = await getSellerId(item.productId);
+    if (!sellerId) {
+      return NextResponse.json(
+        { error: `Product ${item.productId} has no associated seller` },
+        { status: 400 }
+      );
+    }
+    sellerIds.add(sellerId);
   }
 
+  if (sellerIds.size > 1) {
+    return NextResponse.json(
+      { error: 'Multi-seller carts are not supported yet. Please checkout with items from a single seller.' },
+      { status: 400 }
+    );
+  }
+
+  const sellerId = Array.from(sellerIds)[0];
   const platformFeeCents = Math.round(totalCents * 0.06);
-  const sellerId = await getSellerId(cartItems[0].productId);
+  const sellerEarningsCents = totalCents - platformFeeCents;
+
+  const { data: sellerProfile } = await supabase
+    .from('users_public')
+    .select('stripe_account_id')
+    .eq('id', sellerId)
+    .single();
+
+  const sellerStripeAccountId = sellerProfile?.stripe_account_id;
+
+  if (!sellerStripeAccountId) {
+    return NextResponse.json(
+      { error: 'Seller has not connected a Stripe account. Cannot process checkout.' },
+      { status: 400 }
+    );
+  }
 
   // Create order as pending BEFORE redirect
   const { data: order, error: orderError } = await supabase
@@ -86,10 +120,15 @@ export async function POST(req: NextRequest) {
       seller_id: sellerId,
       total_cents: totalCents,
       status: 'pending',
+      platform_fee_cents: platformFeeCents,
+      seller_earnings_cents: sellerEarningsCents,
+      seller_stripe_account_id: sellerStripeAccountId,
+      payout_status: 'pending',
       metadata: {
         cart_item_ids: cartItems.map(item => item.productId),
         total_cents: totalCents,
         platform_fee_cents: platformFeeCents,
+        seller_earnings_cents: sellerEarningsCents,
         purchase_type: 'product_sale',
       },
     })
@@ -106,11 +145,15 @@ export async function POST(req: NextRequest) {
 
   console.log('Order created before redirect:', order.id);
 
-  // Create order items
-  const orderItems = cartItems.map(item => ({
-    order_id: order.id,
-    product_id: item.productId,
-    quantity: item.quantity,
+  // Create order items with price at time of purchase
+  const orderItems = await Promise.all(cartItems.map(async (item) => {
+    const product = await getProduct(item.productId);
+    return {
+      order_id: order.id,
+      product_id: item.productId,
+      quantity: item.quantity,
+      price_cents: product?.price || 0,
+    };
   }));
 
   await supabase.from('order_items').insert(orderItems);
@@ -123,9 +166,18 @@ export async function POST(req: NextRequest) {
     success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/orders/${order.id}?success=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/checkout`,
     customer_email: user.email,
+    payment_intent_data: {
+      application_fee_amount: platformFeeCents,
+      transfer_data: {
+        destination: sellerStripeAccountId,
+      },
+    },
     metadata: {
       order_id: order.id,
       customer_id: user.id,
+      seller_id: sellerId,
+      platform_fee_cents: platformFeeCents.toString(),
+      seller_earnings_cents: sellerEarningsCents.toString(),
       purchase_type: 'product_sale',
     },
   });

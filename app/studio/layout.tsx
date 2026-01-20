@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, Store, UserCircle, LogOut, Package, CreditCard, Palette } from 'lucide-react';
+import { LayoutDashboard, Store, UserCircle, LogOut, Package, CreditCard, Palette, DollarSign } from 'lucide-react';
 
 export default async function StudioLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -48,6 +48,10 @@ export default async function StudioLayout({ children }: { children: React.React
                     <Link href="/studio/products" className="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg font-medium transition-colors">
                         <Package className="w-5 h-5" />
                         Products
+                    </Link>
+                    <Link href="/studio/orders" className="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                        <DollarSign className="w-5 h-5" />
+                        Orders & Payouts
                     </Link>
                     <Link href="/studio/design" className="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg font-medium transition-colors">
                         <Palette className="w-5 h-5" />
