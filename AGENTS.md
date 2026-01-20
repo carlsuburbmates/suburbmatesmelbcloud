@@ -205,3 +205,28 @@ supabase stop --no-backup
 docker system prune -f
 supabase start
 ```
+
+---
+
+# Agent Instructions - AI Automation & MCP
+
+## 1. AI Implementation Standards
+**Goal:** Unified AI pipeline via Z.ai and Vercel AI SDK.
+
+- **Do Not:** Use generic `openai` fetch calls.
+- **Do:** Use the helper at `lib/ai/z-ai-provider.ts` and actions in `actions/z-ai-actions.ts`.
+- **Reference:** Full architecture details are in `docs/AI_AUTOMATION.md`.
+
+## 2. MCP Tool Usage
+**Goal:** Use installed MCP servers for external tool interactions instead of manual API calls.
+
+- **Stripe:** Use MCP tools to check products/subscriptions.
+- **Resend:** Use MCP to check email logs or domains.
+- **Supabase:** Use MCP for quick schema inspection (read-only).
+- **GitHub:** Use MCP to search code or check PRs.
+
+## 3. Creating New AI Features
+When asked to build a new AI feature (e.g., "Auto-Review Bot"):
+1.  **Check:** Is there an existing action in `actions/z-ai-actions.ts`?
+2.  **Extend:** If not, add a new specific function there using the `zai` provider.
+3.  **UI:** Use the standard `useChat` hook from `@ai-sdk/react` pointing to `/api/chat` for streaming interfaces.
