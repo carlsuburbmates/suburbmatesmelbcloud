@@ -1,10 +1,6 @@
-import OpenAI from 'openai';
-
-// Initialize Z.AI (Zhipu AI)
-const openai = new OpenAI({
-    apiKey: process.env.Z_AI_API_KEY || 'dummy-key',
-    baseURL: 'https://api.z.ai/api/paas/v4',
-});
+import { generateObject } from 'ai';
+import { zai } from '@/lib/ai/z-ai-provider';
+import { z } from 'zod';
 
 interface TriageResult {
     status: 'safe' | 'flagged';
@@ -48,40 +44,29 @@ export async function analyzeListingContent(
     }
 
     try {
-        const response = await openai.chat.completions.create({
-            model: 'glm-4-flash',
-            messages: [
-                {
-                    role: 'system',
-                    content: `You are a Trust & Safety agent for a local pet business directory. 
+        const TriageSchema = z.object({
+            safe: z.boolean(),
+            reason: z.string().nullable()
+        });
+
+        const { object } = await generateObject({
+            model: zai('glm-4-flash'),
+            schema: TriageSchema,
+            prompt: `You are a Trust & Safety agent for a local pet business directory. 
                     Flag content that is:
                     1. Not pet related.
                     2. Offensive/Spam.
                     
                     Category: "${category}".
                     
-                    Return JSON: { "safe": boolean, "reason": string | null }`
-                },
-                {
-                    role: 'user',
-                    content: `Title: ${name}\nDescription: ${description}`
-                }
-            ],
-            // Z.AI / GLM often prefers simple JSON mode or explicit instruction.
-            // keeping response_format if compatible, otherwise rely on prompt.
-            response_format: { type: 'json_object' },
+                    Return JSON: { "safe": boolean, "reason": string | null }`,
             temperature: 0.1,
         });
 
-        const resultString = response.choices[0].message.content;
-        if (!resultString) throw new Error('Empty AI response');
-
-        const result = JSON.parse(resultString);
-
-        if (result.safe) {
+        if (object.safe) {
             return { status: 'safe', reason: null };
         } else {
-            return { status: 'flagged', reason: result.reason || 'AI Flagged' };
+            return { status: 'flagged', reason: object.reason || 'AI Flagged' };
         }
 
     } catch (error) {

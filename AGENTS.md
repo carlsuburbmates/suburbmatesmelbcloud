@@ -214,8 +214,8 @@ supabase start
 **Goal:** Unified AI pipeline via Z.ai and Vercel AI SDK.
 
 - **Do Not:** Use generic `openai` fetch calls.
-- **Do:** Use the helper at `lib/ai/z-ai-provider.ts` and actions in `actions/z-ai-actions.ts`.
-- **Reference:** Full architecture details are in `docs/AI_AUTOMATION.md`.
+- **Do:** Use helper at `lib/ai/z-ai-provider.ts` and actions in `actions/z-ai-actions.ts`.
+- **Reference:** Full architecture details are in `docs/SSOT/AI_AUTOMATION_MASTER.md` (Single Source of Truth).
 
 ## 2. MCP Tool Usage
 **Goal:** Use installed MCP servers for external tool interactions instead of manual API calls.

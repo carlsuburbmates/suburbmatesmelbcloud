@@ -1,11 +1,7 @@
-import OpenAI from 'openai';
+import { generateObject } from 'ai';
+import { zai } from '@/lib/ai/z-ai-provider';
 import { createClient } from '@/utils/supabase/server';
-
-// Initialize Z.AI
-const openai = new OpenAI({
-    apiKey: process.env.Z_AI_API_KEY || 'dummy-key',
-    baseURL: 'https://api.z.ai/api/paas/v4',
-});
+import { z } from 'zod';
 
 export async function generateSuburbSpotlight(suburb: string) {
     const supabase = await createClient();
@@ -21,37 +17,40 @@ export async function generateSuburbSpotlight(suburb: string) {
         return { success: false, reason: 'Not enough listings to generate content.' };
     }
 
+    // Define schema for AI output
+    const ArticleSchema = z.object({
+        title: z.string(),
+        slug: z.string(),
+        content: z.string()
+    });
+
     // 2. Draft Content
-    // Define type for the join result to avoid 'any' casting
-    interface ListingJoin {
-        name: string;
-        description: string | null;
-        average_rating: number | null;
-        category: { name: string } | { name: string }[] | null;
-    }
-
-    const typedListings = listings as unknown as ListingJoin[];
-
-    // We pass the raw data to the LLM to synthesize
-    const context = JSON.stringify(typedListings.map(l => {
-        const catName = Array.isArray(l.category) ? l.category[0]?.name : l.category?.name;
-        return {
-            name: l.name,
-            type: catName,
-            desc: l.description,
-            rating: l.average_rating
-        };
-    }));
-
     try {
-        const response = await openai.chat.completions.create({
-            model: 'glm-4-flash',
-            messages: [
-                {
-                    role: 'system',
-                    content: `You are a Local Expert Journalist. Write a 800-word "Spotlight" article about the best pet businesses in ${suburb}.
+        interface ListingJoin {
+            name: string;
+            description: string | null;
+            average_rating: number | null;
+            category: { name: string } | { name: string }[] | null;
+        }
+
+        const context = JSON.stringify(
+            (listings as unknown as ListingJoin[]).map(l => {
+                const catName = Array.isArray(l.category) ? l.category[0]?.name : l.category?.name;
+                return {
+                    name: l.name,
+                    type: catName,
+                    desc: l.description,
+                    rating: l.average_rating
+                };
+            })
+        );
+
+        const { object } = await generateObject({
+            model: zai('glm-4-flash'),
+            schema: ArticleSchema,
+            prompt: `You are a Local Expert Journalist. Write a 800-word "Spotlight" article about best pet businesses in ${suburb}.
                     
-                    Use the provided JSON data.
+                    Use provided JSON data.
                     
                     Format: Markdown.
                     Structure:
@@ -60,24 +59,15 @@ export async function generateSuburbSpotlight(suburb: string) {
                     - "Top Picks".
                     - Conclusion.
                     
-                    Return JSON: { "title": string, "slug": string, "content": string }
-                    Slug: kebab-case`
-                },
-                {
-                    role: 'user',
-                    content: `Listings: ${context}`
-                }
-            ],
-            response_format: { type: 'json_object' },
+                    Slug: kebab-case based on title
+                    Listings: ${context}`,
         });
 
-        const result = JSON.parse(response.choices[0].message.content || '{}');
-        const { title, slug, content } = result;
+        const { title, slug, content } = object;
 
         if (!content) throw new Error('Failed to generate content');
 
         // 3. Publish (Save to DB)
-        // Check uniqueness of slug first (or just suffix it)
         const { error } = await supabase
             .from('articles')
             .insert({
@@ -90,7 +80,8 @@ export async function generateSuburbSpotlight(suburb: string) {
 
         if (error) {
             // Handle duplicate slug collision crudely for MVP
-            if (error.code === '23505') { // Unique violation
+            if (error.code === '23505') {
+                // Unique violation
                 const newSlug = `${slug}-${Date.now()}`;
                 await supabase.from('articles').insert({ title, slug: newSlug, content, suburb });
             } else {
