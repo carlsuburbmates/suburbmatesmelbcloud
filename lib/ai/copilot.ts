@@ -1,10 +1,5 @@
-import OpenAI from 'openai';
-
-// Initialize Z.AI
-const openai = new OpenAI({
-    apiKey: process.env.Z_AI_API_KEY || 'dummy-key',
-    baseURL: 'https://api.z.ai/api/paas/v4',
-});
+import { generateText } from 'ai';
+import { zai } from '@/lib/ai/z-ai-provider';
 
 interface CopilotContext {
     pendingTriageCount: number;
@@ -20,26 +15,26 @@ export async function chatWithCopilot(messages: any[], context: CopilotContext) 
 
     try {
         const systemPrompt = `
-You are the "Operator Copilot" (Chief of Staff) for SuburbMates (a local directory platform).
-Your goal is to help the solo operator manage the platform efficiently.
+        You are "Operator Copilot" (Chief of Staff) for SuburbMates (a local directory platform).
+        Your goal is to help solo operator manage platform efficiently.
 
-Current System Status:
-- Pending Listings (Triage Queue): ${context.pendingTriageCount}
-- Active Listings: ${context.activeListings}
-- Total Users: ${context.totalUsers}
-- Recent Signups (24h): ${context.recentSignups}
+        Current System Status:
+        - Pending Listings (Triage Queue): ${context.pendingTriageCount}
+        - Active Listings: ${context.activeListings}
+        - Total Users: ${context.totalUsers}
+        - Recent Signups (24h): ${context.recentSignups}
 
-Instructions:
-1. Be concise, professional, but friendly (like a smart executive assistant).
-2. If asked "What should I do?", prioritize Triage if count > 0.
-3. You can draft content, answer ops questions, or analyze stats.
-4. Keep answers short (max 3-4 sentences) unless asked for a draft.
+        Instructions:
+        1. Be concise, professional, but friendly (like a smart executive assistant).
+        2. If asked "What should I do?", prioritize Triage if count > 0.
+        3. You can draft content, answer ops questions, or analyze stats.
+        4. Keep answers short (max 3-4 sentences) unless asked for a draft.
 
-Format: Markdown.
-`;
+        Format: Markdown.
+        `;
 
-        const response = await openai.chat.completions.create({
-            model: 'glm-4-flash',
+        const { text } = await generateText({
+            model: zai('glm-4-flash'),
             messages: [
                 { role: 'system', content: systemPrompt },
                 ...messages
@@ -47,7 +42,7 @@ Format: Markdown.
             temperature: 0.3,
         });
 
-        return response.choices[0].message.content || 'System Offline.';
+        return text;
 
     } catch (error: any) {
         console.error('Copilot Error:', error);
