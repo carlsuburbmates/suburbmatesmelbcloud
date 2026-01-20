@@ -140,3 +140,68 @@ supabase start
 supabase db reset
 supabase stop
 ```
+
+---
+
+## Known Local vs Production Differences
+
+The local database is created fresh from migrations. Production may have columns/features added directly via SQL that aren't in migrations yet.
+
+### Missing on Local (exists on Production only):
+- `listings.search_vector` - Full-text search column (tsvector)
+- Some PostGIS indexes and spatial optimizations
+
+### To sync these differences:
+1. Create a new migration that adds the missing column/feature
+2. Test locally with `supabase db reset`
+3. Push to production with `supabase db push --linked`
+
+---
+
+## RPC Functions Available
+
+| Function | Purpose |
+|----------|---------|
+| `search_listings` | Full-text search with filters |
+| `search_products` | Product search |
+| `join_queue` | Add listing to featured queue |
+| `process_daily_queue` | Cron job for queue processing |
+| `check_featured_availability` | Check if slot is available |
+| `get_my_role` | Get current user's role |
+| `upsert_tag` | Create or update tag |
+| `activate_queued_item` | Activate a queued listing |
+| `expire_finished_slots` | Expire old featured slots |
+| `claim_promotion_tasks` | Background job helper |
+| `reconcile_and_finalize` | Order reconciliation |
+
+---
+
+## Seed Data
+
+Edit `supabase/seed.sql` to add test data. After editing:
+```bash
+supabase db reset  # Resets DB and runs seed.sql
+```
+
+---
+
+## Troubleshooting
+
+### "relation does not exist" on local
+The migration order may be wrong or a table wasn't created. Check:
+```bash
+supabase db reset --debug
+```
+
+### "column does not exist" on local  
+Column was added directly on production. Create a migration to add it.
+
+### Migration drift detected
+Run `supabase migration list --linked` to see what's out of sync. Use `repair` command to reconcile.
+
+### Docker containers not starting
+```bash
+supabase stop --no-backup
+docker system prune -f
+supabase start
+```
