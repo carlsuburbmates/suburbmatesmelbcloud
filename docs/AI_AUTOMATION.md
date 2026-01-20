@@ -1,93 +1,323 @@
 # AI Automation & MCP Setup
 
-This document outlines the infrastructure for AI automation and Model Context Protocol (MCP) integration within the SuburbMates project.
+**Status:** ACTIVE  
+**Last Updated:** January 2026  
+**Authority:** NON-AUTHORITATIVE (Reference implementation for `AGENTS.md` AI Automation section)
+
+This document provides comprehensive technical details for AI automation infrastructure and Model Context Protocol (MCP) integration within the SuburbMates project.
+
+---
 
 ## Overview
 
-The project uses a dual-layer approach to AI:
-1.  **Vercel AI SDK**: For application-level AI features (chat bots, auto-generation, listing helpers). This connects to **Z.ai** (via OpenAI compatibility).
-2.  **MCP (Model Context Protocol)**: For local development assistance and future agentic capabilities. This connects to external tools (Stripe, Supabase, Resend, Mapbox).
+SuburbMates uses a **dual-layer AI architecture**:
+
+1. **Application Layer (Z.ai):** User-facing AI features via Vercel AI SDK
+2. **Development Layer (MCP):** AI coding assistants with direct tool access
+
+### Critical Rules
+
+⚠️ **NEVER use generic `openai` fetch calls in this codebase.**  
+✅ **ALWAYS use the unified pipeline:** `lib/ai/z-ai-provider.ts` → `actions/z-ai-actions.ts`
+
+This ensures:
+- Centralized model configuration (easy to swap models)
+- Consistent error handling
+- Usage tracking and cost monitoring
+- Type safety with Vercel AI SDK
 
 ---
 
 ## 1. Z.ai Integration (Application Layer)
 
-We use the **Vercel AI SDK** (`ai`, `@ai-sdk/react`) to connect to the Z.ai PaaS. This allows us to use standard AI hooks and streaming responses while routing processing through our Z.ai infrastructure.
+### Architecture
+
+```
+User Request
+    ↓
+Server Action / API Route
+    ↓
+lib/ai/z-ai-provider.ts (Vercel AI SDK)
+    ↓
+Z.ai PaaS (OpenAI-compatible endpoint)
+    ↓
+GPT-4o (or configured model)
+```
 
 ### Configuration
-The provider is configured in `lib/ai/z-ai-provider.ts`.
+
+**File:** `lib/ai/z-ai-provider.ts`
+
+```typescript
+import { createOpenAI } from '@ai-sdk/openai';
+
+export const zai = createOpenAI({
+  apiKey: process.env.Z_AI_API_KEY,
+  baseURL: process.env.Z_AI_BASE_URL || 'https://api.z.ai/api/paas/v4',
+});
+
+export const zaiModel = 'gpt-4o'; // Default model
+```
 
 **Environment Variables:**
-```bash
-Z_AI_API_KEY=your_z_ai_key_here
-Z_AI_BASE_URL=https://api.z.ai/api/paas/v4
+
+| Variable | Required | Description | Example |
+|----------|----------|-------------|---------|
+| `Z_AI_API_KEY` | ✅ Yes | Z.ai platform API key | `zai_abc123...` |
+| `Z_AI_BASE_URL` | ❌ No | Override default endpoint | `https://api.z.ai/api/paas/v4` |
+
+**Where to add:**
+- Production: `.env.local` (NEVER commit)
+- Local: `.env.development.local`
+
+---
+
+### Usage Patterns
+
+#### Pattern 1: Streaming Chat (Frontend)
+
+**Use case:** Interactive chat interfaces, real-time AI responses
+
+**File:** `app/api/chat/route.ts`
+
+```typescript
+import { streamText } from 'ai';
+import { zai, zaiModel } from '@/lib/ai/z-ai-provider';
+
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+  
+  const result = streamText({
+    model: zai(zaiModel),
+    messages,
+  });
+  
+  return result.toTextStreamResponse();
+}
 ```
 
-### Usage
+**Client Component:**
 
-#### A. Server Actions (Backend)
-Use `actions/z-ai-actions.ts` for background tasks or server-side generation.
 ```typescript
-import { generateZaiResponse } from '@/actions/z-ai-actions';
-
-// Streaming response (for UI)
-const stream = await generateZaiResponse(messages);
-
-// Single text generation (for automation)
-import { runZaiAutomation } from '@/actions/z-ai-actions';
-const { data } = await runZaiAutomation("Summarize this listing...");
-```
-
-#### B. Chat UI (Frontend)
-Use the standard API route `app/api/chat/route.ts` which proxies requests to Z.ai.
-```typescript
+'use client';
 import { useChat } from '@ai-sdk/react';
 
-const { messages, input, handleInputChange } = useChat({
-  api: '/api/chat'
-});
+export function ChatInterface() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    api: '/api/chat'
+  });
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      {messages.map(m => (
+        <div key={m.id}>{m.role}: {m.content}</div>
+      ))}
+      <input value={input} onChange={handleInputChange} />
+    </form>
+  );
+}
 ```
 
-#### C. Testing
-A built-in tester component is available at `components/studio/z-ai-tester.tsx`. You can drop `<ZAiTester />` into any page to verify connectivity.
+#### Pattern 2: Server Actions (Streaming)
+
+**Use case:** Real-time generation in Server Components
+
+**File:** `actions/z-ai-actions.ts`
+
+```typescript
+'use server';
+import { streamText } from 'ai';
+import { zai, zaiModel } from '@/lib/ai/z-ai-provider';
+
+export async function generateZaiResponse(messages: any[]) {
+  try {
+    const result = await streamText({
+      model: zai(zaiModel),
+      messages,
+      temperature: 0.7,
+    });
+    
+    return result.toTextStreamResponse();
+  } catch (error) {
+    console.error('Z.ai Generation Error:', error);
+    throw new Error('Failed to generate response from Z.ai');
+  }
+}
+```
+
+#### Pattern 3: Discrete Tasks (Non-Streaming)
+
+**Use case:** Background automation, one-off generation tasks
+
+**File:** `actions/z-ai-actions.ts` (and `lib/ai/copilot.ts`)
+
+The "Operator Copilot" uses the same underlying SDK (`lib/ai/z-ai-provider.ts`) via `generateText`, ensuring all AI requests are routed through Z.ai.
+
+```typescript
+'use server';
+import { generateText } from 'ai';
+import { zai, zaiModel } from '@/lib/ai/z-ai-provider';
+
+export async function runZaiAutomation(prompt: string) {
+  try {
+    const { text } = await generateText({
+      model: zai(zaiModel),
+      prompt,
+    });
+    
+    return { success: true, data: text };
+  } catch (error) {
+    return { success: false, error: 'Automation failed' };
+  }
+}
+```
+
+**Example Usage:**
+
+```typescript
+// Auto-generate listing description
+const result = await runZaiAutomation(
+  `Summarize this business in 2 sentences: ${userInput}`
+);
+
+if (result.success) {
+  await updateListing({ description: result.data });
+}
+```
+
+#### Pattern 4: Structured JSON Output
+
+**Use case:** Categorization, validation, data extraction
+
+```typescript
+'use server';
+import { generateObject } from 'ai';
+import { zai, zaiModel } from '@/lib/ai/z-ai-provider';
+import { z } from 'zod';
+
+export async function categorizeListing(description: string) {
+  const result = await generateObject({
+    model: zai(zaiModel),
+    schema: z.object({
+      category: z.string(),
+      confidence: z.number(),
+      tags: z.array(z.string()),
+    }),
+    prompt: `Categorize this business: ${description}`,
+  });
+  
+  return result.object;
+}
+```
+
+---
+
+### Testing Z.ai Integration
+
+#### Development Testing Component
+
+**File:** `components/studio/z-ai-tester.tsx` (if exists)
+
+Drop into any page for quick connectivity verification:
+
+```typescript
+import { ZAiTester } from '@/components/studio/z-ai-tester';
+
+export default function TestPage() {
+  return <ZAiTester />;
+}
+```
+
+#### Manual Testing
+
+```bash
+# 1. Ensure environment variables are set
+cat .env.local | grep Z_AI
+
+# 2. Start dev server
+npm run dev
+
+# 3. Test streaming endpoint
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Hello"}]}'
+```
 
 ---
 
 ## 2. Model Context Protocol (MCP)
 
-We use MCP to give AI coding assistants (like Cursor or Claude Desktop) direct access to our project's tools and data sources.
+MCP gives AI coding assistants (OpenCode, Cursor, Claude Desktop) direct access to external tools during development.
 
-### Configuration File
-The configuration lives at `~/.config/opencode/mcp.json` (or project root `mcp.json` for reference).
+### Configuration
 
-### Installed Servers
+**File:** `mcp.json` (project root)
 
-| Server | Package | Purpose |
-| :--- | :--- | :--- |
-| **GitHub** | `@modelcontextprotocol/server-github` | Repo analysis, searching code. |
-| **Supabase** | `@supabase/mcp-server-supabase` | Database inspection, SQL execution. |
-| **Stripe** | `@stripe/mcp` | Managing products, prices, and subscriptions. |
-| **Resend** | `resend-mcp` | Checking email logs, managing contacts. |
-| **Mapbox** | `@mapbox/mcp-server` | Geocoding, map tile management. |
-| **Playwright**| `@playwright/mcp` | Browser automation and E2E testing. |
-| **Next.js** | `mcp-handler` | Local project context. |
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "" }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase"],
+      "env": {
+        "SUPABASE_URL": "",
+        "SUPABASE_SERVICE_ROLE_KEY": ""
+      }
+    },
+    "stripe": {
+      "command": "npx",
+      "args": ["-y", "@stripe/mcp"],
+      "env": { "STRIPE_API_KEY": "" }
+    },
+    "nextjs": {
+      "command": "npx",
+      "args": ["-y", "mcp-handler"]
+    }
+  }
+}
+```
 
-### setup
+**Active Configuration:** `~/.config/opencode/mcp.json`
 
-To use these servers, ensure your `.env.local` contains the necessary keys (`RESEND_API_KEY`, `STRIPE_SECRET_KEY`, etc.), as these are injected into the MCP configuration.
+### Installed MCP Servers
 
----
+| Server | Package | Purpose | Use Cases |
+|--------|---------|---------|-----------|
+| **GitHub** | `@modelcontextprotocol/server-github` | Repository analysis | Search code, review PRs, check issues |
+| **Supabase** | `@supabase/mcp-server-supabase` | Database inspection | Read schema, run queries (read-only) |
+| **Stripe** | `@stripe/mcp` | Payment management | Check products, prices, subscriptions |
+| **Next.js** | `mcp-handler` | Project context | Understand app structure, routes |
 
-## 3. Automation Strategy (Phase 5)
+**Note:** Resend, Mapbox, Playwright mentioned in AGENTS.md may be added in future.
 
-This infrastructure is the foundation for Phase 5 (Ops Automation). Future workflows will follow this pattern:
+### Environment Variables for MCP
 
-1.  **Trigger:** Webhook (e.g., `listing.created`) or Admin Action.
-2.  **Process:** Call `runZaiAutomation(prompt)`.
-3.  **Action:** AI analyzes data and performs an action (e.g., "Approve Listing", "Send Email via Resend").
+MCP servers read from your `.env.local` file. Required variables:
 
-### Example Workflow: Auto-Triage
-1.  User submits listing.
-2.  Server Action calls Z.ai: *"Analyze this description for prohibited content."*
-3.  Z.ai returns JSON verdict.
-4.  App updates Supabase status to `active` or `flagged`.
+```bash
+# GitHub
+GITHUB_PERSONAL_ACCESS_TOKEN=ghp_...
+
+# Supabase (for schema inspection only)
+NEXT_PUBLIC_SUPABASE_URL=https://nhkmhgbbbcgfbudszfqj.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJh... # Read-only recommended
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_...
+```
+
+**Security Note:** MCP tools run locally in your development environment. They have the same access as your terminal.
+
+### Using MCP Tools
+
+AI assistants with MCP support can:
+
+```plaintext
+# Example MCP interactions (invisible to user)
+Assistant: [Uses @stripe/mcp] Check current Pro tier price
+MCP: $20.00 AUD (price_1SoikRClBfLESB1n5bYWi4AD)
