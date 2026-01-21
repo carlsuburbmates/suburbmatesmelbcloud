@@ -16,4 +16,4 @@ export const zai = createOpenAI({
 });
 
 // Helper to get the default model, easy to change globally later
-export const zaiModel = 'gpt-4o'; // Or whatever model ID Z.ai supports/exposes
+export const zaiModel = 'glm-4.7'; // Canonical Z.ai model for general tasks (Zhipu GLM-4.7)

@@ -51,7 +51,7 @@ export const zai = createOpenAI({
   baseURL: process.env.Z_AI_BASE_URL || 'https://api.z.ai/api/paas/v4',
 });
 
-export const zaiModel = 'glm-4-flash';
+export const zaiModel = 'glm-4.7'; // Canonical Z.ai model for general tasks (Zhipu GLM-4.7)
 ```
 
 **Environment Variables:**
