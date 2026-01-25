@@ -70,7 +70,7 @@ The Creator Studio MUST guide Creators through a clear lifecycle, from incomplet
     *   **Definition:** The Creator has filled all mandatory fields.
     *   **State:** The public Studio Page is live. The Creator has access to all Basic features. The next action presented is to optimize their listing.
 
-*   **S2: Optimised** <!-- Resolves Blocker #4 -->
+ *   **S2: Optimised** <blockquote>[NOT IMPLEMENTED]</blockquote> [NOT IMPLEMENTED]
     *   **Definition:** The Creator has met a deterministic set of criteria indicating their Studio is well-configured for public discovery and commerce.
     *   **State:** The Creator is eligible to purchase "Featured Placement". The next action presented is to upgrade to Pro.
     *   **S1 → S2 Gating Criteria:** A Studio automatically transitions to S2 ONLY IF all of the following criteria are met:
@@ -79,8 +79,9 @@ The Creator Studio MUST guide Creators through a clear lifecycle, from incomplet
         3.  A primary contact method (e.g., email or phone) has been set.
         4.  The Creator has reviewed and confirmed their primary business category.
         5.  The Creator has accepted the most recent platform policy acknowledgements.
-    *   **Computation:** Stage evaluation MUST be automatic based on the system checking the criteria above. It is NEVER a manual operator flag.
+    *   **Computation:** Stage evaluation MUST be automatic based on a system checking the criteria above. It is NEVER a manual operator flag.
     *   **Regression:** If a Creator modifies their Studio such that one or more of the S2 criteria are no longer met (e.g., by unpublishing all products), their stage MUST automatically regress to S1.
+    *   **ACTUAL STATUS:** This concept is NOT IMPLEMENTED. No `s_stage` column exists in database. See `ACTUAL_IMPLEMENTATION_STATE.md`.
 
 *   **S3: Pro-enabled**
     *   **Definition:** The Creator has upgraded to the Pro plan.
