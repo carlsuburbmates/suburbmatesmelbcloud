@@ -11,6 +11,8 @@
     "test:unit": "vitest --run app/**/*.test.tsx components/**/*.test.tsx lib/**/*.test.ts",
     "test:integration": "vitest --run \"supabase/tests/**/*.test.ts\"",
     "test:e2e": "playwright test",
+    "test:sitemap": "playwright test sitemap_validation",
+    "validate:routes": "npx tsx scripts/validate-routes.ts",
     "db:seed:categories": "ts-node scripts/seed-categories.ts"
   },
   "dependencies": {
